@@ -1,0 +1,69 @@
+<div>
+  <div class="formheader">
+    <img src="assets/banner-imgs/cropped-ocoj.png" alt="" class="ocoj-image">
+    <h2 class="heading">Prayer Request</h2>
+  </div>
+
+  <div mat-dialog-content >
+   <form [formGroup]="prayerForm">
+     <div class="form-group">
+        <div class="form-control">
+          <label for="title">Prayer Title</label>
+          <input type="text" id="title" formControlName="title" class="title">
+
+          <span *ngIf="title && title.invalid && (title.dirty || title.touched)" class="error">
+            <p *ngIf="title.errors?.['required']">
+              <fa-icon [icon]="error"></fa-icon>
+              A prayer title is required
+            </p>
+          </span>
+
+        </div>
+
+        <div class="form-control">
+          <label for="name">Name</label>
+          <input type="text" id="name" formControlName="name">
+
+          <span *ngIf="name && name.invalid && (name.dirty || name.touched)" class="error-container">
+            <p *ngIf="name.errors?.['required']" class="error">
+              <fa-icon [icon]="error"></fa-icon>
+              Your Name is required
+            </p>
+          </span>
+        </div>
+
+        <div class="form-control">
+          <label for="prayerRequest">Prayer Request</label>
+          <textarea formControlName="prayerRequest" id="prayerRequest" cols="80" rows="10"></textarea>
+
+          <span *ngIf="prayerRequest && prayerRequest.invalid && (prayerRequest.dirty || prayerRequest.touched)">
+            <p *ngIf="prayerRequest.errors?.['required']" class="error">
+              <fa-icon [icon]="error"></fa-icon>
+              Your prayer request is required
+            </p>
+          </span>
+        </div>
+     </div>
+     <div mat-dialog-action [align]="'end'">
+      <!-- <div [align]="'start'">
+        <span >Date:{{date  | date}}</span>
+      </div> -->
+
+      <button mat-raised-button color="warn" mat-dialog-close>Close</button>
+
+      <button *ngIf="!editSwitch"  mat-raised-button color="primary" style="margin-left: 8px;"
+      (click)="addPrayer()"
+      [disabled]="prayerForm.invalid"
+      >
+        Submit
+      </button>
+      <button *ngIf="editSwitch" mat-raised-button color="primary" style="margin-left: 8px;"
+      (click)="editPrayerConfirm()"
+      [disabled]="prayerForm.invalid"
+      >
+        Update
+      </button>
+     </div>
+
+   </form>
+  </div>

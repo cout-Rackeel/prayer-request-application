@@ -1,0 +1,19 @@
+.footer{
+  position: sticky;
+  bottom: 0px;
+  height: 60px;
+  background-color: #333;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
+}
+
+p{
+  font-family: 'Source Sans 3', sans-serif;
+  color: aliceblue;
+  font-size: 12px;
+  vertical-align: middle;
+  font-style: italic;
+}

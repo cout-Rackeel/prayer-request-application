@@ -1,0 +1,122 @@
+
+.grid-layout{
+  display: grid;
+  grid-template-columns: .65fr 2fr;
+}
+
+.side-bar{
+  border-right:1px solid lightgray;
+  height:100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.dialog-container{
+  margin-top: 30px;
+}
+
+.repeater{
+  margin-top: 20px;
+  margin-bottom: 30px;
+  width:100%;
+  padding: 0px 50px;
+}
+
+.prayer-card-container{
+  width:100%;
+  /* background-color: white; */
+  background-image: linear-gradient(60deg,white,ivory,rgba(253, 245, 230, 0.430),rgba(255, 245, 238, 0.430));
+  box-shadow: 2px 2px 5px rgba(51, 51, 51, 0.24);
+  margin-bottom: 0px;
+}
+
+.card-heading{
+  display: flex;
+  width: 100%;
+  border-bottom: 0.1px solid lightgray;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  padding: 10px 20px;
+  flex-wrap: wrap;
+}
+
+.card-img{
+  width:80px;
+  height: 80px;
+  object-fit:scale-down;
+  border-radius: 50%;
+  box-shadow: 0px 3px 3px rgba(51, 51, 51, 0.356);
+  background-color: whitesmoke;
+}
+
+.card-body{
+  min-height: 100px;
+  padding: 20px;
+  text-transform: capitalize;
+}
+
+.prayer-title,.prayer-date{
+  padding-top: 30px;
+  font-family: Comfortaa ,sans-serif;
+}
+
+.prayer-title{
+  font-size: 22px;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.prayer-date{
+  font-size: 14px;
+}
+
+.prayer-name, .prayer-body{
+  font-family: 'Source Sans 3', sans-serif;
+}
+
+.prayer-name{
+  font-size: 22px;
+  font-weight: 100;
+  color: #333;
+}
+
+.prayer-body{
+  font-size: 18px;
+  line-height: 1.8;
+  color: #333;
+}
+
+.card-footer{
+  height: 40px;
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  align-items: center;
+  color: rgba(51, 51, 51, 0.671);
+  font-size: 18px;
+}
+
+.delete{
+  cursor: pointer;
+  transition: all 300ms ease 0s;
+}
+
+.delete:hover{
+  color: rgba(220, 20, 60, 0.884);
+}
+
+.pray{
+  cursor: pointer;
+  transition: all 300ms ease 0s;
+}
+
+.pray:hover{
+color:goldenrod;
+}
+
+.pray.on{
+  color: goldenrod;
+}

@@ -1,0 +1,85 @@
+.form-cont{
+  width: min(90% , 37.5rem);
+  padding: 1.25rem;
+  margin: 50px auto;
+  background-color: white;
+  border: 0.1px solid lightgray ;
+  box-shadow: 2px 2px 15px inset hsla(0, 0%, 0%, 0.100),
+              4px 4px 15px inset rgba(241, 3, 3, 0.1);
+
+
+}
+
+.form-header{
+  height: 6.25rem;
+}
+
+.form-header .form-title h3{
+  font-family: 'Comfortaa' , sans-serif;
+  font-size: 1.5em;
+}
+
+.header-flex{
+ width: 100%;
+ display: grid;
+ grid-template-columns: 1fr 1fr 1fr;
+ justify-items:start;
+ grid-gap: 3em;
+ align-items: end;
+ border-bottom: 0.1px solid lightcoral;
+ margin: 0px auto;
+}
+
+.header-flex img{
+  width: max(12em , 70%);
+}
+
+.form-label{
+  display: block;
+  font-family: 'Poppins' , sans-serif;
+  font-size: max(2vh , 1.40em);
+  margin-bottom: .5em;
+}
+
+.input{
+  width: 100%;
+  border: 0.1px solid lightgray;
+  min-height: max(3vh , 2em) ;
+  border-radius: 3px;
+  padding: 0px 2em ;
+  font-family: 'Poppins' , sans-serif;
+  font-size: 2.5vh;
+}
+
+.form-ctrl{
+  margin-bottom: 1em;
+  border-bottom: 0.1px solid whitesmoke;
+  padding: 1em 0px;
+}
+
+.btn-cont{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn{
+  padding: .5em;
+  border: none;
+  outline: none;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.login{
+  width: 12rem;
+  display: flex;
+  justify-content: center;
+  background-image: linear-gradient( 60deg , seashell , white , ivory );
+  color: #333;
+  font-family: 'Comfortaa' , sans-serif;
+  font-size: 1.25em;
+  border: 0.1px solid whitesmoke;
+}

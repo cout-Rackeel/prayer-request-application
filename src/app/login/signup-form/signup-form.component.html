@@ -1,0 +1,104 @@
+<div class="form-cont">
+
+  <header class="form-header">
+    <div class="header-flex">
+      <img src="assets/banner-imgs/cropped-ocoj.png" alt="">
+      <div></div>
+      <div class="form-title">
+        <h3>Sign Up Form</h3>
+      </div>
+
+    </div>
+
+  </header>
+  <form
+  action=""
+   name="signUpForm"
+   #lf="ngForm"
+  (ngSubmit)="lf.form.valid && onSubmit()"
+  novalidate
+
+  >
+
+
+    <div class="form-grp">
+      <div class="form-ctrl">
+        <label for="firstname" class="form-label">First name</label>
+        <input type="text" class="form-ele input" name="firstname" (ngModel)="signUpForm.firstname"
+        maxlength="50"
+        required
+        #firstname="ngModel">
+        <span>
+          <div *ngIf="firstname.invalid && (firstname.touched && firstname.dirty) || lf.submitted " class="error">
+            <div *ngIf="firstname.errors?.['required']">firstname is required</div>
+            <div *ngIf="firstname.errors?.['maxLength']">firstname must be less than 50 characters</div>
+            </div>
+        </span>
+      </div>
+
+
+
+      <div class="form-ctrl">
+        <label for="lastname" class="form-label">Last name</label>
+        <input type="text" class="form-ele input" name="lastname" (ngModel)="signUpForm.lastname"
+        required
+        #lastname="ngModel">
+      </div>
+
+    </div>
+
+
+    <div class="form-ctrl">
+      <label for="username" class="form-label">Username</label>
+      <input type="text" class="form-ele input" name="username" (ngModel)="signUpForm.username"
+      minlength="6"
+      maxlength="20"
+      required
+      #username="ngModel"
+      [ngClass]="{ 'error-input':lf.submitted && password.errors}"
+      >
+
+      <span>
+        <div *ngIf="lf.submitted && password.errors" class="error">
+          <div *ngIf="username.errors?.['required']">Username is required</div>
+          <div *ngIf="username.errors?.['minlength']">Username must be at least 6 characters</div>
+          <div *ngIf="username.errors?.['maxLength']">Username must be less than 20 characters</div>
+          </div>
+      </span>
+    </div>
+
+
+
+    <div class="form-ctrl">
+      <label for="email" class="form-label">Email</label>
+      <input type="text" class="form-ele input" name="email" (ngModel)="signUpForm.email"
+      required
+      #email="ngModel">
+    </div>
+
+
+    <div class="form-grp">
+
+      <div class="form-ctrl">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-ele input" (ngModel)="signUpForm.password"
+        required
+        #password="ngModel">
+      </div>
+
+      <div class="form-ctrl">
+        <label for="password" class="form-label">Confirm Password</label>
+        <input type="password" class="form-ele input" (ngModel)="signUpForm.password"
+        required
+        #password="ngModel">
+      </div>
+    </div>
+
+
+    <div class="btn-cont">
+      <button class="btn signup" type="submit" > Sign up </button>
+    </div>
+  </form>
+
+  </div>
+

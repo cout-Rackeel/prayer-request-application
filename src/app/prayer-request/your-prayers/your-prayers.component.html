@@ -1,0 +1,44 @@
+<section id="prayer-section">
+  <div class="grid-layout">
+    <div class="side-bar">
+      <div class="dialog-container">
+        <button mat-raised-button color="warn" (click)="openDialog()">Add Prayer</button>
+      </div>
+    </div>
+    <div class="main-bar">
+      <div *ngFor="let prayer of prayerRecords " class="repeater">
+        <div class="prayer-card-container">
+          <div class="card-heading">
+            <img src="assets/banner-imgs/cropped-ocoj.png" alt="" class="card-img">
+            <h4 class="prayer-title">{{prayer.title}}</h4>
+            <p class="prayer-date">{{prayer.date | date}}</p>
+          </div>
+            <div class="card-body">
+              <p class="prayer-name">By: {{prayer.name}}</p>
+              <p class="prayer-body">{{prayer.prayerRequest}}</p>
+            </div>
+          <div class="card-footer">
+
+            <div>
+              <fa-icon [icon]="praying"
+              class="pray" (click)="highlightPrayer(prayer)"
+              [ngClass]=" prayer.status === true ? 'on' : '' "
+              title="Commit to Prayer"
+              >
+            </fa-icon>
+            </div>
+
+            <div>
+              <fa-icon [icon]="edit" (click)="editPrayer(prayer._id)"  class="edit"></fa-icon>
+            </div>
+
+            <div>
+              <fa-icon [icon]="delete" (click)="deleteRequest(prayer._id)" class="delete"></fa-icon>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

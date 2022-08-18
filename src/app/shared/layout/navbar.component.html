@@ -1,0 +1,32 @@
+<div class="navbar-container">
+  <nav>
+    <ul class="nav-flex">
+      <li>
+        <a routerLink="/home">
+          <img src="assets/banner-imgs/cropped-ocoj.png" alt="" class="nav-logo-img">
+        </a>
+      </li>
+      <li>
+
+        <nav>
+          <ul class="nav-flex-2">
+            <li><a  routerLink="/prayers"
+           >Prayer</a></li>
+           <li><a routerLink="/about-us">About Us</a></li>
+           <li><a href="">Ministries</a></li>
+           <li><a routerLink="/truth">Truth</a></li>
+
+
+          </ul>
+        </nav>
+      </li>
+
+      <li>
+          <div class="nav-flex-3">
+            <fa-icon [icon]="inbox"></fa-icon>
+            <a href="/login" > <fa-icon [icon]="signIn" ></fa-icon> </a>
+          </div>
+      </li>
+    </ul>
+  </nav>
+</div>

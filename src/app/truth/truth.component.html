@@ -1,0 +1,23 @@
+<section id="section-1">
+  <div class="heading">
+      <h1>The Truth</h1>
+      <hr>
+  </div>
+
+  <div class="flex-group" *ngFor="let truth of truths">
+    <div class="topic">
+      <h2 class="title">{{truth.title}}</h2>
+      <hr class="undertwo small">
+      <p *ngFor="let body of truth.body"
+      class="body">{{body}}</p>
+    </div>
+    <div class="divider"></div>
+    <div class="scripture">
+      <ul class="ul-flexer">
+        <li *ngFor="let scripture of truth.scriptures">{{scripture}}</li>
+      </ul>
+    </div>
+  </div>
+
+
+</section>

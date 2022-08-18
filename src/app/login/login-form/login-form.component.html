@@ -1,0 +1,36 @@
+<div class="form-cont">
+
+  <header class="form-header">
+    <div class="header-flex">
+      <img src="assets/banner-imgs/cropped-ocoj.png" alt="">
+      <div></div>
+      <div class="form-title">
+        <h3>Login Form</h3>
+      </div>
+
+    </div>
+
+  </header>
+  <form action="" name="loginForm" #lf="ngForm" (ngSubmit)="lf.form.valid && onSubmit()">
+
+    <div class="form-ctrl">
+      <label for="username" class="form-label">Username</label>
+      <input type="text" class="form-ele input" name="username" [(ngModel)]="loginForm.username" 
+      [ngModelOptions]="{standalone: true}"
+      #username="ngModel">
+
+    </div>
+
+    <div class="form-ctrl">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" class="form-ele input" [(ngModel)]="loginForm.password" 
+      [ngModelOptions]="{standalone: true}"
+      #password="ngModel">
+    </div>
+
+    <div class="btn-cont">
+      <button class="btn login" type="submit"> Login </button>
+    </div>
+  </form>
+
+  </div>
