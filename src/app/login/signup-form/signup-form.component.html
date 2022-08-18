@@ -14,24 +14,28 @@
   <form
   action=""
    name="signUpForm"
-   #lf="ngForm"
-  (ngSubmit)="lf.form.valid && onSubmit()"
+   #signUp="ngForm"
+  (ngSubmit)="signUp.form.valid && onSubmit(signUp)"
   novalidate
-
+  [appMatchPassword]="['password' , 'confirmPassword']"
   >
 
 
     <div class="form-grp">
       <div class="form-ctrl">
         <label for="firstname" class="form-label">First name</label>
-        <input type="text" class="form-ele input" name="firstname" (ngModel)="signUpForm.firstname"
+        <input type="text" class="form-ele input" name="firstname" [(ngModel)]="signUpForm.firstname"
         maxlength="50"
+        name="firstname"
         required
-        #firstname="ngModel">
+        #firstname="ngModel"
+        [ngClass]="{'error-input' : firstname.invalid && (firstname.touched || signUp.submitted) }"
+        >
+
         <span>
-          <div *ngIf="firstname.invalid && (firstname.touched && firstname.dirty) || lf.submitted " class="error">
-            <div *ngIf="firstname.errors?.['required']">firstname is required</div>
-            <div *ngIf="firstname.errors?.['maxLength']">firstname must be less than 50 characters</div>
+          <div *ngIf="firstname.invalid && (firstname.touched || signUp.submitted) " class="error">
+            <div *ngIf="firstname.errors?.['required']">First name is required</div>
+            <div *ngIf="firstname.errors?.['maxLength']">First name must be less than 50 characters</div>
             </div>
         </span>
       </div>
@@ -40,9 +44,18 @@
 
       <div class="form-ctrl">
         <label for="lastname" class="form-label">Last name</label>
-        <input type="text" class="form-ele input" name="lastname" (ngModel)="signUpForm.lastname"
+        <input type="text" class="form-ele input" name="lastname" [(ngModel)]="signUpForm.lastname"
         required
-        #lastname="ngModel">
+        #lastname="ngModel"
+        [ngClass]="{'error-input' : lastname.invalid && (lastname.touched || signUp.submitted) }"
+        >
+
+        <span>
+          <div *ngIf="lastname.invalid && (lastname.touched || signUp.submitted) " class="error">
+            <div *ngIf="lastname.errors?.['required']">Last name is required</div>
+            <div *ngIf="lastname.errors?.['maxLength']">Last name must be less than 50 characters</div>
+            </div>
+        </span>
       </div>
 
     </div>
@@ -50,20 +63,21 @@
 
     <div class="form-ctrl">
       <label for="username" class="form-label">Username</label>
-      <input type="text" class="form-ele input" name="username" (ngModel)="signUpForm.username"
+      <input type="text" class="form-ele input" name="username" [(ngModel)]="signUpForm.username"
       minlength="6"
       maxlength="20"
       required
       #username="ngModel"
-      [ngClass]="{ 'error-input':lf.submitted && password.errors}"
+      [ngClass]="{ 'error-input':username.invalid && (username.touched && username.dirty || signUp.submitted) } "
       >
 
       <span>
-        <div *ngIf="lf.submitted && password.errors" class="error">
+        <div *ngIf="username.invalid && (username.touched && username.dirty || signUp.submitted)" class="error">
           <div *ngIf="username.errors?.['required']">Username is required</div>
           <div *ngIf="username.errors?.['minlength']">Username must be at least 6 characters</div>
           <div *ngIf="username.errors?.['maxLength']">Username must be less than 20 characters</div>
-          </div>
+        </div>
+        <div *ngIf="usernameAlreadyUsed && !isChangedUsername()" class="error" >This username is already taken</div>
       </span>
     </div>
 
@@ -71,9 +85,22 @@
 
     <div class="form-ctrl">
       <label for="email" class="form-label">Email</label>
-      <input type="text" class="form-ele input" name="email" (ngModel)="signUpForm.email"
+      <input type="email" class="form-ele input" name="email" [(ngModel)]="signUpForm.email"
       required
-      #email="ngModel">
+      #email="ngModel"
+      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+      [ngClass]="{'error-input': email.invalid && (email.touched || signUp.submitted)}"
+      >
+
+      <span>
+        <div *ngIf="email.invalid && (email.touched || signUp.submitted) " class="error">
+          <div *ngIf="email.errors?.['required']">Email is required</div>
+          <div *ngIf="email.errors?.['pattern']">Email must be a valid email</div>
+        </div>
+
+        <div *ngIf="emailAlreadyUsed && !isChangedEmail()" class="error" >This email is already taken</div>
+      </span>
+
     </div>
 
 
@@ -81,19 +108,46 @@
 
       <div class="form-ctrl">
         <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-ele input" (ngModel)="signUpForm.password"
+        <input type="password" class="form-ele input" [(ngModel)]="signUpForm.password"
+        name="password"
+        minlength="6"
+        maxlength="40"
         required
-        #password="ngModel">
+        #password="ngModel"
+        [ngClass]="{'error-input': password.invalid && (password.touched || signUp.submitted)}"
+        >
+
+        <span *ngIf="password.invalid && (password.touched || signUp.submitted)" class="error">
+          <div *ngIf="password.errors?.['required']">Password is required</div>
+          <div *ngIf="password.errors?.['minlength']">Password must be at least 6 characters</div>
+          <div *ngIf="password.errors?.['maxlength']">Password must not exceed 40 characters</div>
+        </span>
       </div>
+
+
+
 
       <div class="form-ctrl">
-        <label for="password" class="form-label">Confirm Password</label>
-        <input type="password" class="form-ele input" (ngModel)="signUpForm.password"
+        <label for="confirmPassword" class="form-label">Confirm Password</label>
+        <input type="password"
+        class="form-ele input"
+        [(ngModel)]="signUpForm.confirmPassword"
+        name="confirmPassword"
         required
-        #password="ngModel">
-      </div>
-    </div>
+        #confirmPassword="ngModel"
+        [ngClass]="{'error-input': confirmPassword.invalid && (confirmPassword.touched || signUp.submitted)}"
+        >
 
+        <span *ngIf="confirmPassword.invalid && (confirmPassword.touched || signUp.submitted)" class="error">
+          <div *ngIf="confirmPassword.errors?.['required']"> Confirm Password is required</div>
+          <div *ngIf="confirmPassword.errors?.['notMatching']">  Confirm Password does not match</div>
+        </span>
+      </div>
+
+      <!-- {{invalidUsername | json}}
+      {{invalidEmail| json}} -->
+
+    </div>
 
     <div class="btn-cont">
       <button class="btn signup" type="submit" > Sign up </button>

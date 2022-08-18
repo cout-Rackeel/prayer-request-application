@@ -6,10 +6,10 @@ export class User{
   email:string;
   password:string;
   pals: string[];
-  roles:string[];
+  roles?:string[];
 
   constructor(
-    _id?:string , 
+    _id?:string,
     firstname ?: string,
     lastname ?: string,
     username ?: string,

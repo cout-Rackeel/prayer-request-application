@@ -1,4 +1,4 @@
-import { HttpClient , HttpHeaders} from '@angular/common/http';
+import { HttpClient , HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Prayer } from '../models';
@@ -17,12 +17,17 @@ export class PrayerService {
       'Content-Type':'application/json'
     })
   }
+
+  private handleErrors(err: HttpErrorResponse): Observable<any> {
+    return of(console.log(err));
+  }
+
   constructor(private http: HttpClient) { }
 
   getAllPrayers(): Observable<Prayer[]>{
     return this.http.get<Prayer[]>(this.REST_API_URL,this.HTTP_HEADER).pipe(
       tap(prayers => console.log(`Prayers list : ${JSON.stringify(prayers)}`)),
-      catchError(err => of([]))
+      catchError(err => this.handleErrors(err))
       )
 
   }
@@ -30,7 +35,7 @@ export class PrayerService {
   findPrayerRequest(id:string) : Observable<Prayer> {
     return this.http.get<Prayer>(`${this.REST_API_URL}/${id}`, this.HTTP_HEADER).pipe(
       tap( selectedPrayer => console.log(`Selected prayer:- ${JSON.stringify(selectedPrayer)}`)),
-      catchError(err => of(new Prayer))
+      catchError(err => this.handleErrors(err))
     )
   }
 
@@ -44,14 +49,14 @@ export class PrayerService {
   editPrayerRequest(id:string , body:Prayer) : Observable<Prayer> {
     return this.http.patch<Prayer>(`${this.REST_API_URL}/${id}`, body , this.HTTP_HEADER).pipe(
       tap(editedPrayer => console.log(`Edited Prayer :- ${JSON.stringify(editedPrayer)}`)),
-      catchError(err => of(new Prayer))
+      catchError(err => this.handleErrors(err))
     )
   }
 
   deletePrayerRequest(id:string) : Observable<Prayer> {
     return this.http.delete<Prayer>(`${this.REST_API_URL}/${id}` , this.HTTP_HEADER).pipe(
       tap(deletedPrayer => console.log(`Deleted Prayer :- ${JSON.stringify(deletedPrayer)}`)),
-      catchError(err => of(new Prayer))
+      catchError(err => this.handleErrors(err))
     )
   }
 

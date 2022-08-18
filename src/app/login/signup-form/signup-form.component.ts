@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { User } from 'src/app/core/models/user';
+import { AuthService } from 'src/app/core/services/auth.service';
+
 
 @Component({
   selector: 'app-signup-form',
@@ -7,26 +13,89 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignupFormComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private authService : AuthService,
+    private router : Router,
+    private cf : ChangeDetectorRef
+  ) { }
 
   signUpForm = {
-    id:'',
     firstname : '',
     lastname : '',
     username : '',
     email:'',
     password:'',
+    confirmPassword:'',
     pals: [],
     roles:[]
   }
 
+  savedUser !: User;
+  usernameAlreadyUsed :boolean = false;
+  emailAlreadyUsed :boolean = false;
+  invalidUsername = '';
+  invalidEmail = '';
+
   ngOnInit(): void {
   }
 
-  onSubmit(){
+  onSubmit(signUp:NgForm){
+    let formVal : User = {
+      _id: '',
+      firstname :this.signUpForm.firstname,
+      lastname :  this.signUpForm.lastname,
+      username : this.signUpForm.username,
+      email: this.signUpForm.email,
+      password: this.signUpForm.password,
+      pals: []
+    };
 
-      alert(`${JSON.stringify(this.signUpForm)}`);
+    if(signUp.form.valid){
+       this.authService.signUp(formVal).subscribe({
+        next: (resp:any) => {
+          this.usernameAlreadyUsed = false;
+          this.emailAlreadyUsed = false;
+          console.log(`${JSON.stringify(formVal)}`);
+          alert(`Form Sent`)
+        },
+        error: (err:HttpErrorResponse) => {
+          if(err.error.errType == 'username'){
+            this.usernameAlreadyUsed = true;
+            this.invalidUsername = formVal.username;
+          }
+
+          if(err.error.errType == 'email'){
+            this.emailAlreadyUsed = true;
+            this.invalidEmail = formVal.email;
+          }
+
+          console.log(err.error);
+        }
+       });
+
     }
+
+
+    }
+
+  isChangedUsername(){
+      if(this.invalidUsername !== this.signUpForm.username){
+        this.usernameAlreadyUsed = false
+        return true
+      }else{
+        return false
+      }
+    }
+
+  isChangedEmail(){
+      if(this.invalidEmail !== this.signUpForm.email){
+        this.emailAlreadyUsed = false
+        return true
+      }else{
+       return false
+      }
+    }
+
 
 
 }

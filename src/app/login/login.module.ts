@@ -7,17 +7,25 @@ import { LoginFormComponent } from './login-form/login-form.component';
 
 import { SignupFormComponent } from './signup-form/signup-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CoreModule, MatchPasswordDirective } from '../core';
+import { LoginDashboardComponent } from './login-dashboard/login-dashboard.component';
+
 
 
 @NgModule({
   declarations: [
     LoginFormComponent,
-    SignupFormComponent
+    SignupFormComponent,
+    LoginDashboardComponent,
   ],
   imports: [
     CommonModule,
     LoginRoutingModule,
-    FormsModule, ReactiveFormsModule
-  ]
+    FormsModule,
+    ReactiveFormsModule,
+    CoreModule,
+  ],
+
+
 })
 export class LoginModule { }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { login } from 'src/app/core/models/login';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-login-form',
@@ -13,15 +15,30 @@ export class LoginFormComponent implements OnInit {
     password:''
   }
 
-  constructor() {
+  passwordIncorrect : boolean | null = null;
+  userNotFound : boolean | null = null;
+
+  constructor(private authService : AuthService ) {
 
    }
 
   ngOnInit(): void {
   }
 
-  onSubmit(){
-    alert(`${JSON.stringify(this.loginForm.username)}`);
+  onSubmit(login:NgForm){
+    let formVal : login = this.loginForm;
+    this.authService.signIn(formVal).subscribe({
+      next : (resp) => {
+        alert(JSON.stringify(resp))
+      }
+    })
+    console.log(`${JSON.stringify(formVal)}`);
   }
 
+
+
+  // changedUsername(){}
+  // changedPassword(){
+  //   if(this.passwordIncorrect)
+  // }
 }

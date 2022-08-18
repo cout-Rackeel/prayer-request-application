@@ -11,21 +11,50 @@
     </div>
 
   </header>
-  <form action="" name="loginForm" #lf="ngForm" (ngSubmit)="lf.form.valid && onSubmit()">
+  <form action="" name="loginForm" #login="ngForm" (ngSubmit)="login.form.valid && onSubmit(login)">
 
     <div class="form-ctrl">
       <label for="username" class="form-label">Username</label>
-      <input type="text" class="form-ele input" name="username" [(ngModel)]="loginForm.username" 
-      [ngModelOptions]="{standalone: true}"
-      #username="ngModel">
+      <input type="text"
+        class="form-ele input"
+        name="username"
+        [(ngModel)]="loginForm.username"
+        #username="ngModel"
+        required
+        [ngClass]="{ 'error-input':username.invalid && (username.touched || login.submitted) } "
+      >
+      <span class="error">
+        <div *ngIf="username.invalid && (username.touched || login.submitted)">
+          <div *ngIf="username.errors?.['required']">Username is required</div>
+        </div>
+        <!-- <div *ngIf="userNotFound && !changedUsername()">Incorrect Username </div> -->
+      </span>
+
 
     </div>
 
     <div class="form-ctrl">
       <label for="password" class="form-label">Password</label>
-      <input type="password" class="form-ele input" [(ngModel)]="loginForm.password" 
-      [ngModelOptions]="{standalone: true}"
-      #password="ngModel">
+      <input
+        type="password"
+        class="form-ele input"
+        name="password"
+        [(ngModel)]="loginForm.password"
+        #password="ngModel"
+        minlength="6"
+        required
+        [ngClass]="{'error-input': password.invalid && (password.touched || login.submitted)}"
+      >
+
+      <span class="error">
+        <div *ngIf="password.invalid && (password.touched || login.submitted)" >
+          <div *ngIf="password.errors?.['required']">Password is required</div>
+          <div *ngIf="password.errors?.['minlength']">Password must be at least 6 characters</div>
+        </div>
+        <!-- <div *ngIf="passwordIncorrect && !changedPassword()">Incorrect Password</div> -->
+      </span>
+
+
     </div>
 
     <div class="btn-cont">

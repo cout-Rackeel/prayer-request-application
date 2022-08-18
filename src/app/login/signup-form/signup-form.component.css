@@ -102,3 +102,8 @@
   border-color: crimson;
   transition: all ease 300ms 0s;
 }
+
+.success-input{
+  border-color: lightgreen;
+  transition: all ease 300ms 0s;
+}

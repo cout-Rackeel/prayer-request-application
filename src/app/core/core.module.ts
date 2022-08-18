@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { DialogLinkService, PrayerService, TruthService } from './services';
 import { FormsModule } from '@angular/forms';
 import { MatchPasswordDirective } from './utils/match-password.directive';
+import { CheckPasswordVal } from './utils';
 
 
 
@@ -20,7 +21,11 @@ import { MatchPasswordDirective } from './utils/match-password.directive';
   providers:[
     PrayerService,
     DialogLinkService,
-    TruthService
+    TruthService,
+    CheckPasswordVal,
+  ],
+  exports:[
+    MatchPasswordDirective
   ]
 })
 export class CoreModule { }
