@@ -2,17 +2,16 @@ import { Component, ElementRef, OnInit } from '@angular/core';
 import { PrayerFormComponent } from '../prayer-form/prayer-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { faDeleteLeft, faEdit, faPray, faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { DialogLinkService, Prayer, PrayerService, SessionStorageService } from 'src/app/core';
-import { User } from 'src/app/core/models/user';
+import { DialogLinkService, Prayer, PrayerService } from 'src/app/core';
 
 @Component({
-  selector: 'app-your-prayers',
-  templateUrl: './your-prayers.component.html',
-  styleUrls: ['./your-prayers.component.css']
+  selector: 'app-all-prayers',
+  templateUrl: './all-prayers.component.html',
+  styleUrls: ['./all-prayers.component.css']
 })
-export class YourPrayersComponent implements OnInit {
+export class AllPrayersComponent implements OnInit {
 
-  prayerRecords !:Prayer[] ;
+  prayerRecords !:Prayer[];
   praying = faPray;
   edit = faEdit;
   delete = faTrash;
@@ -24,11 +23,8 @@ export class YourPrayersComponent implements OnInit {
   constructor(
     private dialog : MatDialog,
     private prayerService: PrayerService,
-    private dialogLink : DialogLinkService,
-    private storageService : SessionStorageService
+    private dialogLink : DialogLinkService
     ) { }
-
-    user: Partial<User> = this.storageService.getUser();
 
   ngOnInit(): void {
     this.retrievePrayers();
@@ -43,7 +39,7 @@ export class YourPrayersComponent implements OnInit {
   }
 
   retrievePrayers(){
-    this.prayerService.getUserPrayers(this.user._id!).subscribe(data => this.prayerRecords = data)
+    this.prayerService.getAllPrayers().subscribe(data => this.prayerRecords = data)
   }
 
   openDialog(){
@@ -101,73 +97,3 @@ export class YourPrayersComponent implements OnInit {
 
 
 }
-
-
-//* transfer code
-
-
-// constructor(
-//   private dialog : MatDialog,
-//   private api : ApiService,
-//   private el :ElementRef
-//   ) { }
-
-// ngOnInit(): void {
-//   this.retrievePrayers();
-
-//   // Ensures up to date data on the frontend
-//   setTimeout(() => {
-//     this.ngOnInit();
-//   },1000 * 5)
-// }
-
-// //declarations
-// prayerRecords !:any;
-// praying = faPray;
-// edit = faEdit;
-// delete = faTrash
-
-// openDialog(){
-//   this.dialog.open(PrayerFormComponent,{
-//     width:"60%",
-//     minHeight:"300px"
-//   }).afterClosed().subscribe(val=>{
-//     if(val === 'save'){
-//       this.retrievePrayers();
-//     }
-//   })
-// }
-
-// retrievePrayers(){
-//   return this.api.getPrayers().subscribe({
-//     next:(res) => {
-//       this.prayerRecords = res;
-//       console.log(this.prayerRecords);
-//     },
-//     error:(err) => {
-//       alert('Error retrieving prayers')
-//     }
-//   })
-// }
-
-// deleteRequest(id:string){
-//   return this.api.deletePrayer(id).subscribe({
-//     next:(res) => {
-//       alert('prayer deleted')
-//       // this.prayerRecords = this.prayerRecords.filter((val:any) => id !== val._id )
-//     },
-//     error:(err) => {
-
-//     }
-//   })
-// }
-
-// highlightPrayer(prayer:any){
-//   prayer.status = !prayer.status;
-//   if(prayer.status){
-//     return alert('Commited to Prayer')
-//   }else{
-//     return alert('Not Commited to Prayer')
-//   }
-
-// }

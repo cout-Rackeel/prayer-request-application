@@ -12,15 +12,17 @@ export class AuthService {
   private REST_API_URL = "http://localhost:3250/api/auth";
   private HTTP_HEADER = {
     headers: new HttpHeaders({
-      'Content-Type':'application/json'
-  })}
+      'Content-Type':'application/json',
+      'withCredentials': 'true'
+    })
+  }
 
   constructor(private http : HttpClient) { }
 
   signUp(body:User) : Observable<User> | any {
     return this.http.post<User>(`${this.REST_API_URL}/signup`, body , this.HTTP_HEADER).pipe(
       tap(signedInMessage => console.log(`User successfully signed Up :- ${JSON.stringify(signedInMessage)}`)),
-      catchError(err => throwError(() => err) )
+      catchError(err => throwError(() =>  err  ))
     )
   }
 
@@ -28,7 +30,7 @@ export class AuthService {
   signIn(body:login) : Observable<any>{
     return this.http.post<any>(`${this.REST_API_URL}/signin` , body , this.HTTP_HEADER).pipe(
       tap(loggedInMessage => console.log(`User successfully logged In :- ${JSON.stringify(loggedInMessage)}`)),
-      catchError(err => throwError(() => err))
+      catchError(err => throwError(() =>  err ))
     )
   }
 }

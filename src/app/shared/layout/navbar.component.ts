@@ -1,7 +1,10 @@
 import { Component, OnInit, HostListener, ElementRef } from "@angular/core";
-import { faInbox, faMailBulk, faMailReply, faMailReplyAll, faMessage, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { Router } from "@angular/router";
+import { faInbox, faMailBulk, faMailReply, faMailReplyAll, faMessage, faPerson, faPersonArrowUpFromLine, faSearch, faSignOut } from '@fortawesome/free-solid-svg-icons';
 import { faSignIn } from '@fortawesome/free-solid-svg-icons';
 import { faDonate } from '@fortawesome/free-solid-svg-icons';
+import { SessionStorageService } from "src/app/core";
+import { User } from "src/app/core/models/user";
 
 
 @Component({
@@ -16,11 +19,22 @@ export class NavbarComponent implements OnInit {
   signIn = faSignIn;
   donate = faDonate;
   inbox =  faInbox;
+  signOut = faSignOut;
+  profile = faPerson;
+  loggedIn : boolean = false;
+  user !: Partial<User>
 
-  constructor(private el:ElementRef) { }
+  constructor(
+    private el:ElementRef,
+    private storageService: SessionStorageService,
+    private router : Router
+    ) { }
+
 
   ngOnInit(): void {
-    this.onScroll()
+    this.getLoginStatus();
+    this.getUser();
+    this.onScroll();
   }
 
 
@@ -50,6 +64,21 @@ export class NavbarComponent implements OnInit {
   },options);
 
   observerOne.observe(navbar)
+}
+
+getLoginStatus(){
+ this.loggedIn = this.storageService.isLoggedIn();
+}
+
+getUser(){
+  this.user = this.storageService.getUser();
+}
+
+logOut(){
+  this.storageService.logOut();
+  alert('logged Out');
+  this.getLoginStatus();
+  this.router.navigate(['/home']);
 }
 
 

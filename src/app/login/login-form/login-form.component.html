@@ -27,7 +27,7 @@
         <div *ngIf="username.invalid && (username.touched || login.submitted)">
           <div *ngIf="username.errors?.['required']">Username is required</div>
         </div>
-        <!-- <div *ngIf="userNotFound && !changedUsername()">Incorrect Username </div> -->
+        <div *ngIf="userNotFound && !isChangedUsername()">Incorrect Username </div>
       </span>
 
 
@@ -51,7 +51,7 @@
           <div *ngIf="password.errors?.['required']">Password is required</div>
           <div *ngIf="password.errors?.['minlength']">Password must be at least 6 characters</div>
         </div>
-        <!-- <div *ngIf="passwordIncorrect && !changedPassword()">Incorrect Password</div> -->
+        <div *ngIf="passwordIncorrect && !isChangedPassword()" > Incorrect Password </div>
       </span>
 
 

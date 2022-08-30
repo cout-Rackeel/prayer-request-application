@@ -5,6 +5,8 @@ import { DialogLinkService, PrayerService, TruthService } from './services';
 import { FormsModule } from '@angular/forms';
 import { MatchPasswordDirective } from './utils/match-password.directive';
 import { CheckPasswordVal } from './utils';
+import { httpInterceptorProviders } from './interceptors';
+import { UserGuard } from './guards';
 
 
 
@@ -22,7 +24,9 @@ import { CheckPasswordVal } from './utils';
     PrayerService,
     DialogLinkService,
     TruthService,
+    UserGuard,
     CheckPasswordVal,
+    // httpInterceptorProviders,
   ],
   exports:[
     MatchPasswordDirective

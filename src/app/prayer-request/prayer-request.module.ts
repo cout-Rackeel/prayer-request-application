@@ -8,6 +8,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule , ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule} from'@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
+import { AllPrayersComponent } from './all-prayers/all-prayers.component';
 
 
 
@@ -26,7 +27,8 @@ import {MatDialogModule} from '@angular/material/dialog';
   declarations: [
     PrayerRequestDashboardComponent,
     PrayerFormComponent,
-    YourPrayersComponent
+    YourPrayersComponent,
+    AllPrayersComponent
   ]
 
 })

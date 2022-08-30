@@ -1,29 +1,28 @@
 <section id="prayer-section">
   <div class="grid-layout">
+
     <div class="side-bar">
 
       <div class="dialog-container">
         <button mat-raised-button color="warn" (click)="openDialog()">Add Prayer</button>
-
-        <div style="margin: 30px 0px;">
-          <form action="">
-           <div class="searchbar">
-             <fa-icon [icon]="search" class="search-icon"></fa-icon>
-             <input type="text" placeholder="Search by">
-             <select name="searchOptions" id="">
-               <option value="name">Name</option>
-               <option value="date">Date</option>
-               <option value="request">Request</option>
-             </select>
-           </div>
-          </form>
-         </div>
-
       </div>
 
-
-
+      <div style="margin: 30px 0px;">
+        <form action="">
+         <div class="searchbar">
+           <fa-icon [icon]="search" class="search-icon"></fa-icon>
+           <input type="text" placeholder="Search by">
+           <select name="searchOptions" id="">
+             <option value="name">Name</option>
+             <option value="date">Date</option>
+             <option value="request">Request</option>
+           </select>
+         </div>
+        </form>
+       </div>
+       
     </div>
+
     <div class="main-bar">
       <div *ngFor="let prayer of prayerRecords " class="repeater">
         <div class="prayer-card-container">

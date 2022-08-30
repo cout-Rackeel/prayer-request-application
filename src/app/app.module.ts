@@ -14,7 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
 
 import { NavbarComponent, FooterComponent } from './shared/layout';
-import { CoreModule } from './core';
+import { CoreModule, httpInterceptorProviders } from './core';
 
 
 

@@ -14,7 +14,7 @@
            >Prayer</a></li>
            <li><a routerLink="/about-us">About Us</a></li>
            <li><a href="">Ministries</a></li>
-           <li><a routerLink="/truth">Truth</a></li>
+           <li><a routerLink="/truth">Truth {{loggedIn}}</a></li>
 
 
           </ul>
@@ -24,7 +24,23 @@
       <li>
           <div class="nav-flex-3">
             <fa-icon [icon]="inbox"></fa-icon>
-            <a href="/login" > <fa-icon [icon]="signIn" ></fa-icon> </a>
+            <div *ngIf="loggedIn == false">
+              <a href="/login" > <fa-icon [icon]="signIn"  title="login"></fa-icon> </a>
+            </div>
+
+
+            <div *ngIf="loggedIn == true">
+              <span style="display: flex; width:100%; align-items: center; gap: 2rem;">
+                <span style="font-size: 1.5em;">
+                  <fa-icon  [icon]="profile"></fa-icon>
+                  {{user.username}}
+                 </span>
+                <fa-icon (click)="logOut()" [icon]="signOut"  title="logout"></fa-icon>
+              </span>
+
+
+            </div>
+
           </div>
       </li>
     </ul>
