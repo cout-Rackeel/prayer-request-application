@@ -1,24 +1,45 @@
 <section id="prayer-section">
+  <div style="margin-top:25px">
+    <h1 style="text-align: center;"> Global Prayers</h1>
+    <hr class="undercut-2">
+  </div>
   <div class="grid-layout">
 
     <div class="side-bar">
 
       <div class="dialog-container">
-        <button mat-raised-button color="warn" (click)="openDialog()">Add Prayer</button>
+        <div style="width: 100%; display:flex; justify-content:space-around; ">
+          <button mat-raised-button color="warn" (click)="openDialog()">Add Prayer</button>
+
+          <button (click)="goToYourPrayers()"
+           mat-raised-button color="accent" routerLink="/prayers/all-prayers">
+           Go to personal prayers
+          </button>
+          </div>
       </div>
 
-      <div style="margin: 30px 0px;">
+      <div class="searchbar-cont">
         <form [formGroup]="searchForm" (ngSubmit)="searchFor()">
+          <label for="searchQuery">Search By</label>
          <div class="searchbar">
            <fa-icon [icon]="search" class="search-icon" (click)="searchFor()"></fa-icon>
-           <input type="text" placeholder="Search by" formControlName="searchQuery">
-           <select name="searchOptions" id="" formControlName="criterion">
+           <input type="text" placeholder="Search by" formControlName="searchQuery" #searchQuery required>
+           <select name="searchOptions" id="" formControlName="criterion" required>
              <option value="name">Name</option>
              <option value="date">Date</option>
+             <option value="title">Title</option>
              <option value="prayerRequest">Request</option>
            </select>
          </div>
         </form>
+       </div>
+
+       <div *ngIf="searchVal">
+        <p>Results for search "{{searchQuery.value}}" in category {{searchVal.criterion}} :- </p>
+        <p>{{searchVal | json}}</p>
+       <div *ngFor="let searchResult of searchVal.result">
+          <div>{{searchResult | json}}</div>
+       </div>
        </div>
 
     </div>
@@ -37,21 +58,25 @@
             </div>
           <div class="card-footer">
 
-            <div>
+            <div *ngIf="user._id !== prayer.userId">
               <fa-icon [icon]="praying"
-              class="pray" (click)="highlightPrayer(prayer)"
+              class="pray" (click)="highlightPrayer(user._id)"
               [ngClass]=" prayer.status === true ? 'on' : '' "
               title="Commit to Prayer"
               >
             </fa-icon>
             </div>
 
-            <div>
+            <div *ngIf="checkAdmin(prayer.userId)">
               <fa-icon [icon]="edit" (click)="editPrayer(prayer._id)"  class="edit"></fa-icon>
             </div>
 
-            <div>
+            <div *ngIf="checkAdmin(prayer.userId)" >
               <fa-icon [icon]="delete" (click)="deleteRequest(prayer._id)" class="delete"></fa-icon>
+            </div>
+
+            <div>
+              <fa-icon [icon]="more" (click)="openMoreInfo(prayer._id)"></fa-icon>
             </div>
 
           </div>

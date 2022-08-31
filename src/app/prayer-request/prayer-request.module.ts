@@ -9,6 +9,7 @@ import { FormsModule , ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule} from'@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 import { AllPrayersComponent } from './all-prayers/all-prayers.component';
+import { MoreInfoComponent } from './more-info/more-info.component';
 
 
 
@@ -28,7 +29,8 @@ import { AllPrayersComponent } from './all-prayers/all-prayers.component';
     PrayerRequestDashboardComponent,
     PrayerFormComponent,
     YourPrayersComponent,
-    AllPrayersComponent
+    AllPrayersComponent,
+    MoreInfoComponent
   ]
 
 })

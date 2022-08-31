@@ -14,6 +14,8 @@ section{
 }
 
 
+
+
 .overlay{
   width: 100%;
   height: 100vh;
@@ -61,6 +63,63 @@ section{
   text-align: center;
   color: transparent;
 }
+
+
+.btn-cont{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  padding: 30px 0px;
+  background-color: black;
+  margin-top: 50px;
+}
+
+.btn{
+  width:400px;
+  display: flex;
+  justify-content: center;
+  padding: 15px 0px;
+  background-color: rgb(247,247,247);
+  border-radius: 3px;
+  cursor: pointer;
+  box-shadow: 2px 2px 10px inset rgba(51, 51, 51, 0.589);
+  text-decoration: none;
+  font-family: 'Source Sans 3', sans-serif;
+  text-align: center;
+  font-size: 1.75em;
+}
+
+
+.all-prayers-btn{
+  background-image: linear-gradient(120deg,  lightcoral 0%, #f6d365 100%);
+  color: black;
+  transition: all 300ms ease-out 0s ;
+}
+
+.all-prayers-btn:hover{
+  padding-right: 30px;
+  margin-right: 30px;
+  transition: all 400ms ease-in 0s ;
+  font-size: 1.8em;
+  background-image: linear-gradient(120deg, hsl(0, 79%, 62%) 0%,  hsl(46, 89%, 48%) 100%);
+}
+.your-prayers-btn:hover{
+  padding-left: 30px;
+  margin-left: 30px;
+  transition: all 400ms ease-in 0s ;
+  background-image: linear-gradient(120deg, hsl(46, 89%, 48%) 0%, hsl(0, 79%, 62%) 100%);
+}
+
+.your-prayers-btn{
+  background-image: linear-gradient(120deg, #f6d365 0%, lightcoral 100%);
+  color: black;
+  transition: all 300ms ease-out 0s ;
+}
+
+
+
 
 #section-2 .grid-cont{
   width: 100%;
@@ -120,7 +179,7 @@ section{
   letter-spacing: 5px;
   border-radius: 3px;
   font-weight: bold;
-  text-decoration: 1px line-through rgba(255, 4, 238, 0.363);
+  text-decoration: 1px line-through lightcoral;
 
 }
 
@@ -136,7 +195,7 @@ section{
 
 #section-2 .text-section-cont:hover .text-section-body{
   border-width: 5px ;
-  border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
+  border-image-source: linear-gradient(120deg, hsl(0, 79%, 62%) 0%,  hsl(46, 89%, 48%) 100%);
   transition:all 400ms ease 0s;
   border-radius: 3px;
 }
@@ -178,16 +237,22 @@ section{
 
 .inner-btn{
   display:flex;
-  width:100%;
+  width:400px;
+  justify-content: center;
   align-items: center;
   gap: .5em;
+  box-shadow: 2px 2px 10px inset rgba(255, 252, 252, 0.692);
+  background-image:linear-gradient(120deg, hsl(0, 79%, 62%) 0%,  hsl(46, 89%, 48%) 100%);
+  color: white;
 }
 
+
 .inner-btn fa-icon{
-  border: 1px solid lightcoral;
+  border: 1px solid white;
   padding: 5px;
   font-size: 3vh;
   border-radius: 50%;
+  color: white;
 }
 
 .inner-span{
@@ -195,11 +260,9 @@ section{
   font-family: 'Poppins', sans-serif;
 }
 
-.border-gradient-purple {
-  border-image-source: linear-gradient(to left, #743ad5, #d53a9d);
+.border-gradient-orange {
+  border-image-source: linear-gradient(120deg, hsl(0, 79%, 62%) 0%,  hsl(46, 89%, 48%) 100%)
 }
 
-.border-gradient-orange {
-  border-image-source: linear-gradient(to left, orange, red);
-}
+
 

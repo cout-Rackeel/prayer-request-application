@@ -36,6 +36,7 @@ export class LoginFormComponent implements OnInit {
 
   onSubmit(login:NgForm){
     let formVal : Partial<User> = this.loginForm;
+    formVal.username = formVal.username?.trim().toLowerCase();
     if(login.form.valid){
       this.authService.signIn(formVal).subscribe({
         next : (data) => {

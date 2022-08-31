@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { PrayerFormComponent } from '../prayer-form/prayer-form.component';
 import { MatDialog } from '@angular/material/dialog';
-import { faDeleteLeft, faEdit, faPray, faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faDeleteLeft, faEdit, faHandDots, faList, faPray, faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { DialogLinkService, Prayer, PrayerService, SessionStorageService } from 'src/app/core';
 import { User } from 'src/app/core/models/user';
 
@@ -13,7 +13,7 @@ import { User } from 'src/app/core/models/user';
 export class YourPrayersComponent implements OnInit {
 
   prayerRecords !:Prayer[] ;
-  praying = faPray;
+  more = faList
   edit = faEdit;
   delete = faTrash;
   editPrayerRequest !: Prayer;

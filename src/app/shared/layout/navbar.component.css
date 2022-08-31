@@ -11,16 +11,30 @@
 .nav-flex{
 width: 100%;
 display: flex;
-gap: 12vw;
-justify-content: center;
+justify-content: space-around;
 align-items: center;
 padding: 0px 0px;
 }
 
-.nav-flex li a:hover{
+.nav-link{
+  padding: 10px;
+}
+
+.nav-link .flexer{
+  width: 100%;
+  gap: .25rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+}
+
+.nav-link:hover{
 border-bottom: 1px solid red;
 border-radius: 4px;
+transition: all 300ms ease 0s;
 }
+
 
 .nav-flex-2{
 width: 100%;
@@ -31,14 +45,14 @@ gap: 3rem;
 .nav-flex-3{
 width: 100%;
 display: flex;
-gap: 3rem;
+gap: 2rem;
 }
 
 .nav-flex li{
 list-style-type: none;
 }
 
-.nav-flex a{
+.nav-flex .nav-link a{
 text-decoration: none;
 font-family: Poppins , sans-serif;
 opacity: 1;
@@ -57,7 +71,7 @@ cursor: pointer;
 }
 
 .nav-logo-img{
-width: 240px;
+width: 220px;
 object-fit: fill;
 opacity: 1;
 cursor: pointer;

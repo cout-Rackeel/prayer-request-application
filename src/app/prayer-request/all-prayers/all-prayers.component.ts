@@ -1,11 +1,15 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { PrayerFormComponent } from '../prayer-form/prayer-form.component';
 import { MatDialog } from '@angular/material/dialog';
-import { faDeleteLeft, faEdit, faPray, faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { DialogLinkService, Prayer, PrayerSearchService, PrayerService } from 'src/app/core';
+import { faDeleteLeft, faEdit, faListDots, faPray, faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { DialogLinkService, Prayer, PrayerSearchService, PrayerService, SessionStorageService } from 'src/app/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SearchQuery } from 'src/app/core/models/search-query';
 import { SearchResult } from 'src/app/core/models/search-result';
+import { User } from 'src/app/core/models/user';
+import { MoreInfoComponent } from '../more-info/more-info.component';
+import { DialogPosition } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-all-prayers',
@@ -18,10 +22,11 @@ export class AllPrayersComponent implements OnInit {
   praying = faPray;
   edit = faEdit;
   delete = faTrash;
+  more = faListDots;
   editPrayerRequest !: Prayer;
   editSwitch !: boolean;
   search = faSearch;
-  searchVal !: SearchResult<Prayer>;
+  searchVal !: SearchResult<Prayer[]>;
 
   searchForm = new FormGroup({
     criterion : new FormControl('name' , [Validators.required]),
@@ -33,15 +38,23 @@ export class AllPrayersComponent implements OnInit {
     private dialog : MatDialog,
     private prayerService: PrayerService,
     private dialogLink : DialogLinkService,
-    private searchService : PrayerSearchService
+    private searchService : PrayerSearchService,
+    private storageService : SessionStorageService,
+    private router : Router
+
     ) { }
+
+    user: Partial<User> = this.storageService.getUser();
+    loggedIn : boolean = this.storageService.isLoggedIn();
+
+    dialogPosition: DialogPosition = {
+      right:'0px',
+    }
+
 
   ngOnInit(): void {
     this.retrievePrayers();
     this.setBehavioral();
-    // setTimeout(()=>{
-    //   this.ngOnInit()
-    // }, 5 *1000)
   }
 
   setBehavioral(){
@@ -91,29 +104,58 @@ export class AllPrayersComponent implements OnInit {
 
     }
 
-  highlightPrayer(prayer:any){
-      alert(`highlighted prayer ${prayer}`)
+  highlightPrayer(id : string = '630fc62ab13b9a3182a23241'){
+
     }
+
+  checkAdmin(userId:string){
+    if(this.user.roles){
+      for( var i = 0; i <= this.user.roles.length-1; i++){
+        if(this.user.roles[i] == 'ROLE_ADMIN' || this.user._id == userId){
+         return true
+        }
+      }
+    }
+    return false;
+  }
 
   searchFor(){
-    let body : SearchQuery<any> = {
-      criterion : this.searchForm.value.criterion,
-      searchQuery: this.searchForm.value.searchQuery
+    if(this.searchForm.valid){
+      let body : SearchQuery<any> = {
+        criterion : this.searchForm.value.criterion,
+        searchQuery: this.searchForm.value.searchQuery
+      }
+
+      this.searchService.getSearchResult(body).subscribe( data => this.searchVal = data);
+    }else{
+      let body : SearchResult<any> = {
+        criterion : this.searchForm.value.criterion,
+        result: ['Query not found']
+      }
+      this.searchVal = body
     }
 
-    this.searchService.getSearchResult(body).subscribe( data => console.log(data));
-
-    // this.searchService.getSearchResult(body).subscribe({
-    //   next: (resp:SearchResult<Prayer>) => {
-    //     this.searchVal = resp;
-    //     console.log(body);
-    //   }
-    // });
+  }
 
 
+  openMoreInfo(id:string){
+    this.dialog.open(MoreInfoComponent , {
+      data: id,
+      width:"60%",
+      height:"100%",
+      position: this.dialogPosition
 
+    }).afterClosed().subscribe(val=>{
+      console.log('dialog closed');
+    })
 
   }
+
+
+  goToYourPrayers(){
+    this.router.navigate([`/prayers/your-prayers/${this.user._id}`]);
+  }
+
 
 
 
