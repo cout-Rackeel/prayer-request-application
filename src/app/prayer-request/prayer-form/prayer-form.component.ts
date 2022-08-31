@@ -35,7 +35,7 @@ export class PrayerFormComponent implements OnInit {
     private dialogLink :DialogLinkService,
     private dialogRef : MatDialogRef<YourPrayersComponent>,
     private storageService: SessionStorageService,
-    @Inject(MAT_DIALOG_DATA) public data: Prayer
+    @Inject(MAT_DIALOG_DATA) public dialogData: Prayer
     ) {}
 
     user: Partial<User> = this.storageService.getUser();
@@ -72,10 +72,10 @@ export class PrayerFormComponent implements OnInit {
 
     let values = {
       userId:this.user._id,
-      name: this.data.name,
-      title:this.data.title,
-      date:this.data.date || '',
-      prayerRequest:this.data.prayerRequest,
+      name: this.dialogData.name,
+      title:this.dialogData.title,
+      date:this.dialogData.date || '',
+      prayerRequest:this.dialogData.prayerRequest,
       commitedToPray:[],
       status:false,
       updates:[]
@@ -83,7 +83,7 @@ export class PrayerFormComponent implements OnInit {
 
 
 
-    if(this.data){
+    if(this.dialogData){
       return this.prayerForm.setValue(values)
     }
   }
@@ -102,7 +102,7 @@ export class PrayerFormComponent implements OnInit {
 
   editPrayerConfirm(){
     if(this.prayerForm.valid){
-      this.prayerService.editPrayerRequest(this.data._id, this.prayerForm.value).subscribe(data => this.editedPrayer = data)
+      this.prayerService.editPrayerRequest(this.dialogData._id, this.prayerForm.value).subscribe(data => this.editedPrayer = data)
       this.dialogRef.close('edit');
       alert('Edited')
       console.log(`Edit : -${JSON.stringify(this.prayerForm.value)}`);

@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { login } from 'src/app/core/models/login';
+import { User } from 'src/app/core/models/user';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { SessionStorageService } from 'src/app/core/services/session-storage.service';
 
@@ -35,7 +35,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   onSubmit(login:NgForm){
-    let formVal : login = this.loginForm;
+    let formVal : Partial<User> = this.loginForm;
     if(login.form.valid){
       this.authService.signIn(formVal).subscribe({
         next : (data) => {
@@ -48,14 +48,15 @@ export class LoginFormComponent implements OnInit {
 
           if(err.error.userNotFound){
             this.userNotFound = true;
-            this.invalidUsername = formVal.username
+            this.invalidUsername = formVal.username!
           }else{
             this.userNotFound = false;
           }
 
           if(err.error.passwordInvalid){
             this.passwordIncorrect = true
-            this.invalidPassword = formVal.password
+            this.invalidPassword = formVal.password!
+
           }else{
             this.passwordIncorrect = false;
           }

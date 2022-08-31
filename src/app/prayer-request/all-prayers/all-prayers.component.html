@@ -8,19 +8,19 @@
       </div>
 
       <div style="margin: 30px 0px;">
-        <form action="">
+        <form [formGroup]="searchForm" (ngSubmit)="searchFor()">
          <div class="searchbar">
-           <fa-icon [icon]="search" class="search-icon"></fa-icon>
-           <input type="text" placeholder="Search by">
-           <select name="searchOptions" id="">
+           <fa-icon [icon]="search" class="search-icon" (click)="searchFor()"></fa-icon>
+           <input type="text" placeholder="Search by" formControlName="searchQuery">
+           <select name="searchOptions" id="" formControlName="criterion">
              <option value="name">Name</option>
              <option value="date">Date</option>
-             <option value="request">Request</option>
+             <option value="prayerRequest">Request</option>
            </select>
          </div>
         </form>
        </div>
-       
+
     </div>
 
     <div class="main-bar">

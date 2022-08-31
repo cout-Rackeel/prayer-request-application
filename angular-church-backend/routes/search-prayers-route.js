@@ -5,6 +5,6 @@ const { searchBy } = require('../controllers/search-prayers-controller');
 
 router
 .route('/')
-.get(searchBy)
+.post(searchBy)
 
 module.exports = router;

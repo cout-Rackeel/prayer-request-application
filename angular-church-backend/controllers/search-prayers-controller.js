@@ -3,38 +3,38 @@ const Prayer = require('../models/prayerModel');
 
 exports.searchBy = async(req,res) => {
     try{
-    
-    const {type , criterion} = req.body;
+
+    const {criterion , searchQuery} = req.body;
     var retVal;
 
     switch (true) {
-      case type == 'name':
-      retVal = await Prayer.find({name: { $regex: criterion }});
-      res.status(200).send({type:type, searchVal:retVal});
+      case criterion == 'name':
+      retVal = await Prayer.find({name: { $regex: searchQuery }});
+      res.status(200).send({criterion:criterion, searchVal:retVal});
       break;
 
-      case type == 'title':
-      retVal = await Prayer.find({title:{ $regex: criterion }});
-      res.status(200).send({type:type, searchVal:retVal});
+      case criterion == 'title':
+      retVal = await Prayer.find({title:{ $regex: searchQuery }});
+      res.status(200).send({criterion:criterion, searchVal:retVal});
       break;
 
-      case type == 'date':
-        retVal = await Prayer.find({date:{ $regex: criterion }});
-        res.status(200).send({type:type, searchVal:retVal});
+      case criterion == 'date':
+        retVal = await Prayer.find({date:{ $regex: searchQuery }});
+        res.status(200).send({criterion:criterion, searchVal:retVal});
         break;
 
-      case type == 'prayerRequest':
-      retVal = await Prayer.find({prayerRequest:{ $regex: criterion }});
-      res.status(200).send({type:type, searchVal:retVal});
+      case criterion == 'prayerRequest':
+      retVal = await Prayer.find({prayerRequest:{ $regex: searchQuery }});
+      res.status(200).send({criterion:criterion, searchVal:retVal});
       break;
 
       default:
-        res.send('Not found');
-      
+        res.status(201).send({ting:criterion, message:req.body});
+
     }
 
-   
-    
+
+
     }catch(err){
       res.status(400).send({message:err.message, noVal:true});
     }

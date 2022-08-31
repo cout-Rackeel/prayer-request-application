@@ -15,8 +15,7 @@ export class PrayerService {
   private USER_REST_API_URL = 'http://localhost:3250/api/user/prayers'
   private HTTP_HEADER = {
     headers: new HttpHeaders({
-      'Content-Type':'application/json',
-      'withCredentials': 'true'
+      'Content-Type':'application/json'
     })
   }
 

@@ -12,7 +12,6 @@ export class TruthService {
   private HTTP_HEADER = {
     headers: new HttpHeaders({
       'Content-Type':'application/json',
-      'withCredentials': 'true'
     })
   }
 
