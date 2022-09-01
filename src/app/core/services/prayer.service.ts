@@ -30,7 +30,6 @@ export class PrayerService {
       tap(prayers => console.log(`Prayers list : ${JSON.stringify(prayers)}`)),
       catchError(err => this.handleErrors(err))
       )
-
   }
 
   getUserPrayers(id:string) : Observable<Prayer[]>{

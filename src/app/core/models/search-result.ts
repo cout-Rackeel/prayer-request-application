@@ -1,4 +1,6 @@
-export interface SearchResult<T extends any>{
+import { Prayer } from "./prayer"
+
+export interface SearchResult{
   criterion: string
-  result : T[]
+  result : Prayer[]
 }

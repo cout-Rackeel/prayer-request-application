@@ -10,6 +10,8 @@
 
         <nav>
           <ul class="nav-flex-2">
+            <li [routerLinkActive]="['active']" class="nav-link"><a  routerLink="/home"
+             >Home</a></li>
             <li [routerLinkActive]="['active']" class="nav-link"><a  routerLink="/prayers"
            >Prayers</a></li>
            <li [routerLinkActive]="['active']" class="nav-link"><a routerLink="/truth">Truth</a></li>
@@ -24,7 +26,7 @@
 
             <div *ngIf="loggedIn == false">
               <div routerLink="/login" class="nav-link flexer" [routerLinkActive]="['active']">
-              <span>Login</span>
+              <span style="font-size: 1.5em;">Login</span>
               <fa-icon [icon]="signIn"  title="login"></fa-icon>
               </div>
 

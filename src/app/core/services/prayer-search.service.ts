@@ -23,9 +23,9 @@ export class PrayerSearchService {
 
   constructor(private http : HttpClient) { }
 
-  getSearchResult(body:SearchQuery<any>):Observable<SearchResult<Prayer[]>> {
-   return this.http.post<SearchResult<Prayer[]>>(this.REST_API_URL,body,this.HTTP_HEADER).pipe(
-    tap( (searchResults:SearchResult<Prayer[]>) => console.log(`Search Results ${JSON.stringify(searchResults)}`)),
+  getSearchResult(body:SearchQuery<any>):Observable<any> {
+   return this.http.post<any>(this.REST_API_URL,body,this.HTTP_HEADER).pipe(
+    tap( (searchResults:any) => console.log(`Search Results ${JSON.stringify(searchResults)}`)),
     catchError(err => this.handleErrors(err))
    );
   }

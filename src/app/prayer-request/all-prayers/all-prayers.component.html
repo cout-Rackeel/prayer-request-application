@@ -26,7 +26,6 @@
            <input type="text" placeholder="Search by" formControlName="searchQuery" #searchQuery required>
            <select name="searchOptions" id="" formControlName="criterion" required>
              <option value="name">Name</option>
-             <option value="date">Date</option>
              <option value="title">Title</option>
              <option value="prayerRequest">Request</option>
            </select>
@@ -35,8 +34,8 @@
        </div>
 
        <div *ngIf="searchVal">
-        <p>Results for search "{{searchQuery.value}}" in category {{searchVal.criterion}} :- </p>
-        <p>{{searchVal | json}}</p>
+        <p>Results for search "{{searchQuery.value}}" in category "{{searchVal.criterion}}" </p>
+        {{searchVal.result}}
        <div *ngFor="let searchResult of searchVal.result">
           <div>{{searchResult | json}}</div>
        </div>
@@ -60,12 +59,14 @@
 
             <div *ngIf="user._id !== prayer.userId">
               <fa-icon [icon]="praying"
-              class="pray" (click)="highlightPrayer(user._id)"
+              class="pray" (click)="highlightPrayer(prayer._id)"
               [ngClass]=" prayer.status === true ? 'on' : '' "
               title="Commit to Prayer"
               >
             </fa-icon>
             </div>
+
+
 
             <div *ngIf="checkAdmin(prayer.userId)">
               <fa-icon [icon]="edit" (click)="editPrayer(prayer._id)"  class="edit"></fa-icon>
@@ -75,7 +76,7 @@
               <fa-icon [icon]="delete" (click)="deleteRequest(prayer._id)" class="delete"></fa-icon>
             </div>
 
-            <div>
+            <div *ngIf="checkAdmin(prayer.userId)">
               <fa-icon [icon]="more" (click)="openMoreInfo(prayer._id)"></fa-icon>
             </div>
 

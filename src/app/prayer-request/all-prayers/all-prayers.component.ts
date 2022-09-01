@@ -26,7 +26,7 @@ export class AllPrayersComponent implements OnInit {
   editPrayerRequest !: Prayer;
   editSwitch !: boolean;
   search = faSearch;
-  searchVal !: SearchResult<Prayer[]>;
+  searchVal !: SearchResult;
 
   searchForm = new FormGroup({
     criterion : new FormControl('name' , [Validators.required]),
@@ -104,8 +104,32 @@ export class AllPrayersComponent implements OnInit {
 
     }
 
-  highlightPrayer(id : string = '630fc62ab13b9a3182a23241'){
+  highlightPrayer(id : string){
+    let commitedToPrayRequest !: Prayer;
+    this.prayerService.findPrayerRequest(id).subscribe(data => {
+      commitedToPrayRequest = data
 
+      if(this.loggedIn){
+        commitedToPrayRequest.commitedToPray.push(this.user._id!);
+        this.prayerService.editPrayerRequest(id , commitedToPrayRequest).subscribe({
+          next: ()=> {
+            alert(`You have committed to pray for ${JSON.stringify(commitedToPrayRequest.commitedToPray)}`)
+          },
+          error: (err)=> {
+            console.log(err.error.message);
+          }
+        });
+      }else{
+        commitedToPrayRequest.commitedToPray.push('630fc62ab13b9a3182a23241');
+        this.prayerService.editPrayerRequest(id, commitedToPrayRequest).subscribe({
+          next: ()=> {
+            alert(`You have committed to pray for ${JSON.stringify(commitedToPrayRequest.commitedToPray)} anonymous`)
+          }
+          });
+      }
+
+
+    })
     }
 
   checkAdmin(userId:string){
@@ -124,13 +148,15 @@ export class AllPrayersComponent implements OnInit {
       let body : SearchQuery<any> = {
         criterion : this.searchForm.value.criterion,
         searchQuery: this.searchForm.value.searchQuery
-      }
-
-      this.searchService.getSearchResult(body).subscribe( data => this.searchVal = data);
+      };
+      this.searchService.getSearchResult(body).subscribe( data => {
+        this.searchVal = data
+        console.log(data);
+      });
     }else{
-      let body : SearchResult<any> = {
+      let body : SearchResult = {
         criterion : this.searchForm.value.criterion,
-        result: ['Query not found']
+        result: [new Prayer()]
       }
       this.searchVal = body
     }

@@ -50,10 +50,7 @@
           <div class="card-footer">
 
             <div>
-              <fa-icon [icon]="more"
-              title="See More"
-              >
-            </fa-icon>
+              <fa-icon [icon]="more" (click)="openMoreInfo(prayer._id)"></fa-icon>
             </div>
 
             <div>

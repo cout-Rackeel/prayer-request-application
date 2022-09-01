@@ -9,7 +9,7 @@ exports.getPrayers = async (req,res) => {
   }catch(err){
     res.status(500).send({message:err})
   }
-  
+
 }
 
 exports.getPrayer = async (req,res) => {
@@ -24,7 +24,7 @@ exports.getPrayer = async (req,res) => {
   }catch(err){
     res.status(500).send({message:err});
   }
- 
+
 
 }
 
@@ -32,7 +32,7 @@ exports.createPrayer = async (req,res) => {
   try{
 
   const {userId , title , name , prayerRequest , date , commitedToPray , status , updates} = req.body
-  
+
     const newPrayer = await Prayer.create({
       userId: req.body.userId,
       title: req.body.title,
@@ -44,14 +44,14 @@ exports.createPrayer = async (req,res) => {
       updates: []
     })
     res.status(201).send(newPrayer)
-  
+
 
 
   }catch(err){
     res.status(400).send({message:err})
   }
-  
-  
+
+
 
 
 }
@@ -93,7 +93,7 @@ exports.deletePrayer = async (req,res) => {
 
 exports.searchBy = async(req,res) => {
   try{
-  
+
   const {type , criterion} = req.body;
   var retVal;
 
@@ -110,7 +110,7 @@ exports.searchBy = async(req,res) => {
 
     default:
       res.send('Not found');
-    
+
   }
 
   // if (type == 'name') {
@@ -118,8 +118,8 @@ exports.searchBy = async(req,res) => {
   // }else{
   //   res.status(201).send(type);
   // }
- 
-  
+
+
   }catch(err){
     res.status(400).send({message:err.message, noVal:true});
   }
