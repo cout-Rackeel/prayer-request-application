@@ -27,7 +27,9 @@ const PrayerSchema = new mongoose.Schema({
   },
   commitedToPray:[{
     type: mongoose.Schema.Types.ObjectId,
-    ref:'User'
+    ref:'User',
+    unique:[true ,'You are already pals with this user'],
+    sparse:true,
   }],
   status:{
     type:Boolean

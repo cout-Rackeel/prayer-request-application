@@ -9,22 +9,22 @@ exports.searchBy = async(req,res) => {
 
     switch (true) {
       case criterion == 'name':
-      retVal = await Prayer.find({name: { $regex: searchQuery }});
+      retVal = await Prayer.find({name: { $regex: searchQuery }}).populate('commitedToPray');
       res.status(200).send({criterion:criterion, searchVal:retVal});
       break;
 
       case criterion == 'title':
-      retVal = await Prayer.find({title:{ $regex: searchQuery }});
+      retVal = await Prayer.find({title:{ $regex: searchQuery }}).populate('commitedToPray');
       res.status(200).send({criterion:criterion, searchVal:retVal});
       break;
 
       case criterion == 'date':
-        retVal = await Prayer.find({date:{ $regex: searchQuery }});
+        retVal = await Prayer.find({date:{ $regex: searchQuery }}).populate('commitedToPray');
         res.status(200).send({criterion:criterion, searchVal:retVal});
         break;
 
       case criterion == 'prayerRequest':
-      retVal = await Prayer.find({prayerRequest:{ $regex: searchQuery }});
+      retVal = await Prayer.find({prayerRequest:{ $regex: searchQuery }}).populate('commitedToPray');
       res.status(200).send({criterion:criterion, searchVal:retVal});
       break;
 
@@ -39,3 +39,5 @@ exports.searchBy = async(req,res) => {
       res.status(400).send({message:err.message, noVal:true});
     }
 }
+
+//* Redo search feature

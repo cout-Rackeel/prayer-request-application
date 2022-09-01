@@ -6,63 +6,6 @@ var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var salt = 10;
 
-// exports.signup = (req,res) => {
-
-//   //* Step 1
-//   const user = new User({
-//     firstname: req.body.firstname,
-//     lastname:req.body.lastname,
-//     username:req.body.username,
-//     email:req.body.email,
-//     password:bcrypt.hashSync(req.body.password, salt),
-//     pals:req.body.pals
-//   });
-
-//   //? TO BE REVIEWED COPIED
-//   user.save((err,user) => {
-//     if (err) {
-//       res.status(500).send({ message: err.stack , data:'place 6' });
-//       return;
-//     }
-//     if (req.body.roles) {
-//       Role.find(
-//         {
-//           name: { $in: req.body.roles },
-//         },
-//         (err, roles) => {
-//           if (err) {
-//             res.status(500).send({ message: err });
-//             return;
-//           }
-//           user.roles = roles.map((role) => role._id);
-//           user.save((err) => {
-//             if (err) {
-//               res.status(500).send({ message: err });
-//               return;
-//             }
-//             res.send({ message: "User was registered successfully!" });
-//           });
-//         }
-//       );
-//     } else {
-//       Role.findOne({ name: "user" }, (err, role) => {
-//         if (err) {
-//           res.status(500).send({ message: err });
-//           return;
-//         }
-//         user.roles = [role._id];
-//         user.save((err) => {
-//           if (err) {
-//             res.status(500).send({ message: err });
-//             return;
-//           }
-//           res.send({ message: "User was registered successfully!" });
-//         });
-//       });
-//     }
-//   });
-
-// };
 
  exports.signup = async (req,res) => {
   try{
@@ -103,7 +46,7 @@ exports.signin = async (req, res) => {
     const userPassword = req.body.password;
     const username = req.body.username;
     const currentUser = await User.findOne({username:username}).populate("roles","-__v");
-    
+
     if(!currentUser){
       return res.status(404).send({message:'User not found!! , check username',
       userNotFound: true
@@ -123,7 +66,7 @@ exports.signin = async (req, res) => {
     var token =  await jwt.sign({id:currentUser.id}, config.secret ,{expiresIn:86400}); //* Expires in one day
     var positions = [];
 
-    
+
     currentUser.roles.forEach((role) => positions.push(`ROLE_${role.name.toUpperCase()}`));
 
     // Stores token to the client
@@ -141,7 +84,7 @@ exports.signin = async (req, res) => {
   }catch(err){
     res.status(500).send({message:err.message , secret:config.secret});
   }
- 
+
 };
 
 exports.signout = async (req, res) => {

@@ -30,10 +30,9 @@ const userSchema = new mongoose.Schema({
 
   pals:[{
       type:mongoose.Schema.Types.ObjectId,
-      ref:'User',
       unique:[true ,'You are already pals with this user'],
       sparse:true,
-     
+
   }],
 
   roles:[{

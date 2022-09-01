@@ -13,7 +13,6 @@ export class UserGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean{
-      console.log('CanActivate called');
       let user = this.storageService.getUser();
       let userRoleFound = false;
 

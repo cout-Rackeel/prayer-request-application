@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import {  AdminsGuard } from './core/guards';
 
 const routes: Routes = [
 
@@ -29,7 +30,9 @@ const routes: Routes = [
 
   { path: 'truth', loadChildren: () => import('./truth/truth.module').then(m => m.TruthModule) },
 
-  { path: 'about-us', loadChildren: () => import('./about-us/about-us.module').then(m => m.AboutUsModule) }
+  { path: 'about-us', loadChildren: () => import('./about-us/about-us.module').then(m => m.AboutUsModule) },
+
+  { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), canLoad:[AdminsGuard]}
 
 ];
 

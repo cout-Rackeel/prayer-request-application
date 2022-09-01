@@ -37,9 +37,6 @@ export class YourPrayersComponent implements OnInit {
   ngOnInit(): void {
     this.retrievePrayers();
     this.setBehavioral();
-    setTimeout(()=>{
-      this.ngOnInit()
-    }, 5 *1000)
   }
 
   setBehavioral(){
@@ -56,20 +53,13 @@ export class YourPrayersComponent implements OnInit {
         minHeight:"350px"
       }).afterClosed().subscribe(val=>{
         if(val === 'save'){
-          this.retrievePrayers()
+          this.retrievePrayers();
         }
       })
     }
 
-  // findPrayer(id:string){
-  //   return this.prayerService.findPrayerRequest(id).subscribe(data => {this.editPrayerRequest = data
-  //     console.log(`${JSON.stringify(this.editPrayerRequest)}`);
-  //   })
-
-  // }
 
   editPrayer(id:string){
-
     this.dialogLink.setEditSwitchVal(true);
     return this.prayerService.findPrayerRequest(id).subscribe(prayer => {
       this.editPrayerRequest = prayer
@@ -78,7 +68,8 @@ export class YourPrayersComponent implements OnInit {
         width:"60%",
         minHeight:"350px"
       }).afterClosed().subscribe(val=>{
-        this.dialogLink.setEditSwitchVal(false)
+        this.dialogLink.setEditSwitchVal(false);
+        this.retrievePrayers();
         console.log(`${JSON.stringify(this.editPrayerRequest)}`);
       })
     })
@@ -87,11 +78,10 @@ export class YourPrayersComponent implements OnInit {
 
     deleteRequest(id:string){
       const answer = window.prompt('Are you sure you want to delete prayer , type yes', 'no');
-
-      if(answer === 'yes'){
-
+      
+      if(answer == 'yes'){
         this.prayerService.deletePrayerRequest(id).subscribe();
-
+        this.retrievePrayers();
         alert(`Deleted ${id}`);
       }
 
