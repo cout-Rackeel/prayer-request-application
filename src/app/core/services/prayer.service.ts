@@ -12,6 +12,7 @@ import { tap , catchError , of } from 'rxjs';
 export class PrayerService {
 
   private REST_API_URL = 'http://localhost:3250/api/prayers';
+  private USER_REST_API_URL = 'http://localhost:3250/api/user/prayers'
   private HTTP_HEADER = {
     headers: new HttpHeaders({
       'Content-Type':'application/json'
@@ -25,11 +26,17 @@ export class PrayerService {
   constructor(private http: HttpClient) { }
 
   getAllPrayers(): Observable<Prayer[]>{
-    return this.http.get<Prayer[]>(this.REST_API_URL,this.HTTP_HEADER).pipe(
+    return this.http.get<Prayer[]>(this.REST_API_URL, this.HTTP_HEADER).pipe(
       tap(prayers => console.log(`Prayers list : ${JSON.stringify(prayers)}`)),
       catchError(err => this.handleErrors(err))
       )
+  }
 
+  getUserPrayers(id:string) : Observable<Prayer[]>{
+    return this.http.get<Prayer[]>(`${this.USER_REST_API_URL}/${id}`, this.HTTP_HEADER).pipe(
+      tap(prayers => console.log(`Prayers list : ${JSON.stringify(prayers)}`)),
+      catchError(err => this.handleErrors(err))
+      )
   }
 
   findPrayerRequest(id:string) : Observable<Prayer> {

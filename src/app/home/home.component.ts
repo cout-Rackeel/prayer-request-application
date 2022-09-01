@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { SessionStorageService } from '../core';
+import { User } from '../core/models/user';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +9,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private storageService: SessionStorageService
+  ) { }
+
+  user !: Partial<User>;
+  loggedIn !: boolean;
 
   ngOnInit(): void {
+    this.getUser();
+    this.getLoggedIn();
   }
+
+  getUser(){
+    return this.user = this.storageService.getUser();
+  }
+
+  getLoggedIn(){
+    return this.loggedIn = this.storageService.isLoggedIn();
+  }
+
 
 }

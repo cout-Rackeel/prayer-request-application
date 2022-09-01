@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { DialogLinkService, PrayerService, TruthService } from './services';
+import { DialogLinkService, PrayerSearchService, PrayerService, TruthService } from './services';
 import { FormsModule } from '@angular/forms';
 import { MatchPasswordDirective } from './utils/match-password.directive';
 import { CheckPasswordVal } from './utils';
+import { httpInterceptorProviders } from './interceptors';
+import { UserGuard } from './guards';
 
 
 
@@ -22,7 +24,10 @@ import { CheckPasswordVal } from './utils';
     PrayerService,
     DialogLinkService,
     TruthService,
+    UserGuard,
     CheckPasswordVal,
+    PrayerSearchService
+    // httpInterceptorProviders,
   ],
   exports:[
     MatchPasswordDirective

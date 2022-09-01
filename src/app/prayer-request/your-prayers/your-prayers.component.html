@@ -1,9 +1,39 @@
 <section id="prayer-section">
+
+  <div style="margin-top:25px">
+    <h1 style="text-align: center;">{{user.username | titlecase}}'s Prayers</h1>
+    <hr class="undercut-2">
+  </div>
+
   <div class="grid-layout">
     <div class="side-bar">
+
       <div class="dialog-container">
+
+        <div style="width: 100%; display:flex; justify-content:space-around; ">
         <button mat-raised-button color="warn" (click)="openDialog()">Add Prayer</button>
+        <button mat-raised-button color="accent" routerLink="/prayers/all-prayers">Go to Global Prayers</button>
+        </div>
+
+
+        <div style="margin: 30px 0px;">
+          <form action="">
+           <div class="searchbar">
+             <fa-icon [icon]="search" class="search-icon"></fa-icon>
+             <input type="text" placeholder="Search by">
+             <select name="searchOptions" id="">
+               <option value="name">Name</option>
+               <option value="date">Date</option>
+               <option value="request">Request</option>
+             </select>
+           </div>
+          </form>
+         </div>
+
       </div>
+
+
+
     </div>
     <div class="main-bar">
       <div *ngFor="let prayer of prayerRecords " class="repeater">
@@ -20,20 +50,19 @@
           <div class="card-footer">
 
             <div>
-              <fa-icon [icon]="praying"
-              class="pray" (click)="highlightPrayer(prayer)"
-              [ngClass]=" prayer.status === true ? 'on' : '' "
-              title="Commit to Prayer"
-              >
-            </fa-icon>
+              <fa-icon [icon]="more" (click)="openMoreInfo(prayer._id)"></fa-icon>
             </div>
 
             <div>
-              <fa-icon [icon]="edit" (click)="editPrayer(prayer._id)"  class="edit"></fa-icon>
+              <fa-icon [icon]="edit" (click)="editPrayer(prayer._id)"  class="edit"
+              title="edit"
+              ></fa-icon>
             </div>
 
             <div>
-              <fa-icon [icon]="delete" (click)="deleteRequest(prayer._id)" class="delete"></fa-icon>
+              <fa-icon [icon]="delete" (click)="deleteRequest(prayer._id)" class="delete"
+              title="delete"
+              ></fa-icon>
             </div>
 
           </div>

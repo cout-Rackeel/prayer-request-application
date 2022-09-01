@@ -1,0 +1,268 @@
+
+section{
+  margin-bottom: 100px;
+}
+
+#section-1{
+  width: 100%;
+  position: relative;
+  z-index: -1;
+}
+
+#section-2{
+  width: 100%;
+}
+
+
+
+
+.overlay{
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  z-index: 2;
+  background-image: linear-gradient(60deg, black , #333 , #444);
+  bottom: 0px;
+  box-shadow: 10px 10px 10px inset rgba(51, 51, 51, 0.219);
+  border-radius: 3px;
+  opacity: 0.7;
+  z-index: 2;
+}
+
+.banner-img{
+  background-image: url('/assets/banner-imgs/prayer-pic.jpg');
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.circle{
+  position: relative;
+  clip-path: circle(46.1% at 90% 17%);
+  width: 100%;
+  height: 100vh;
+  z-index: 3;
+  /* background-image: linear-gradient(60deg ,rgba(240, 248, 255, 0.445), hsla(240, 100%, 50%, 0.2), rgba(255, 255, 255, 0.384) ,hsl(300, 100%, 25%, 0.2) ,rgba(240, 248, 255, 0.445), hsl(39, 100%, 50%, 0.2),white); */
+  background-color: rgba(240, 248, 255, 0.479);
+  display: flex;
+  justify-content:right;
+  opacity:1;
+}
+
+.banner-text{
+  width: 600px;
+  position: absolute;
+  font-size: 10vh;
+  font-family:'Montserrat', sans-serif;
+  font-weight: 900;
+  line-height: 2;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.616);
+  background-image: linear-gradient(80deg , aqua, purple ,red , teal, orange);
+  background-clip: text;
+  text-align: center;
+  color: transparent;
+}
+
+
+.btn-cont{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  padding: 30px 0px;
+  background-color: black;
+  margin-top: 50px;
+}
+
+.btn{
+  width:400px;
+  display: flex;
+  justify-content: center;
+  padding: 15px 0px;
+  background-color: rgb(247,247,247);
+  border-radius: 3px;
+  cursor: pointer;
+  box-shadow: 2px 2px 10px inset rgba(51, 51, 51, 0.589);
+  text-decoration: none;
+  font-family: 'Source Sans 3', sans-serif;
+  text-align: center;
+  font-size: 1.75em;
+}
+
+
+.all-prayers-btn{
+  background-image: linear-gradient(120deg,  lightcoral 0%, #f6d365 100%);
+  color: black;
+  transition: all 300ms ease-out 0s ;
+}
+
+.all-prayers-btn:hover{
+  padding-right: 30px;
+  margin-right: 30px;
+  transition: all 400ms ease-in 0s ;
+  font-size: 1.8em;
+  background-image: linear-gradient(120deg, hsl(0, 79%, 62%) 0%,  hsl(46, 89%, 48%) 100%);
+}
+.your-prayers-btn:hover{
+  padding-left: 30px;
+  margin-left: 30px;
+  transition: all 400ms ease-in 0s ;
+  background-image: linear-gradient(120deg, hsl(46, 89%, 48%) 0%, hsl(0, 79%, 62%) 100%);
+}
+
+.your-prayers-btn{
+  background-image: linear-gradient(120deg, #f6d365 0%, lightcoral 100%);
+  color: black;
+  transition: all 300ms ease-out 0s ;
+}
+
+
+
+
+#section-2 .grid-cont{
+  width: 100%;
+  padding: 100px 50px ;
+  border-bottom: 0.1px  solid  lightgray;
+}
+
+#section-2 .two-col-grid-display {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr;
+  ;
+
+}
+
+.img-obj{
+  width: 700px;
+  height: 550px;
+  border: 5px solid;
+  border-image-slice: 1;
+  border-image-repeat:round;
+  border-width: 2px;
+  background-size: cover;
+}
+
+.img-1{
+  background-image: url('/assets/banner-imgs/prayer-2.jpg');
+}
+
+.img-2{
+  background-image: url('/assets/banner-imgs/women-pic.jpg');
+}
+
+#section-2 .text-section-cont{
+  position: relative;
+  padding:0px 0px;
+  height: 650px;
+  background-color: white;
+  border: 1px solid white;
+  border-radius: 0px 5px 5px 5px;
+  box-shadow: 2px 2px 2px rgba(51, 51, 51, 0.233);
+  /* background-image: linear-gradient(to left, #733ad52a, #d53a9c33); */
+}
+
+#section-2 .text-section-heading{
+  position: absolute;
+  top:-36px;
+  width: 100%;
+
+}
+
+#section-2 .text-section-heading h2{
+  font-size: 5vh;
+  font-family: 'Comfortaa', sans-serif;
+  line-height: 1.8;
+  text-align: center;
+  letter-spacing: 5px;
+  border-radius: 3px;
+  font-weight: bold;
+  text-decoration: 1px line-through lightcoral;
+
+}
+
+#section-2 .text-section-body{
+  border: 5px solid rgb(247, 247, 247);
+  border-radius: 3px;
+  padding: 10px;
+  border-image-slice: 1;
+  margin-top: 50px;
+  transition:all 300ms ease 0s;
+  border-width: 3px;
+}
+
+#section-2 .text-section-cont:hover .text-section-body{
+  border-width: 5px ;
+  border-image-source: linear-gradient(120deg, hsl(0, 79%, 62%) 0%,  hsl(46, 89%, 48%) 100%);
+  transition:all 400ms ease 0s;
+  border-radius: 3px;
+}
+
+#section-2 .text-section-body p{
+  padding:20px;
+  font-size: 1.5em;
+  line-height: 1.6;
+  font-weight: 100;
+  font-family: 'Poppins' , sans-serif;
+}
+
+#section-2 .text-btn-cont{
+  position: absolute;
+  bottom: 15.5%;
+  right: 15%;
+  transition: all 300ms ease 0s;
+}
+
+#section-2 .text-btn{
+  border: 2px solid lightcoral;
+  transition: all 300ms ease 0s;
+  padding: 4px;
+}
+
+#section-2 .text-btn-cont:hover .text-btn{
+  cursor: pointer;
+  transform: scale(1.1) translateY(-5px);
+  transition: all 300ms ease-in-out  0s;
+}
+
+.mesh{
+  position: absolute;
+  bottom: 0px;
+  background-image: url('/assets/banner-imgs/mesh-purple.png');
+  width: 100%;
+  height: 100px;
+}
+
+.inner-btn{
+  display:flex;
+  width:400px;
+  justify-content: center;
+  align-items: center;
+  gap: .5em;
+  box-shadow: 2px 2px 10px inset rgba(255, 252, 252, 0.692);
+  background-image:linear-gradient(120deg, hsl(0, 79%, 62%) 0%,  hsl(46, 89%, 48%) 100%);
+  color: white;
+}
+
+
+.inner-btn fa-icon{
+  border: 1px solid white;
+  padding: 5px;
+  font-size: 3vh;
+  border-radius: 50%;
+  color: white;
+}
+
+.inner-span{
+  font-size: 3vh;
+  font-family: 'Poppins', sans-serif;
+}
+
+.border-gradient-orange {
+  border-image-source: linear-gradient(120deg, hsl(0, 79%, 62%) 0%,  hsl(46, 89%, 48%) 100%)
+}
+
+
+

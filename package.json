@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve -o",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "server": "nodemon ../angular-church-backend/server.js"
+    "server": "cd angular-church-backend && nodemon server "
   },
   "private": true,
   "dependencies": {

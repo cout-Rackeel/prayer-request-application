@@ -10,11 +10,11 @@
 
         <nav>
           <ul class="nav-flex-2">
-            <li><a  routerLink="/prayers"
-           >Prayer</a></li>
-           <li><a routerLink="/about-us">About Us</a></li>
-           <li><a href="">Ministries</a></li>
-           <li><a routerLink="/truth">Truth</a></li>
+            <li [routerLinkActive]="['active']" class="nav-link"><a  routerLink="/home"
+             >Home</a></li>
+            <li [routerLinkActive]="['active']" class="nav-link"><a  routerLink="/prayers"
+           >Prayers</a></li>
+           <li [routerLinkActive]="['active']" class="nav-link"><a routerLink="/truth">Truth</a></li>
 
 
           </ul>
@@ -23,8 +23,33 @@
 
       <li>
           <div class="nav-flex-3">
-            <fa-icon [icon]="inbox"></fa-icon>
-            <a href="/login" > <fa-icon [icon]="signIn" ></fa-icon> </a>
+
+            <div *ngIf="loggedIn == false">
+              <div routerLink="/login" class="nav-link flexer" [routerLinkActive]="['active']">
+              <span style="font-size: 1.5em;">Login</span>
+              <fa-icon [icon]="signIn"  title="login"></fa-icon>
+              </div>
+
+            </div>
+
+
+            <div *ngIf="loggedIn == true">
+              <span style="display: flex; width:100%; align-items: center; gap: 2rem;">
+                <span style="font-size: 1.5em;">
+                  <fa-icon  [icon]="profile"></fa-icon>
+                  {{user.username | titlecase}}
+                 </span>
+
+                 <div (click)="logOut()" class="nav-link flexer" [routerLinkActive]="['active']">
+                  <span style="font-size: 1.5em;">Logout</span>
+                  <fa-icon  [icon]="signOut"  title="logout"></fa-icon>
+                 </div>
+
+              </span>
+
+
+            </div>
+
           </div>
       </li>
     </ul>

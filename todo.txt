@@ -1,0 +1,11 @@
+August 18, 2022
+
+- Fix assignment of roles within the signUp process  //**Completed
+- Fix Form validation and validation errors. //**Completed
+- Implement signIn logic //*Completed
+- Fix Yours prayers page to recieve only  the logged in users prayers. //**Completed
+- store login state throughout application //**Completed
+- Implement signOut logic //** Completed
+- Create a searchBy feature for prayers
+- Make searchbar component
+- create search functionality in backend

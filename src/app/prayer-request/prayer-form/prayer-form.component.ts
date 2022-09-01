@@ -10,8 +10,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { YourPrayersComponent } from '../your-prayers/your-prayers.component';
-import { DialogLinkService, Prayer, PrayerService } from 'src/app/core';
-import { ChangeDetectorRef } from '@angular/core';
+import { DialogLinkService, Prayer, PrayerService, SessionStorageService } from 'src/app/core';
+import { User } from 'src/app/core/models/user';
 
 
 @Component({
@@ -34,15 +34,16 @@ export class PrayerFormComponent implements OnInit {
     private prayerService: PrayerService,
     private dialogLink :DialogLinkService,
     private dialogRef : MatDialogRef<YourPrayersComponent>,
-    private cdRef : ChangeDetectorRef,
-    @Inject(MAT_DIALOG_DATA) public data: Prayer
+    private storageService: SessionStorageService,
+    @Inject(MAT_DIALOG_DATA) public dialogData: Prayer
     ) {}
 
+    user: Partial<User> = this.storageService.getUser();
 
   ngOnInit(): void {
-    this.intializeForm()
-    this.setBehavioral()
-    // this.cdRef.detectChanges()
+    this.intializeForm();
+    this.setBehavioral();
+
     if(this.editSwitch){
       this.setForm();
     }
@@ -56,8 +57,8 @@ export class PrayerFormComponent implements OnInit {
 
   intializeForm(){
       this.prayerForm = new FormGroup({
-        userId: new FormControl(null,[]),
-        name: new FormControl('',[Validators.required]),
+        userId: new FormControl(this.user._id,[]),
+        name: new FormControl(this.user.firstname,[Validators.required]),
         title: new FormControl('',[Validators.required]),
         date: new FormControl(new Date,[]),
         prayerRequest: new FormControl('',[Validators.required]),
@@ -70,18 +71,19 @@ export class PrayerFormComponent implements OnInit {
   setForm(){
 
     let values = {
-      userId:null,
-      name: this.data.name,
-      title:this.data.title,
-      date:this.data.date || '',
-      prayerRequest:this.data.prayerRequest,
+      userId:this.user._id,
+      name: this.dialogData.name,
+      title:this.dialogData.title,
+      date:this.dialogData.date || '',
+      prayerRequest:this.dialogData.prayerRequest,
       commitedToPray:[],
       status:false,
       updates:[]
     }
 
 
-    if(this.data){
+
+    if(this.dialogData){
       return this.prayerForm.setValue(values)
     }
   }
@@ -100,7 +102,7 @@ export class PrayerFormComponent implements OnInit {
 
   editPrayerConfirm(){
     if(this.prayerForm.valid){
-      this.prayerService.editPrayerRequest(this.data._id, this.prayerForm.value).subscribe(data => this.editedPrayer = data)
+      this.prayerService.editPrayerRequest(this.dialogData._id, this.prayerForm.value).subscribe(data => this.editedPrayer = data)
       this.dialogRef.close('edit');
       alert('Edited')
       console.log(`Edit : -${JSON.stringify(this.prayerForm.value)}`);

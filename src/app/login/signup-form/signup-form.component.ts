@@ -42,10 +42,10 @@ export class SignupFormComponent implements OnInit {
   onSubmit(signUp:NgForm){
     let formVal : User = {
       _id: '',
-      firstname :this.signUpForm.firstname,
-      lastname :  this.signUpForm.lastname,
-      username : this.signUpForm.username,
-      email: this.signUpForm.email,
+      firstname :this.signUpForm.firstname.trim().toLowerCase(),
+      lastname :  this.signUpForm.lastname.trim().toLowerCase(),
+      username : this.signUpForm.username.trim().toLowerCase(),
+      email: this.signUpForm.email.trim().toLowerCase(),
       password: this.signUpForm.password,
       pals: []
     };
@@ -70,6 +70,10 @@ export class SignupFormComponent implements OnInit {
           }
 
           console.log(err.error);
+        },
+        complete: () =>{
+          alert('Account Successfully made, please login');
+          this.router.navigate(['/login/login'],);
         }
        });
 

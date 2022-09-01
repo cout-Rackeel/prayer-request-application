@@ -10,7 +10,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 1rem ;
 }
 
 .dialog-container{
@@ -119,4 +119,42 @@ color:goldenrod;
 
 .pray.on{
   color: goldenrod;
+}
+
+.search-icon{
+  color: gray;
+  font-size: 1.25em;
+}
+
+.searchbar{
+  display: flex;
+  width: 400px;
+  height: 45px;
+  background-color: white;
+  align-items: center;
+  border-radius: 3px;
+  padding-left: 10px;
+  box-shadow: 2px 2px 2px inset rgba(192, 192, 192, 0.26);
+}
+
+.searchbar input{
+  padding-left: 10px;
+  border: none;
+  outline: none;
+  background-color: none;
+  width: 90%;
+  font-family: 'Comfortaa',sans-serif;
+  padding: 10px;
+  /* background-color: azure; */
+}
+
+.searchbar select{
+  height: 100%;
+  width: 80px;
+  text-align: center;
+  border: none;
+  outline: none;
+  font-family: 'Comfortaa', sans-serif;
+  background-color: rgba(119, 119, 119, 0.164);
+  border-left: 1px solid rgba(128, 128, 128, 0.301);
 }

@@ -1,7 +1,10 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { login } from 'src/app/core/models/login';
+import { Router } from '@angular/router';
+import { User } from 'src/app/core/models/user';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { SessionStorageService } from 'src/app/core/services/session-storage.service';
 
 @Component({
   selector: 'app-login-form',
@@ -15,25 +18,84 @@ export class LoginFormComponent implements OnInit {
     password:''
   }
 
-  passwordIncorrect : boolean | null = null;
-  userNotFound : boolean | null = null;
+  errorMessage = '';
+  roles: string[] | undefined = [];
+  passwordIncorrect : boolean = false;
+  userNotFound : boolean = false;
+  invalidUsername = '';
+  invalidPassword = '';
 
-  constructor(private authService : AuthService ) {
-
-   }
+  constructor(private authService : AuthService ,
+              private storageService : SessionStorageService,
+              private router : Router
+             ) {}
 
   ngOnInit(): void {
+
   }
 
   onSubmit(login:NgForm){
-    let formVal : login = this.loginForm;
-    this.authService.signIn(formVal).subscribe({
-      next : (resp) => {
-        alert(JSON.stringify(resp))
-      }
-    })
-    console.log(`${JSON.stringify(formVal)}`);
+    let formVal : Partial<User> = this.loginForm;
+    formVal.username = formVal.username?.trim().toLowerCase();
+    if(login.form.valid){
+      this.authService.signIn(formVal).subscribe({
+        next : (data) => {
+        this.storageService.saveUser(data);
+        },
+
+        error: (err:HttpErrorResponse) => {
+
+          alert(JSON.stringify(err.error.message))
+
+          if(err.error.userNotFound){
+            this.userNotFound = true;
+            this.invalidUsername = formVal.username!
+          }else{
+            this.userNotFound = false;
+          }
+
+          if(err.error.passwordInvalid){
+            this.passwordIncorrect = true
+            this.invalidPassword = formVal.password!
+
+          }else{
+            this.passwordIncorrect = false;
+          }
+
+          console.log(err.error);
+        },
+
+        complete: () =>{
+          this.storageService.isLoggedIn();
+          this.storageService.getUser();
+          location.reload();
+          alert('Sucessfully logged in!')
+          this.router.navigate(['/home'],);
+        }
+      })
+      console.log(`${JSON.stringify(formVal)}`);
+    }
+
   }
+
+  isChangedUsername(){
+    if(this.invalidUsername !== this.loginForm.username){
+      this.userNotFound = false
+      return true
+    }else{
+      return false
+    }
+  }
+
+  isChangedPassword(){
+    if(this.invalidPassword !== this.loginForm.password){
+      this.passwordIncorrect = false;
+      return true
+    }else{
+      return false;
+    }
+  }
+
 
 
 
