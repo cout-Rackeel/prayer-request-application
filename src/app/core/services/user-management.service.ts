@@ -36,14 +36,14 @@ export class UserManagementService {
       )
   }
 
-  editUserById (id:string , body:User) : Observable<User> {
+  editUserById(id:string , body:User) : Observable<User> {
     return this.http.patch<User>(`${this.REST_API_URL}/${id}`, body , this.HTTP_HEADER).pipe(
       tap(editedUser => console.log(`Edited User :- ${JSON.stringify(editedUser)}`)),
       catchError(err => this.handleErrors(err))
     )
   }
 
-  deleteUserByID(id:string) : Observable<User> {
+  deleteUserById(id:string) : Observable<User> {
     return this.http.delete<User>(`${this.REST_API_URL}/${id}` , this.HTTP_HEADER).pipe(
       tap(deletedUser => console.log(`Deleted User :- ${JSON.stringify(deletedUser)}`)),
       catchError(err => this.handleErrors(err))

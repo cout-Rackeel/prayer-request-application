@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin',
@@ -12,4 +13,16 @@ export class AdminComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  simpleAlert(){
+    Swal.fire('Hello world!');
+  }
+
+  alertWithSuccess(){
+    Swal.fire('Thank you...', 'You have succesfully logged in!', 'success')
+  }
+
+
+
 }
+
+

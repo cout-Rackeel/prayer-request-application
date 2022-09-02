@@ -9,7 +9,7 @@ import { UserManagementComponent } from './user-management/user-management.compo
 @NgModule({
   declarations: [
     AdminComponent,
-    UserManagementComponent
+    UserManagementComponent,
   ],
   imports: [
     CommonModule,

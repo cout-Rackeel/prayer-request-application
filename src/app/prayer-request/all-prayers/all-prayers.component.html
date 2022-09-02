@@ -24,7 +24,7 @@
          <div class="searchbar">
            <fa-icon [icon]="search" class="search-icon" (click)="searchFor()"></fa-icon>
            <input type="text" placeholder="Search by" formControlName="searchQuery" #searchQuery required>
-           <select name="searchOptions" id="" formControlName="criterion" required>
+           <select name="searchOptions" id="" formControlName="key" required>
              <option value="name">Name</option>
              <option value="title">Title</option>
              <option value="prayerRequest">Request</option>
@@ -34,8 +34,8 @@
        </div>
 
        <div *ngIf="searchVal">
-        <p>Results for search "{{searchQuery.value}}" in category "{{searchVal.criterion}}" </p>
-        {{searchVal.result}}
+        <p>Results for search "{{searchQuery.value}}" in category "{{searchVal.key}}" </p>
+        {{searchVal.result[0]}}
        <div *ngFor="let searchResult of searchVal.result">
           <div>{{searchResult | json}}</div>
        </div>

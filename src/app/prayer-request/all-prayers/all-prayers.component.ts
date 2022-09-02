@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit } from '@angular/core';
 import { PrayerFormComponent } from '../prayer-form/prayer-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { faDeleteLeft, faEdit, faListDots, faPray, faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { DialogLinkService, Prayer, PrayerSearchService, PrayerService, SessionStorageService } from 'src/app/core';
+import { DialogLinkService, Prayer, PrayerService, SearchService, SessionStorageService } from 'src/app/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SearchQuery } from 'src/app/core/models/search-query';
 import { SearchResult } from 'src/app/core/models/search-result';
@@ -10,6 +10,7 @@ import { User } from 'src/app/core/models/user';
 import { MoreInfoComponent } from '../more-info/more-info.component';
 import { DialogPosition } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-all-prayers',
@@ -26,10 +27,10 @@ export class AllPrayersComponent implements OnInit {
   editPrayerRequest !: Prayer;
   editSwitch !: boolean;
   search = faSearch;
-  searchVal !: SearchResult;
+  searchVal !: any;
 
   searchForm = new FormGroup({
-    criterion : new FormControl('name' , [Validators.required]),
+    key : new FormControl('name' , [Validators.required]),
     searchQuery : new FormControl('' , [Validators.required])
   })
 
@@ -38,7 +39,7 @@ export class AllPrayersComponent implements OnInit {
     private dialog : MatDialog,
     private prayerService: PrayerService,
     private dialogLink : DialogLinkService,
-    private searchService : PrayerSearchService,
+    private searchService : SearchService,
     private storageService : SessionStorageService,
     private router : Router
 
@@ -92,16 +93,32 @@ export class AllPrayersComponent implements OnInit {
     })
     }
 
-  deleteRequest(id:string){
-      const answer = window.prompt('Are you sure you want to delete prayer , type yes', 'no');
-
-      if(answer === 'yes'){
-        this.prayerService.deletePrayerRequest(id).subscribe();
-        alert(`Deleted ${id}`);
-        this.retrievePrayers();
-      }
-
-
+    deleteRequest(id:string){
+      let deleted : any;
+        Swal.fire({
+          title: 'Are you sure want to remove?',
+          text: 'You will not be able to recover this file!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, delete it!',
+          cancelButtonText: 'No, keep it'
+        }).then((result) => {
+          if (result.value) {
+            this.prayerService.deletePrayerRequest(id).subscribe( data => deleted = data);
+            Swal.fire(
+              'Deleted!',
+              'Your prayer request has been deleted.',
+              'success'
+            )
+            this.retrievePrayers();
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire(
+              'Cancelled',
+              `${deleted.result.title} has not been deleted`,
+              'error'
+            )
+          }
+        })
     }
 
   highlightPrayer(id : string){
@@ -145,22 +162,14 @@ export class AllPrayersComponent implements OnInit {
 
   searchFor(){
     if(this.searchForm.valid){
-      let body : SearchQuery<any> = {
-        criterion : this.searchForm.value.criterion,
-        searchQuery: this.searchForm.value.searchQuery
-      };
-      this.searchService.getSearchResult(body).subscribe( data => {
-        this.searchVal = data
-        console.log(data);
-      });
-    }else{
-      let body : SearchResult = {
-        criterion : this.searchForm.value.criterion,
-        result: [new Prayer()]
-      }
-      this.searchVal = body
-    }
+      let key = this.searchForm.value.key;
+      let query = this.searchForm.value.searchQuery;
 
+      this.searchService.getSearchResult(key , query).subscribe( data => {
+        this.searchVal = data
+        console.log(query as string)
+      });
+    }
   }
 
 

@@ -8,12 +8,16 @@ import { SearchResult } from '../models/search-result';
 @Injectable({
   providedIn: 'root'
 })
-export class PrayerSearchService {
+export class SearchService {
 
-  private REST_API_URL = 'http://localhost:3250/api/search/prayers';
+  private REST_API_URL = 'http://localhost:3250/api/search';
   private HTTP_HEADER = {
     headers : new HttpHeaders({
       'Content-Type' : 'application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods':'POST, GET, OPTIONS, PUT, DELETE',
+      'Access-Control-Allow-Headers':'Content-Type, X-Auth-Token, Origin, Authorization'
+
     })
   }
 
@@ -23,8 +27,8 @@ export class PrayerSearchService {
 
   constructor(private http : HttpClient) { }
 
-  getSearchResult(body:SearchQuery<any>):Observable<any> {
-   return this.http.post<any>(this.REST_API_URL,body,this.HTTP_HEADER).pipe(
+  getSearchResult(key:string , query:string):Observable<any> {
+   return this.http.post<any>(`${this.REST_API_URL}/prayers/${key}`,query,this.HTTP_HEADER).pipe(
     tap( (searchResults:any) => console.log(`Search Results ${JSON.stringify(searchResults)}`)),
     catchError(err => this.handleErrors(err))
    );

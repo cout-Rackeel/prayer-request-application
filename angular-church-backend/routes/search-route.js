@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { searchBy } = require('../controllers/search-prayers-controller');
+
+const { searchBy } = require('../controllers/search-controller');
 
 
 router
-.route('/')
+.route('/prayers/:key')
 .post(searchBy)
 
 module.exports = router;

@@ -77,7 +77,7 @@ exports.deletePrayer = async (req,res) => {
 
     const {id} = req.params;
     const deletedPrayer = await Prayer.findByIdAndRemove(id);
-    res.status(200).send(`Deleted ${JSON.stringify(deletedPrayer)}`);
+    res.status(200).send({message:'Deleted', result:deletedPrayer});
 
   }catch(err){
     res.status(500).send({message:err})

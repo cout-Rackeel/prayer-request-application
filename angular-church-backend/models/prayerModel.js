@@ -18,6 +18,7 @@ const PrayerSchema = new mongoose.Schema({
   name:{
     type:String
   },
+
   prayerRequest:{
     type:String,
     required: [true , 'A request is required']

@@ -1,3 +1,5 @@
+
+
 export class Prayer{
   _id:string;
   userId: string;
@@ -5,11 +7,11 @@ export class Prayer{
   name:string;
   date:Date;
   prayerRequest:string;
-  commitedToPray:string[];
+  commitedToPray:any[];
   status:boolean;
   updates:string[];
 
-  constructor(_id?:string , userId?:string, title?:string, name?:string, date?: Date,  prayerRequest?:string, commitedToPray?:string[], status?:boolean, updates?:string[] ) {
+  constructor(_id?:string , userId?:string, title?:string, name?:string, date?: Date,  prayerRequest?:string, commitedToPray?:any[], status?:boolean, updates?:string[] ) {
       this._id = _id!;
       this.userId = userId!;
       this.title = title!;

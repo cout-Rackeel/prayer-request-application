@@ -1,9 +1,16 @@
-<div>
-  <p>more-info works!</p>
-  <span mat-raised-button color="warn" mat-dialog-close>X</span>
+<div style="display: flex; width: 100%; justify-content: space-between; align-items: center; margin: 20px 0px;">
+  <h2>Hey {{prayerRequest.name | titlecase}}</h2>
+  <button mat-raised-button color="warn" mat-dialog-close>Close</button>
 </div>
 
-<p>{{prayerRequest.title}}</p>
-<p>{{prayerRequest.commitedToPray}}</p>
+<div *ngIf="prayerRequest.commitedToPray != []">
+  <h2>These users have commited to pray for you</h2>
+  <p *ngFor="let commiter of prayerRequest.commitedToPray">{{commiter.username}}</p>
+</div>
+
+<div *ngIf="prayerRequest.commitedToPray == []">
+  <h2> No users have commited to pray for you as yet.</h2>
+</div>
+
 
 

@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/core/models/user';
 import { AuthService } from 'src/app/core/services/auth.service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -56,7 +57,6 @@ export class SignupFormComponent implements OnInit {
           this.usernameAlreadyUsed = false;
           this.emailAlreadyUsed = false;
           console.log(`${JSON.stringify(formVal)}`);
-          alert(`Form Sent`)
         },
         error: (err:HttpErrorResponse) => {
           if(err.error.errType == 'username'){
@@ -72,7 +72,7 @@ export class SignupFormComponent implements OnInit {
           console.log(err.error);
         },
         complete: () =>{
-          alert('Account Successfully made, please login');
+          Swal.fire('Thank you...', 'You have succesfully signed up! Now login in to your account', 'success');
           this.router.navigate(['/login/login'],);
         }
        });

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { DialogLinkService, PrayerSearchService, PrayerService, TruthService, UserManagementService } from './services';
+import { DialogLinkService, SearchService, PrayerService, TruthService, UserManagementService } from './services';
 import { FormsModule } from '@angular/forms';
 import { MatchPasswordDirective } from './utils/match-password.directive';
 import { CheckPasswordVal } from './utils';
@@ -27,7 +27,7 @@ import { RolesService } from './services/roles.service';
     TruthService,
     UserGuard,
     CheckPasswordVal,
-    PrayerSearchService,
+    SearchService,
     UserManagementService,
     RolesService
     // httpInterceptorProviders,
