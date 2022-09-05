@@ -4,12 +4,20 @@ const cors = require('cors');
 const morgan = require('morgan');
 const prayerRoute = require('./routes/prayer-route');
 const userPrayerRoute = require('./routes/user-prayer-route');
-const searchPrayerRoute = require('./routes/search-prayers-route');
-const userRoute = require('./routes/user-route');
+const searchRoute = require('./routes/search-route');
+const usersRoute = require('./routes/users-route');
+const rolesRoute = require('./routes/roles-route');
 const truthRoute = require('./routes/truth-route');
-const corsOptions = {origin : "http://localhost:4200"};
+const authRoute = require('./routes/auth-route');
 const dotenv = require('dotenv');
-const { setResponseHeader } =  require('./middlewares/setResponse');
+
+const corsOptions = {
+  origin : "http://localhost:4200",
+  credentials:true,
+  exposedHeaders:[
+    'Content-Length', 'X-Foo', 'X-Bar'
+  ]
+};
 
 dotenv.config({path:'./config/config.env'})
 
@@ -18,18 +26,19 @@ const app = express();
 app.use(morgan('dev'));
 app.use(express.json()); // parse requests of content-type - application/json
 app.use(express.urlencoded({extended:true})); // parse requests of content-type - application/x-www-form-urlencoded
-app.use(cors('*'));
+app.use(cors(corsOptions));
+
 app.use(
   cookieSession({
     name:"user-session",
     secret:process.env.COOKIE_SECRET,
     httpOnly:true,
-    code:'ball '
+    code:'ball'
   })
 );
 
 
-// MIDDLEWARES 
+// MIDDLEWARES
 app.use((req, res, next) =>{
   switch (req.method){
     case 'DELETE':
@@ -53,16 +62,27 @@ app.use((req, res, next) =>{
   next();
 });
 
+setResponseHeader = (req, res , next) => {
+  res.header(
+    'Access-Control-Access-Origin','*',
+    'Access-Control-Allow-Methods','POST, GET, OPTIONS, PUT, DELETE',
+    'Access-Control-Allow-Headers','Content-Type, X-Auth-Token, Origin, Authorization'
+  );
+  next()
+}
+
 // ROUTES MIDDLEWARE
-  app.use('/api/prayers', setResponseHeader , prayerRoute);
-  app.use('/api/truth', setResponseHeader , truthRoute);
-  app.use('/api/user/prayers', setResponseHeader , userPrayerRoute);
-  app.use('/api/search/prayers', setResponseHeader , searchPrayerRoute);
+  app.use('/api/prayers',  prayerRoute);
+  app.use('/api/truth',  truthRoute);
+  app.use('/api/users', setResponseHeader, usersRoute);
+  app.use('/api/user/prayers',  userPrayerRoute);
+  app.use('/api/search/',  searchRoute);
+  app.use('/api/roles', rolesRoute);
 
   // app.use('/api/user' , userRoute);
   // app.use('/api/auth/signin', signinRoute);
   // app.use('/api/auth/signup', signupRoute);
-  // app.use('/api/auth/signout', signoutRoute); 
+  // app.use('/api/auth/signout', signoutRoute);
   // app.use('/api/test/all',)
   // app.use('/api/test/user',)
   // app.use('/api/test/mod',)

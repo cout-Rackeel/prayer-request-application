@@ -2,18 +2,18 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of, tap } from 'rxjs';
 import { Prayer } from '../models';
-import { SearchQuery } from '../models/search-query';
-import { SearchResult } from '../models/search-result';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class PrayerSearchService {
+export class SearchService {
 
   private REST_API_URL = 'http://localhost:3250/api/search/prayers';
   private HTTP_HEADER = {
     headers : new HttpHeaders({
       'Content-Type' : 'application/json',
+
     })
   }
 
@@ -23,8 +23,8 @@ export class PrayerSearchService {
 
   constructor(private http : HttpClient) { }
 
-  getSearchResult(body:SearchQuery<any>):Observable<any> {
-   return this.http.post<any>(this.REST_API_URL,body,this.HTTP_HEADER).pipe(
+  getSearchResult(key:string , query:string):Observable<any> {
+   return this.http.post<any>(`${this.REST_API_URL}/${key}`,query,this.HTTP_HEADER).pipe(
     tap( (searchResults:any) => console.log(`Search Results ${JSON.stringify(searchResults)}`)),
     catchError(err => this.handleErrors(err))
    );

@@ -5,6 +5,8 @@ import { faDeleteLeft, faEdit, faHandDots, faList, faPray, faSearch, faTrash } f
 import { DialogLinkService, Prayer, PrayerService, SessionStorageService } from 'src/app/core';
 import { User } from 'src/app/core/models/user';
 import { MoreInfoComponent } from '../more-info/more-info.component';
+import Swal from 'sweetalert2';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-your-prayers',
@@ -20,7 +22,12 @@ export class YourPrayersComponent implements OnInit {
   editPrayerRequest !: Prayer;
   editSwitch !: boolean;
   search = faSearch;
+  searchVal !: any[];
 
+  searchForm = new FormGroup({
+    key : new FormControl('title' , [Validators.required]),
+    searchQuery : new FormControl('' , [Validators.required])
+  })
 
   constructor(
     private dialog : MatDialog,
@@ -37,9 +44,6 @@ export class YourPrayersComponent implements OnInit {
   ngOnInit(): void {
     this.retrievePrayers();
     this.setBehavioral();
-    setTimeout(()=>{
-      this.ngOnInit()
-    }, 5 *1000)
   }
 
   setBehavioral(){
@@ -56,20 +60,13 @@ export class YourPrayersComponent implements OnInit {
         minHeight:"350px"
       }).afterClosed().subscribe(val=>{
         if(val === 'save'){
-          this.retrievePrayers()
+          this.retrievePrayers();
         }
       })
     }
 
-  // findPrayer(id:string){
-  //   return this.prayerService.findPrayerRequest(id).subscribe(data => {this.editPrayerRequest = data
-  //     console.log(`${JSON.stringify(this.editPrayerRequest)}`);
-  //   })
-
-  // }
 
   editPrayer(id:string){
-
     this.dialogLink.setEditSwitchVal(true);
     return this.prayerService.findPrayerRequest(id).subscribe(prayer => {
       this.editPrayerRequest = prayer
@@ -78,7 +75,8 @@ export class YourPrayersComponent implements OnInit {
         width:"60%",
         minHeight:"350px"
       }).afterClosed().subscribe(val=>{
-        this.dialogLink.setEditSwitchVal(false)
+        this.dialogLink.setEditSwitchVal(false);
+        this.retrievePrayers();
         console.log(`${JSON.stringify(this.editPrayerRequest)}`);
       })
     })
@@ -86,16 +84,57 @@ export class YourPrayersComponent implements OnInit {
 
 
     deleteRequest(id:string){
-      const answer = window.prompt('Are you sure you want to delete prayer , type yes', 'no');
+      let deleted : any;
+        Swal.fire({
+          title: 'Are you sure want to delete this prayer request?',
+          text: 'You will not be able to recover this request later!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, delete it!',
+          cancelButtonText: 'No, keep it'
+        }).then((result) => {
+          if (result.value) {
+            this.prayerService.deletePrayerRequest(id).subscribe( data => deleted = data);
+            Swal.fire(
+              'Deleted!',
+              'Your prayer request has been deleted.',
+              'success'
+            )
+            this.retrievePrayers();
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire(
+              'Cancelled',
+              `${deleted.result.title} has not been deleted`,
+              'error'
+            )
+          }
+        })
+    }
 
-      if(answer === 'yes'){
 
-        this.prayerService.deletePrayerRequest(id).subscribe();
+    searchForDemo(){
+      if(this.searchForm.valid){
+            let key = this.searchForm.value.key;
+            let query = this.searchForm.value.searchQuery.trim().toLowerCase();
 
-        alert(`Deleted ${id}`);
+            switch(true){
+
+              case key == 'title':
+                this.searchVal = [this.prayerRecords.find((prayer:Prayer) => prayer.title.trim().toLowerCase() == query)];
+              break;
+
+              case key == 'prayerRequest':
+                this.searchVal = [this.prayerRecords.find((prayer:Prayer) => prayer.prayerRequest.trim().toLowerCase() == query)];
+              break;
+
+              default:
+                this.searchVal = [this.prayerRecords.find((prayer:Prayer) => prayer.name.trim().toLowerCase() == query)];
+              break;
+            }
+
+
+          console.log(this.searchVal);
       }
-
-
     }
 
 

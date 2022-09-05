@@ -1,5 +1,4 @@
 
-//? TO BE REVIEWED COPIED
 const { verifySignUp } = require("../middlewares");
 const controller = require("../controllers/auth-controller");
 
@@ -27,3 +26,34 @@ module.exports = function(app) {
   //Sign Out route
   app.post("/api/auth/signout" , controller.signout)
 };
+
+
+
+// const express = require('express');
+// const router = express.Router();
+// const { verifySignUp } = require("../middlewares");
+// const {signup , signin, signout} = require("../controllers/auth-controller");
+
+// router
+//   .route('/signup')
+//   .post([
+//     verifySignUp.checkDuplicateUsernameOrEmail,
+//     verifySignUp.checkRolesExisted
+//     ], signup)
+
+// router
+//   .route('/signup')
+//   .post([
+//     verifySignUp.checkDuplicateUsernameOrEmail,
+//     verifySignUp.checkRolesExisted
+//     ], signup)
+
+// router
+//   .route('/signin')
+//   .post(signin)
+
+// router
+//   .route('/signin')
+//   .post(signout)
+
+// module.exports = router;

@@ -18,6 +18,7 @@ const PrayerSchema = new mongoose.Schema({
   name:{
     type:String
   },
+
   prayerRequest:{
     type:String,
     required: [true , 'A request is required']
@@ -27,7 +28,9 @@ const PrayerSchema = new mongoose.Schema({
   },
   commitedToPray:[{
     type: mongoose.Schema.Types.ObjectId,
-    ref:'User'
+    ref:'User',
+    unique:[true ,'You have already commited to pray'],
+    sparse:true,
   }],
   status:{
     type:Boolean

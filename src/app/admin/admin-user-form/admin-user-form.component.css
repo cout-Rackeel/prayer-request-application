@@ -1,0 +1,92 @@
+.form-header{
+  border-bottom: 0.1px solid lightgray;
+  display: flex;
+  width: 100%;
+  justify-content:space-between;
+  align-items: center;
+}
+
+.ocoj-image
+{
+  width: 200px;
+}
+
+.heading{
+  padding-top: 55px;
+  font-family: Comfortaa, sans-serif;
+  background-clip: text;
+  background-image: linear-gradient(60deg, red,#333);
+  color: transparent;
+  font-weight: 600;
+  font-size: 24px;
+}
+
+form{
+  margin: 20px;
+
+}
+
+.form-control{
+  position: relative;
+  padding-bottom: 15px;
+  border-bottom: 0.1px ridge lightgray ;
+  margin-bottom: 12px;
+}
+
+.form-group{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr  1fr;
+  grid-gap:2em;
+}
+
+.form-control label{
+display: block;
+margin: 10px 2px 13px 2px;
+font-family: Lato, sans-serif;
+font-size: 22px;
+font-weight: 800;
+
+}
+
+.form-control input, .form-control textarea{
+  border-radius: 10px/20px;
+  outline: none;
+  border: 0.1px solid lightgray;
+  height: 35px;
+  padding: 20px;
+  font-family: Comfortaa, sans-serif;
+  font-size: 15px;
+  color: #333;
+  text-transform: uppercase;
+}
+
+.form-control input{
+  width: 100%;
+}
+
+.form-control textarea{
+  width: 60%;
+  height: 30%;
+
+}
+
+.form-control  .title{
+  width: 70%;
+}
+
+.error-container{
+  transition: all 300ms ease 0s;
+
+}
+.error{
+  color:red;
+  display:inline-block;
+  position: absolute;
+  bottom: 2px;
+  right: 20px;
+  font-family: Montserrat, sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+}
+

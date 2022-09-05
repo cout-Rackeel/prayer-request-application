@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/core/models/user';
 import { AuthService } from 'src/app/core/services/auth.service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class SignupFormComponent implements OnInit {
     email:'',
     password:'',
     confirmPassword:'',
-    pals: [],
+    pals: '',
     roles:[]
   }
 
@@ -40,14 +41,13 @@ export class SignupFormComponent implements OnInit {
   }
 
   onSubmit(signUp:NgForm){
-    let formVal : User = {
+    let formVal : Partial<User> = {
       _id: '',
       firstname :this.signUpForm.firstname.trim().toLowerCase(),
       lastname :  this.signUpForm.lastname.trim().toLowerCase(),
       username : this.signUpForm.username.trim().toLowerCase(),
       email: this.signUpForm.email.trim().toLowerCase(),
-      password: this.signUpForm.password,
-      pals: []
+      password: this.signUpForm.password.trim(),
     };
 
     if(signUp.form.valid){
@@ -56,23 +56,22 @@ export class SignupFormComponent implements OnInit {
           this.usernameAlreadyUsed = false;
           this.emailAlreadyUsed = false;
           console.log(`${JSON.stringify(formVal)}`);
-          alert(`Form Sent`)
         },
         error: (err:HttpErrorResponse) => {
           if(err.error.errType == 'username'){
             this.usernameAlreadyUsed = true;
-            this.invalidUsername = formVal.username;
+            this.invalidUsername = formVal.username!;
           }
 
           if(err.error.errType == 'email'){
             this.emailAlreadyUsed = true;
-            this.invalidEmail = formVal.email;
+            this.invalidEmail = formVal.email!;
           }
 
           console.log(err.error);
         },
         complete: () =>{
-          alert('Account Successfully made, please login');
+          Swal.fire('Thank you...', 'You have succesfully signed up! Now login in to your account', 'success');
           this.router.navigate(['/login/login'],);
         }
        });
@@ -83,7 +82,7 @@ export class SignupFormComponent implements OnInit {
     }
 
   isChangedUsername(){
-      if(this.invalidUsername !== this.signUpForm.username){
+      if(this.invalidUsername !== this.signUpForm.username.trim().toLowerCase()){
         this.usernameAlreadyUsed = false
         return true
       }else{

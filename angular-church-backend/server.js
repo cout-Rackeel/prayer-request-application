@@ -9,7 +9,7 @@ const ROLES = db.ROLES;
 
 dotenv.config({path:'./config/config.env'})
 
-const DB_CONN = process.env.NODE_ENV === 'production' ? 
+const DB_CONN = process.env.NODE_ENV === 'production' ?
 process.env.DATABASE_PRODUCTION.replace('<PWD>' , process.env.DATABASE_PASSWORD) : process.env.DATABASE;
 
 mongoose.connect(DB_CONN)
@@ -26,7 +26,7 @@ mongoose.connect(DB_CONN)
 // For each role defined in the db config file this function will save it to the mongoose document
 saveDoc = (rolesArr) => {
 
-  
+
   rolesArr.forEach((role) => {
     new Role({
       name:role
@@ -38,7 +38,7 @@ saveDoc = (rolesArr) => {
     });
   })
 
-} 
+}
 
 // Intialize Roles Document in Mongo Database
  initial = () => {
@@ -52,6 +52,5 @@ saveDoc = (rolesArr) => {
 
 // routes
 require('./routes/auth-route')(app);
-require('./routes/user-route')(app);
-
+require('./routes/test-user-route')(app);
 app.listen(port , () => console.log(`Connected to port... ${port}`));

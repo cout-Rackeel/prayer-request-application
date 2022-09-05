@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { User } from 'src/app/core/models/user';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { SessionStorageService } from 'src/app/core/services/session-storage.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login-form',
@@ -41,11 +42,12 @@ export class LoginFormComponent implements OnInit {
       this.authService.signIn(formVal).subscribe({
         next : (data) => {
         this.storageService.saveUser(data);
+        Swal.fire('Thank you...', 'You have succesfully logged in!', 'success');
         },
 
         error: (err:HttpErrorResponse) => {
 
-          alert(JSON.stringify(err.error.message))
+          Swal.fire('Oops.......', JSON.stringify(err.error.message), 'error')
 
           if(err.error.userNotFound){
             this.userNotFound = true;
@@ -68,14 +70,11 @@ export class LoginFormComponent implements OnInit {
         complete: () =>{
           this.storageService.isLoggedIn();
           this.storageService.getUser();
-          location.reload();
-          alert('Sucessfully logged in!')
-          this.router.navigate(['/home'],);
+          window.location.reload();
         }
       })
       console.log(`${JSON.stringify(formVal)}`);
     }
-
   }
 
   isChangedUsername(){

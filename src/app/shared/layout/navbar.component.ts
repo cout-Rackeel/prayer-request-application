@@ -5,6 +5,7 @@ import { faSignIn } from '@fortawesome/free-solid-svg-icons';
 import { faDonate } from '@fortawesome/free-solid-svg-icons';
 import { SessionStorageService } from "src/app/core";
 import { User } from "src/app/core/models/user";
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -76,9 +77,20 @@ getUser(){
 
 logOut(){
   this.storageService.logOut();
-  alert('logged Out');
+  Swal.fire('Thank you...', 'You have succesfully logged out!', 'success')
   this.getLoginStatus();
   this.router.navigate(['/home']);
+}
+
+checkAdmin(){
+  if(this.user.roles){
+    for( var i = 0; i <= this.user.roles.length-1; i++){
+      if(this.user.roles[i] == "ROLE_ADMIN"){
+       return true
+      }
+    }
+  }
+  return false;
 }
 
 

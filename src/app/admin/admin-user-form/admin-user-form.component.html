@@ -1,0 +1,110 @@
+<div>
+  <header class="form-header">
+    <img src="assets/banner-imgs/cropped-ocoj.png" alt="" class="ocoj-image">
+    <h2 class="heading">Create User</h2>
+  </header>
+
+  <div mat-dialog-content>
+    <form
+    action=""
+    name="newUserForm"
+    novalidate
+    #userForm="ngForm"
+   (ngSubmit)="userForm.form.valid && onSubmit(userForm)">
+
+      <div class="form-group">
+
+        <div class="form-control">
+        <label for="firstname">Firstname</label>
+        <input type="text"
+        name="firstname"
+        required
+        [(ngModel)]="newUserForm.firstname"
+        #firstname="ngModel"
+        >
+      </div>
+
+      <div class="form-control">
+        <label for="lastname">Lastname</label>
+        <input type="text"
+        name="lastname"
+        required
+        [(ngModel)]="newUserForm.lastname"
+        #lastname="ngModel"
+        >
+      </div>
+      </div>
+
+      <div class="form-control">
+        <label for="username">Username</label>
+        <input type="text"
+        name="username"
+        required
+        [(ngModel)]="newUserForm.username"
+        #username="ngModel"
+        >
+      </div>
+
+      <div class="form-control">
+        <label for="email">Email</label>
+        <input type="email"
+        name="email"
+        required
+        [(ngModel)]="newUserForm.email"
+        #email="ngModel"
+        >
+
+      </div>
+
+      <div class="form-group">
+
+        <div class="form-control">
+          <label for="password">Password</label>
+          <input type="password"
+            name="password"
+            required
+           [(ngModel)]="newUserForm.password"
+           #password="ngModel"
+          >
+        </div>
+
+        <div class="form-control">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password"
+          name="confirmPassword"
+          required
+         [(ngModel)]="newUserForm.confirmPassword"
+         #confirmPassword="ngModel">
+        </div>
+      </div>
+
+      <div style="
+      width:100%;
+      display:flex; justify-content:space-around; flex-direction: row;
+      align-items: center;">
+
+        <div *ngFor="let role of roles">
+        <label for="{{role.name}}">{{role.name}}</label>
+        <input type="checkbox"
+        name="{{role.name}}"
+        id="{{role.name}}"
+        value="{{role._id}}"
+        (change)="onChange()"
+        [(ngModel)]="role.isSelected"
+        >
+        </div>
+
+      </div>
+
+    </form>
+
+    <div mat-dialog-action [align]="'end'">
+
+      <button mat-raised-button color="warn" mat-dialog-close>Close</button>
+      <button mat-raised-button color="primary" mat-dialog-close
+      (click)="onSubmit(userForm)" [disabled]="userForm.invalid"
+      >Add User</button>
+      </div>
+  </div>
+
+</div>
