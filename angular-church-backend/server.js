@@ -53,5 +53,4 @@ saveDoc = (rolesArr) => {
 // routes
 require('./routes/auth-route')(app);
 require('./routes/test-user-route')(app);
-
 app.listen(port , () => console.log(`Connected to port... ${port}`));

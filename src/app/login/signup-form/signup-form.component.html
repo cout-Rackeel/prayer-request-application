@@ -72,7 +72,7 @@
       >
 
       <span>
-        <div *ngIf="username.invalid && (username.touched && username.dirty || signUp.submitted)" class="error">
+        <div *ngIf="username.invalid && (username.touched || signUp.submitted)" class="error">
           <div *ngIf="username.errors?.['required']">Username is required</div>
           <div *ngIf="username.errors?.['minlength']">Username must be at least 6 characters</div>
           <div *ngIf="username.errors?.['maxLength']">Username must be less than 20 characters</div>

@@ -1,15 +1,31 @@
-<div style="display: flex; width: 100%; justify-content: space-between; align-items: center; margin: 20px 0px;">
-  <h2>Hey {{prayerRequest.name | titlecase}}</h2>
-  <button mat-raised-button color="warn" mat-dialog-close>Close</button>
+<div class="dialog-heading">
+  <div>
+  <h2 class="heading-text big">Hey {{prayerRequest.name | titlecase}}</h2>
+  <hr class="undercut-2">
+  </div>
+  <button mat-stroked-button mat-dialog-close>Close</button>
 </div>
 
-<div *ngIf="prayerRequest.commitedToPray != []">
-  <h2>These users have commited to pray for you</h2>
-  <p *ngFor="let commiter of prayerRequest.commitedToPray">{{commiter.username}}</p>
+<div class="body" *ngIf="prayerRequest.commitedToPray[0] != undefined">
+
+  <div>
+  <h2 class="heading-text sml">These users have commited to pray for you</h2>
+  <hr class="undercut-2">
+  </div>
+
+
+  <div class="btn-display">
+    <div class="hover-trig" *ngFor="let commiter of prayerRequest.commitedToPray">
+    <div class="committed-user">{{commiter.username | titlecase}}</div>
+   </div>
+  </div>
+
 </div>
 
-<div *ngIf="prayerRequest.commitedToPray == []">
-  <h2> No users have commited to pray for you as yet.</h2>
+<div class="body" *ngIf="prayerRequest.commitedToPray[0] == undefined">
+  <h2 class="heading-text sml">No users have commited to pray for you as yet.</h2>
+  <hr class="undercut-2">
+
 </div>
 
 

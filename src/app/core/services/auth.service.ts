@@ -19,7 +19,7 @@ export class AuthService {
 
   constructor(private http : HttpClient) { }
 
-  signUp(body:User) : Observable<User | HttpErrorResponse> {
+  signUp(body:Partial<User>) : Observable<User | HttpErrorResponse> {
     return this.http.post<User>(`${this.REST_API_URL}/signup`, body , this.HTTP_HEADER).pipe(
       tap(signedInMessage => console.log(`User successfully signed Up :- ${JSON.stringify(signedInMessage)}`)),
       catchError(err => throwError(() =>  err  ))

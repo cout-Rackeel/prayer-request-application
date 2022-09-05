@@ -29,7 +29,7 @@ const PrayerSchema = new mongoose.Schema({
   commitedToPray:[{
     type: mongoose.Schema.Types.ObjectId,
     ref:'User',
-    unique:[true ,'You are already pals with this user'],
+    unique:[true ,'You have already commited to pray'],
     sparse:true,
   }],
   status:{

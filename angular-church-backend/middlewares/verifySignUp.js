@@ -1,7 +1,7 @@
 const User = require('../models/userModel');
-const {ROLES} = require('../models/index');
+const {role , ROLES} = require('../models/index');
 
-console.log(`${ROLES}`);
+
 
 checkDuplicateUsernameOrEmail = async (req, res , next) => {
   try{
@@ -17,9 +17,9 @@ checkDuplicateUsernameOrEmail = async (req, res , next) => {
       res.status(400).send({ message: "Failed! Email is already in use!", errType:'email' })
       return;
     }
-    
+
     next();
-     
+
   }catch(err){
       res.status(500).send({message:err.message, data:'an err'})
       return;
@@ -27,19 +27,27 @@ checkDuplicateUsernameOrEmail = async (req, res , next) => {
 };
 
 
-checkRolesExisted = (req, res, next) => {
+checkRolesExisted = async (req, res, next) => {
+  try{
 
-    if (req.body.roles || req.body.roles == typeof Array) {
-      for (let i = 0; i < req.body.roles.length; i++) {
-        if (!ROLES.includes(req.body.roles)) {
-          res.status(400).send({
-            message: `Failed! Role ${req.body.roles} does not exist!`
-          });
-          return;
+    const roles = await role.find();
+    const rolesIdArr = roles.map((role) => role.id);
+
+      if (req.body.roles || req.body.roles == typeof Array) {
+        for (let i = 0; i < req.body.roles.length; i++) {
+          if(!rolesIdArr.includes(req.body.roles)) {
+            res.status(400).send({
+              message: `Failed! Role ${req.body.roles} does not exist!${rolesIdArr}`
+            });
+            return;
+          }
         }
       }
-    }
-    next();
+      next();
+  }catch(err){
+
+  }
+
   };
 
 const verifySignUp = {

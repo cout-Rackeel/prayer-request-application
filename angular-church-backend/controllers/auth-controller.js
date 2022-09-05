@@ -15,15 +15,14 @@ var salt = 10;
       username:req.body.username,
       email:req.body.email,
       password:bcrypt.hashSync(req.body.password, salt),
-      pals:req.body.pals
+      pals:req.body.pals,
+      roles:req.body.roles
     });
 
     let savedUser = await user.save();
-    let rolesFound = await Role.find({name:{$in: req.body.roles}});
     let defaultRole = await Role.findOne({name: "user"})
 
     if(req.body.roles){
-      savedUser.roles = rolesFound.map((role) => role._id);
       savedUser.roles.push(defaultRole._id);
       savedUser = await savedUser.save();
       res.send({ message: `User was registered successfully yes roles! ${JSON.stringify(req.body.roles)}` });

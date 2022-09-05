@@ -22,7 +22,6 @@ export class MoreInfoComponent implements OnInit {
     this.getPrayerRequest();
   }
 
-
   getPrayerRequest(){
     this.prayerService.findPrayerRequest(this.data).subscribe(data => this.prayerRequest = data);
   }

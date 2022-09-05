@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit } from '@angular/core';
 import { PrayerFormComponent } from '../prayer-form/prayer-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { faDeleteLeft, faEdit, faListDots, faPray, faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { DialogLinkService, Prayer, PrayerService, SearchService, SessionStorageService } from 'src/app/core';
+import { DialogLinkService, SearchService, Prayer, PrayerService, SessionStorageService } from 'src/app/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SearchQuery } from 'src/app/core/models/search-query';
 import { SearchResult } from 'src/app/core/models/search-result';
@@ -27,7 +27,11 @@ export class AllPrayersComponent implements OnInit {
   editPrayerRequest !: Prayer;
   editSwitch !: boolean;
   search = faSearch;
-  searchVal !: any;
+  searchVal !: any[];
+  setPrayer = {
+    color:''
+  }
+  private anonId = '630fc62ab13b9a3182a23241';
 
   searchForm = new FormGroup({
     key : new FormControl('name' , [Validators.required]),
@@ -56,6 +60,9 @@ export class AllPrayersComponent implements OnInit {
   ngOnInit(): void {
     this.retrievePrayers();
     this.setBehavioral();
+    if(this.loggedIn){
+
+    }
   }
 
   setBehavioral(){
@@ -93,11 +100,11 @@ export class AllPrayersComponent implements OnInit {
     })
     }
 
-    deleteRequest(id:string){
+  deleteRequest(id:string){
       let deleted : any;
         Swal.fire({
-          title: 'Are you sure want to remove?',
-          text: 'You will not be able to recover this file!',
+          title: 'Are you sure want to delete this prayer request?',
+          text: 'You will not be able to recover this request later!',
           icon: 'warning',
           showCancelButton: true,
           confirmButtonText: 'Yes, delete it!',
@@ -121,30 +128,89 @@ export class AllPrayersComponent implements OnInit {
         })
     }
 
-  highlightPrayer(id : string){
+  checkForAlreadyCommited(prayer:Prayer){
+    var retVal;
+    for(var i = 0; i <= prayer.commitedToPray.length-1; i++){
+        if(prayer.commitedToPray[i]._id == this.user._id){
+          let report = {
+            canCommitState : false,
+            style : {color:'gold'}
+          }
+          retVal = report
+          return report;
+        }
+    }
+    return retVal;
+
+  }
+
+  removeCommittance(prayer:Prayer, id:string){
+    let findSplice = prayer.commitedToPray.findIndex((user) => user._id == this.user._id);
+    let arrLength = prayer.commitedToPray.length-1;
+    let currentUser = prayer.commitedToPray[findSplice];
+    let endUser = prayer.commitedToPray[arrLength];
+    // Sets users committance to the back of the array
+    prayer.commitedToPray[arrLength] = currentUser;
+    prayer.commitedToPray[findSplice] = endUser;
+    prayer.commitedToPray.pop();
+
+    this.prayerService.editPrayerRequest(id , prayer).subscribe({
+      next: ()=> {
+        this.retrievePrayers();
+        Swal.fire('Thank you...', `You have uncommitted to pray for ${prayer.name.toUpperCase()}!`, 'success');
+
+      },
+      error: (err)=> {
+        console.log(err.error.message);
+      }
+    });
+
+  }
+
+
+  commitToPrayer(id : string){
     let commitedToPrayRequest !: Prayer;
+    var canCommit !:any;
+
     this.prayerService.findPrayerRequest(id).subscribe(data => {
       commitedToPrayRequest = data
 
       if(this.loggedIn){
+
+      canCommit = commitedToPrayRequest.commitedToPray.find((user) => user._id == this.user._id);
+
+        if(!canCommit){
         commitedToPrayRequest.commitedToPray.push(this.user._id!);
         this.prayerService.editPrayerRequest(id , commitedToPrayRequest).subscribe({
           next: ()=> {
-            alert(`You have committed to pray for ${JSON.stringify(commitedToPrayRequest.commitedToPray)}`)
+            this.retrievePrayers();
+            Swal.fire('Uncommitted...', `You have committed to pray for ${commitedToPrayRequest.name.toUpperCase()}!`, 'success');
+
           },
           error: (err)=> {
             console.log(err.error.message);
           }
         });
-      }else{
-        commitedToPrayRequest.commitedToPray.push('630fc62ab13b9a3182a23241');
-        this.prayerService.editPrayerRequest(id, commitedToPrayRequest).subscribe({
-          next: ()=> {
-            alert(`You have committed to pray for ${JSON.stringify(commitedToPrayRequest.commitedToPray)} anonymous`)
-          }
-          });
-      }
 
+      }else{
+        this.removeCommittance(commitedToPrayRequest,id);
+      }
+      }else{
+
+      canCommit = commitedToPrayRequest.commitedToPray.find((user) => user._id == this.anonId);
+
+        if(!canCommit){
+          commitedToPrayRequest.commitedToPray.push(this.anonId);
+          this.prayerService.editPrayerRequest(id, commitedToPrayRequest).subscribe({
+            next: ()=> {
+              Swal.fire('Thank you...', `You have committed to pray for ${commitedToPrayRequest.name.toUpperCase()}!`, 'success');
+            }
+            });
+        }else{
+          this.removeCommittance(commitedToPrayRequest,id);
+        }
+
+      }
 
     })
     }
@@ -165,10 +231,38 @@ export class AllPrayersComponent implements OnInit {
       let key = this.searchForm.value.key;
       let query = this.searchForm.value.searchQuery;
 
-      this.searchService.getSearchResult(key , query).subscribe( data => {
+      this.searchService.getSearchResult(key , query).subscribe(data => {
         this.searchVal = data
-        console.log(query as string)
+        console.log(query)
       });
+    }
+  }
+
+  searchForDemo(){
+    if(this.searchForm.valid){
+          let key = this.searchForm.value.key;
+          let query = this.searchForm.value.searchQuery.trim().toLowerCase();
+
+          switch(true){
+            case key == 'name':
+              this.searchVal = [this.prayerRecords.find((prayer:Prayer) => prayer.name.trim().toLowerCase() == query)];
+            break;
+
+            case key == 'title':
+              this.searchVal = [this.prayerRecords.find((prayer:Prayer) => prayer.title.trim().toLowerCase() == query)];
+            break;
+
+            case key == 'prayerRequest':
+              this.searchVal = [this.prayerRecords.find((prayer:Prayer) => prayer.prayerRequest.trim().toLowerCase() == query)];
+            break;
+
+            default:
+              this.searchVal = [this.prayerRecords.find((prayer:Prayer) => prayer.name.trim().toLowerCase() == query)];
+            break;
+          }
+
+
+        console.log(this.searchVal);
     }
   }
 

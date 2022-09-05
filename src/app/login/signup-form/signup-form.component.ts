@@ -27,7 +27,7 @@ export class SignupFormComponent implements OnInit {
     email:'',
     password:'',
     confirmPassword:'',
-    pals: [],
+    pals: '',
     roles:[]
   }
 
@@ -41,14 +41,13 @@ export class SignupFormComponent implements OnInit {
   }
 
   onSubmit(signUp:NgForm){
-    let formVal : User = {
+    let formVal : Partial<User> = {
       _id: '',
       firstname :this.signUpForm.firstname.trim().toLowerCase(),
       lastname :  this.signUpForm.lastname.trim().toLowerCase(),
       username : this.signUpForm.username.trim().toLowerCase(),
       email: this.signUpForm.email.trim().toLowerCase(),
-      password: this.signUpForm.password,
-      pals: []
+      password: this.signUpForm.password.trim(),
     };
 
     if(signUp.form.valid){
@@ -61,12 +60,12 @@ export class SignupFormComponent implements OnInit {
         error: (err:HttpErrorResponse) => {
           if(err.error.errType == 'username'){
             this.usernameAlreadyUsed = true;
-            this.invalidUsername = formVal.username;
+            this.invalidUsername = formVal.username!;
           }
 
           if(err.error.errType == 'email'){
             this.emailAlreadyUsed = true;
-            this.invalidEmail = formVal.email;
+            this.invalidEmail = formVal.email!;
           }
 
           console.log(err.error);
@@ -83,7 +82,7 @@ export class SignupFormComponent implements OnInit {
     }
 
   isChangedUsername(){
-      if(this.invalidUsername !== this.signUpForm.username){
+      if(this.invalidUsername !== this.signUpForm.username.trim().toLowerCase()){
         this.usernameAlreadyUsed = false
         return true
       }else{
