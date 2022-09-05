@@ -1,8 +1,57 @@
-<p>user-management works!</p>
+<div class="grid-layout">
+  <div class="side-bar">
+    <div class="dialog-container">
+      <div style="width: 100%; display:flex; justify-content:space-around;">
+        <button
+        mat-raised-button
+        (click)="openDialog()"
+        >Add User</button>
 
-<div>
-  <div *ngFor="let user of users">
-    <p>{{user.username}}</p>
-    
+        <button routerLink="/admin"
+         mat-raised-button color="primary">
+         Go back to dashboard
+        </button>
+        </div>
+    </div>
   </div>
+
+  <div>
+    <div *ngFor="let user of users">
+      <div class="user-card" *ngIf="user.username !== 'anonymous'" >
+        <div class="card-title">
+          <p class="user-title">User: <span>{{user.username}}</span></p>
+          <div>
+            <div class="btn-display">
+                <div class="hover-trig" *ngFor="let role of user.roles">
+                  <div class="role {{role.name}}">{{role.name}}</div>
+                </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="card-body ">
+
+          <div class="btn-display">
+            <div class="hover-trig">
+              <div class="role pointer cred">See Credientials</div>
+            </div>
+            <div class="hover-trig">
+              <div class="role pointer add">Add Role</div>
+            </div>
+            <div class="hover-trig">
+              <div class="role pointer remove">Remove Role</div>
+            </div>
+            <div class="hover-trig" (click)="deleteUser(user._id)">
+              <div class="role pointer delete">Delete User</div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 </div>
+

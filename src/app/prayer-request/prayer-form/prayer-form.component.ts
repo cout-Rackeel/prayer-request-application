@@ -10,8 +10,9 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { YourPrayersComponent } from '../your-prayers/your-prayers.component';
-import { DialogLinkService, Prayer, PrayerService, SessionStorageService } from 'src/app/core';
+import { DialogLinkService, Prayer, PrayerService, SessionStorageService, UserManagementService } from 'src/app/core';
 import { User } from 'src/app/core/models/user';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -35,12 +36,17 @@ export class PrayerFormComponent implements OnInit {
     private dialogLink :DialogLinkService,
     private dialogRef : MatDialogRef<YourPrayersComponent>,
     private storageService: SessionStorageService,
+    private userService : UserManagementService,
     @Inject(MAT_DIALOG_DATA) public dialogData: Prayer
     ) {}
 
     user: Partial<User> = this.storageService.getUser();
+    loggedIn : boolean = this.storageService.isLoggedIn()
 
   ngOnInit(): void {
+    if(!this.loggedIn){
+      this.setAnonymous();
+    }
     this.intializeForm();
     this.setBehavioral();
 
@@ -50,6 +56,12 @@ export class PrayerFormComponent implements OnInit {
   }
 
 
+  setAnonymous(){
+    this.userService.getAllUsers().subscribe(data =>{
+      this.user = data.find((anon) => anon.username == 'anonymous')!;
+      console.log(this.user);
+    })
+  }
 
   setBehavioral(){
     this.dialogLink.getEditSwitchVal().subscribe(data => this.editSwitch = data)
@@ -81,8 +93,6 @@ export class PrayerFormComponent implements OnInit {
       updates:[]
     }
 
-
-
     if(this.dialogData){
       return this.prayerForm.setValue(values)
     }
@@ -94,7 +104,7 @@ export class PrayerFormComponent implements OnInit {
     if(this.prayerForm.valid){
       this.prayerService.createPrayerRequest(this.prayerForm.value).subscribe( data => this.createdPrayer = data)
       this.dialogRef.close('save');
-      alert('Added');
+      Swal.fire('Added', 'Prayer request successfully added!', 'success');
       console.log(`${JSON.stringify(this.prayerForm.value)}`);
     }
 
@@ -104,7 +114,9 @@ export class PrayerFormComponent implements OnInit {
     if(this.prayerForm.valid){
       this.prayerService.editPrayerRequest(this.dialogData._id, this.prayerForm.value).subscribe(data => this.editedPrayer = data)
       this.dialogRef.close('edit');
-      alert('Edited')
+
+      Swal.fire('Edited', 'Prayer request successfully edited', 'success');
+
       console.log(`Edit : -${JSON.stringify(this.prayerForm.value)}`);
     }
   }

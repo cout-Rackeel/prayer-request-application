@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Prayer } from '../models';
 import { tap , catchError , of } from 'rxjs';
+import { SessionStorageService } from './session-storage.service';
+import { User } from '../models/user';
 
 
 @Injectable({
@@ -23,11 +25,25 @@ export class PrayerService {
     return of(console.log(err));
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private storageService : SessionStorageService) { }
+  user: Partial<User> = this.storageService.getUser();
+  loggedIn : boolean = this.storageService.isLoggedIn();
 
   getAllPrayers(): Observable<Prayer[]>{
     return this.http.get<Prayer[]>(this.REST_API_URL, this.HTTP_HEADER).pipe(
-      tap(prayers => console.log(`Prayers list : ${JSON.stringify(prayers)}`)),
+      tap(prayers => {
+        if(this.loggedIn){
+        prayers.forEach((prayer) =>{
+          prayer.commitedToPray.forEach((user) => {
+            if(user._id == this.user._id){
+              prayer.status = true;
+            }
+          })
+        })
+          console.log(`Prayers list : ${JSON.stringify(prayers[0].status)}`);
+        }
+
+      }),
       catchError(err => this.handleErrors(err))
       )
   }

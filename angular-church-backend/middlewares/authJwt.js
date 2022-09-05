@@ -4,23 +4,6 @@ const db = require('../models/index');
 const User = db.user;
 const Role = db.role;
 
-// verifyToken = (req, res ,next) => {
-//   let token = req.session.token;
-//   if(!token) {
-//     return res.status(403).send({message:"No token provided!"});
-//   }
-
-//    // Used to verify Token stored in the session from the database
-//   jwt.verify(token, config.secret , (err, decoded) => {
-//     if(err){
-//       return res.status(401).send({message: "Unauthorized!"});
-//     }
-
-//     req.userId = decoded.id;
-//     next();
-//   });
-// };
-
 
 verifyToken = async (req, res, next) => {
   try{
@@ -38,10 +21,10 @@ verifyToken = async (req, res, next) => {
 
 // Example Role verification (Not Typed)
   isAdmin = async(req, res, next) => {
-    //* My CODE
+    
   try{
     const adminUser = await User.findById(req.userId);
-    
+
 //* The $in uses each value found in the roles array and matches it against the _id property to see if there is a match
     const rolesFound = await Role.find({_id:{$in:adminUser.roles}});
     for (let i = 0; i < rolesFound.length; i++) {
@@ -59,7 +42,7 @@ verifyToken = async (req, res, next) => {
 };
 
 isModerator = async (req, res, next) => {
-  //* My CODE
+  
   try{
     modUser = await User.findById(req.userId);
     const rolesFound = await Role.find({_id:{$in:modUser.roles}});
@@ -77,7 +60,7 @@ isModerator = async (req, res, next) => {
 };
 
 isPastor = async (req, res, next) => {
-  //* My CODE
+  
   try{
     user = await User.findById(req.userId);
     const rolesFound = await Role.find({_id:{$in:user.roles}});
@@ -95,7 +78,7 @@ isPastor = async (req, res, next) => {
 };
 
 isSaint = async (req, res, next) => {
-  //* My CODE
+  
   try{
     user = await User.findById(req.userId);
     const rolesFound = await Role.find({_id:{$in:user.roles}});

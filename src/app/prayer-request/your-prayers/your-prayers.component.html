@@ -16,19 +16,31 @@
         </div>
 
 
-        <div style="margin: 30px 0px;">
-          <form action="">
+        <div class="searchbar-cont">
+          <form [formGroup]="searchForm" (ngSubmit)="searchForDemo()">
+            <label for="searchQuery">Search By</label>
            <div class="searchbar">
-             <fa-icon [icon]="search" class="search-icon"></fa-icon>
-             <input type="text" placeholder="Search by">
-             <select name="searchOptions" id="">
-               <option value="name">Name</option>
-               <option value="date">Date</option>
-               <option value="request">Request</option>
+             <fa-icon [icon]="search" class="search-icon" (click)="searchForDemo()"></fa-icon>
+             <input type="text" placeholder="Search by" formControlName="searchQuery" #searchQuery required>
+             <select name="searchOptions" id="" formControlName="key" #key required>
+               <option value="title">Title</option>
+               <option value="prayerRequest">Request</option>
              </select>
            </div>
           </form>
          </div>
+
+         <div *ngIf="searchVal">
+          <p class="search-summary">Results for search "{{searchQuery.value}}" in category "{{key.value}}" </p>
+         <div *ngFor="let searchResult of searchVal">
+            <div class="search-result-cont">
+              <p>Prayer title :{{searchResult.title | titlecase}}</p>
+              <p>Prayer request :{{searchResult.prayerRequest | titlecase}}</p>
+              <p>Prayer date :{{searchResult.date | date}}</p>
+            </div>
+         </div>
+         </div>
+
 
       </div>
 

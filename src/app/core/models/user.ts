@@ -1,3 +1,5 @@
+import { Role } from "./roles";
+
 export class User{
   _id:string
   firstname : string;
@@ -5,8 +7,8 @@ export class User{
   username : string;
   email:string;
   password:string;
-  pals: string[];
-  roles?:string[];
+  pals?: any;
+  roles?:any[];
 
   constructor(
     _id?:string,
@@ -15,8 +17,8 @@ export class User{
     username ?: string,
     email?:string,
     password?:string,
-    pals?: string[],
-    roles?:string[], ){
+    pals?: any,
+    roles?:any[], ){
 
     this._id = _id!;
     this.firstname = firstname!;

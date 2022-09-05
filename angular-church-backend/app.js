@@ -64,6 +64,7 @@ app.use((req, res, next) =>{
 
 setResponseHeader = (req, res , next) => {
   res.header(
+    'Access-Control-Access-Origin','*',
     'Access-Control-Allow-Methods','POST, GET, OPTIONS, PUT, DELETE',
     'Access-Control-Allow-Headers','Content-Type, X-Auth-Token, Origin, Authorization'
   );
@@ -77,7 +78,6 @@ setResponseHeader = (req, res , next) => {
   app.use('/api/user/prayers',  userPrayerRoute);
   app.use('/api/search/',  searchRoute);
   app.use('/api/roles', rolesRoute);
-  app.use('api/auth/')
 
   // app.use('/api/user' , userRoute);
   // app.use('/api/auth/signin', signinRoute);

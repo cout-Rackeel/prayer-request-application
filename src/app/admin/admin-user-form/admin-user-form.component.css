@@ -33,6 +33,13 @@ form{
   margin-bottom: 12px;
 }
 
+.form-group{
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr  1fr;
+  grid-gap:2em;
+}
+
 .form-control label{
 display: block;
 margin: 10px 2px 13px 2px;
@@ -55,7 +62,7 @@ font-weight: 800;
 }
 
 .form-control input{
-  width: 40%;
+  width: 100%;
 }
 
 .form-control textarea{
