@@ -8,7 +8,7 @@ export class User{
   email:string;
   password:string;
   pals?: any;
-  roles?:any[];
+  roles?: any[];
 
   constructor(
     _id?:string,
@@ -18,7 +18,7 @@ export class User{
     email?:string,
     password?:string,
     pals?: any,
-    roles?:any[], ){
+    roles?: any[], ){
 
     this._id = _id!;
     this.firstname = firstname!;

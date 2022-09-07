@@ -59,15 +59,12 @@ export class AllPrayersComponent implements OnInit {
 
   ngOnInit(): void {
     this.retrievePrayers();
-    this.setBehavioral();
     if(this.loggedIn){
 
     }
   }
 
-  setBehavioral(){
-    this.dialogLink.getEditSwitchVal().subscribe(data => this.editSwitch = data)
-  }
+
 
   retrievePrayers(){
     this.prayerService.getAllPrayers().subscribe(data => this.prayerRecords = data)

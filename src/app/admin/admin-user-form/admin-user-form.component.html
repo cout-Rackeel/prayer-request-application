@@ -1,8 +1,12 @@
 <div>
   <header class="form-header">
     <img src="assets/banner-imgs/cropped-ocoj.png" alt="" class="ocoj-image">
-    <h2 class="heading">Create User</h2>
+
+    <h2 class="heading" *ngIf="!editSwitch">Create User</h2>
+    <h2 class="heading" *ngIf="editSwitch">Edit User</h2>
   </header>
+
+
 
   <div mat-dialog-content>
     <form
@@ -10,10 +14,12 @@
     name="newUserForm"
     novalidate
     #userForm="ngForm"
-   (ngSubmit)="userForm.form.valid && onSubmit(userForm)">
+   (ngSubmit)="userForm.form.valid && onSubmit(userForm, $event)"
+   [appMatchPassword]="['password' , 'confirmPassword']"
+   >
+
 
       <div class="form-group">
-
         <div class="form-control">
         <label for="firstname">Firstname</label>
         <input type="text"
@@ -21,7 +27,14 @@
         required
         [(ngModel)]="newUserForm.firstname"
         #firstname="ngModel"
-        >
+        [ngClass]="{'error-input' : firstname.invalid && (firstname.touched || userForm.submitted) }"
+          >
+          <span>
+            <div *ngIf="firstname.invalid && (firstname.touched || userForm.submitted) " class="error">
+              <div *ngIf="firstname.errors?.['required']">First name is required</div>
+              <div *ngIf="firstname.errors?.['maxLength']">First name must be less than 50 characters</div>
+              </div>
+          </span>
       </div>
 
       <div class="form-control">
@@ -31,9 +44,18 @@
         required
         [(ngModel)]="newUserForm.lastname"
         #lastname="ngModel"
+        [ngClass]="{'error-input' : lastname.invalid && (lastname.touched || userForm.submitted) }"
         >
+
+        <span>
+          <div *ngIf="lastname.invalid && (lastname.touched || userForm.submitted) " class="error">
+            <div *ngIf="lastname.errors?.['required']">Last name is required</div>
+            <div *ngIf="lastname.errors?.['maxLength']">Last name must be less than 50 characters</div>
+            </div>
+        </span>
       </div>
       </div>
+
 
       <div class="form-control">
         <label for="username">Username</label>
@@ -42,8 +64,19 @@
         required
         [(ngModel)]="newUserForm.username"
         #username="ngModel"
+        [ngClass]="{ 'error-input':username.invalid && (username.touched && username.dirty || userForm.submitted) } "
         >
+
+        <span>
+          <div *ngIf="username.invalid && (username.touched || userForm.submitted)" class="error">
+            <div *ngIf="username.errors?.['required']">Username is required</div>
+            <div *ngIf="username.errors?.['minlength']">Username must be at least 6 characters</div>
+            <div *ngIf="username.errors?.['maxLength']">Username must be less than 20 characters</div>
+          </div>
+          <div *ngIf="usernameAlreadyUsed && !isChangedUsername()" class="error" >This username is already taken</div>
+        </span>
       </div>
+
 
       <div class="form-control">
         <label for="email">Email</label>
@@ -52,7 +85,18 @@
         required
         [(ngModel)]="newUserForm.email"
         #email="ngModel"
-        >
+        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+      [ngClass]="{'error-input': email.invalid && (email.touched || userForm.submitted)}"
+      >
+      <span>
+        <div *ngIf="email.invalid && (email.touched || userForm.submitted) " class="error">
+          <div *ngIf="email.errors?.['required']">Email is required</div>
+          <div *ngIf="email.errors?.['pattern']">Email must be a valid email</div>
+        </div>
+
+        <div *ngIf="emailAlreadyUsed && !isChangedEmail()" class="error" >This email is already taken</div>
+      </span>
+
 
       </div>
 
@@ -61,50 +105,81 @@
         <div class="form-control">
           <label for="password">Password</label>
           <input type="password"
-            name="password"
-            required
            [(ngModel)]="newUserForm.password"
+           name="password"
+           minlength="6"
+           maxlength="40"
+           required
            #password="ngModel"
-          >
-        </div>
+           [ngClass]="{'error-input': password.invalid && (password.touched || userForm.submitted)}"
+           >
+
+           <span *ngIf="password.invalid && (password.touched || userForm.submitted)" class="error">
+             <div *ngIf="password.errors?.['required']">Password is required</div>
+             <div *ngIf="password.errors?.['minlength']">Password must be at least 6 characters</div>
+             <div *ngIf="password.errors?.['maxlength']">Password must not exceed 40 characters</div>
+           </span>
+         </div>
+
 
         <div class="form-control">
           <label for="confirmPassword">Confirm Password</label>
           <input type="password"
-          name="confirmPassword"
-          required
-         [(ngModel)]="newUserForm.confirmPassword"
-         #confirmPassword="ngModel">
-        </div>
-      </div>
-
-      <div style="
-      width:100%;
-      display:flex; justify-content:space-around; flex-direction: row;
-      align-items: center;">
-
-        <div *ngFor="let role of roles">
-        <label for="{{role.name}}">{{role.name}}</label>
-        <input type="checkbox"
-        name="{{role.name}}"
-        id="{{role.name}}"
-        value="{{role._id}}"
-        (change)="onChange()"
-        [(ngModel)]="role.isSelected"
+          [(ngModel)]="newUserForm.confirmPassword"
+        name="confirmPassword"
+        required
+        #confirmPassword="ngModel"
+        [ngClass]="{'error-input': confirmPassword.invalid && (confirmPassword.touched || userForm.submitted)}"
         >
+
+        <span *ngIf="confirmPassword.invalid && (confirmPassword.touched || userForm.submitted)" class="error">
+          <div *ngIf="confirmPassword.errors?.['required']"> Confirm Password is required</div>
+          <div *ngIf="confirmPassword.errors?.['notMatching']">  Confirm Password does not match</div>
+        </span>
+      </div>
+
+    </div>
+    <div class="form-control" *ngIf="!editSwitch">
+    <label>Roles</label>
+    <div class="roles-cont">
+      <div *ngFor="let role of roles">
+        <div *ngIf="role.name != ('user') && role.name != ('anonymous')" class="role-flexer">
+          <label for="{{role.name}}">{{role.name}}</label>
+            <input type="checkbox"
+            name="{{role.name}}"
+            id="{{role.name}}"
+            value="{{role._id}}"
+            [(ngModel)]="role.isSelected">
+        </div>
+      </div>
+
+    </div>
+
+   </div>
+
+      <div mat-dialog-action [align]="'end'">
+
+        <button mat-raised-button color="warn" mat-dialog-close>Close</button>
+        <button
+        *ngIf="!editSwitch"
+        mat-raised-button
+        color="primary"
+        type="submit" [disabled]="userForm.invalid"
+        >Add User</button>
+
+        <button
+        *ngIf="editSwitch"
+        mat-raised-button
+        (click)="updateUser()"
+        color="primary"
+       [disabled]="userForm.invalid"
+        >Update User</button>
         </div>
 
-      </div>
 
     </form>
 
-    <div mat-dialog-action [align]="'end'">
 
-      <button mat-raised-button color="warn" mat-dialog-close>Close</button>
-      <button mat-raised-button color="primary" mat-dialog-close
-      (click)="onSubmit(userForm)" [disabled]="userForm.invalid"
-      >Add User</button>
-      </div>
   </div>
 
 </div>

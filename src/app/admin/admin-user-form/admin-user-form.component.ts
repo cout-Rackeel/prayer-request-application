@@ -1,8 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { MatDialogClose, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { RolesService, UserManagementService } from 'src/app/core';
+import { DialogLinkService, RolesService, UserManagementService } from 'src/app/core';
 import { Role } from 'src/app/core/models/roles';
 import { User } from 'src/app/core/models/user';
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -23,15 +24,20 @@ export class AdminUserFormComponent implements OnInit {
   invalidEmail = '';
   roles !: Role[];
   users !: User[];
+  editedUser !: User;
+  editSwitch !: boolean
 
   constructor(
     private authService : AuthService,
     private router : Router,
+    private dialogLink :DialogLinkService,
     private roleService : RolesService,
     private userService : UserManagementService,
+    private dialog : MatDialogRef<AdminUserFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public dialogData: User
     ) { }
 
-  newUserForm = {
+  newUserForm : any ={
     firstname : '',
     lastname : '',
     username : '',
@@ -39,14 +45,42 @@ export class AdminUserFormComponent implements OnInit {
     password:'',
     confirmPassword:'',
     pals: '',
-    roles: [] as string[]
+    roles: []
   }
 
   ngOnInit(): void {
     this.getRoles();
+    this.setBehavioral()
+
+    if(this.editSwitch){
+      alert(JSON.stringify(this.dialogData.roles))
+      this.setForm();
+
+
+    }
   }
 
-  onSubmit(userForm:NgForm){
+  setForm(){
+
+    if(this.dialogData){
+      this.newUserForm = {
+        firstname : this.dialogData.firstname,
+        lastname : this.dialogData.lastname,
+        username : this.dialogData.username,
+        email:this.dialogData.email,
+        password:this.dialogData.password,
+        confirmPassword:'',
+        pals: '',
+        roles: this.dialogData.roles
+      }
+    }
+  }
+
+  setBehavioral(){
+    this.dialogLink.getEditSwitchVal().subscribe(data => this.editSwitch = data)
+  }
+
+  onSubmit(userForm:NgForm, e :any){
     let formVal : Partial<User> = {
       _id: '',
       firstname :this.newUserForm.firstname.trim().toLowerCase(),
@@ -54,15 +88,12 @@ export class AdminUserFormComponent implements OnInit {
       username : this.newUserForm.username.trim().toLowerCase(),
       email: this.newUserForm.email.trim().toLowerCase(),
       password: this.newUserForm.password.trim(),
-      roles : this.roles.filter(x => x.isSelected == true).map(x => x._id) as string[]
+      roles : this.roles.filter(x => x.isSelected == true).map(x => x._id)
     };
 
     if(userForm.form.valid){
 
       console.log(JSON.stringify(formVal));
-
-      alert('submitted');
-
 
        this.authService.signUp(formVal).subscribe({
         next: (resp:any) => {
@@ -85,6 +116,7 @@ export class AdminUserFormComponent implements OnInit {
         },
         complete: () =>{
           Swal.fire('User added!', 'You have succesfully added a user!', 'success');
+          this.dialog.close('user added');
         }
        });
 
@@ -101,7 +133,6 @@ export class AdminUserFormComponent implements OnInit {
       this.roles = data;
     })
   }
-
 
   isChangedUsername(){
       if(this.invalidUsername !== this.newUserForm.username.trim().toLowerCase()){
@@ -121,9 +152,9 @@ export class AdminUserFormComponent implements OnInit {
       }
     }
 
-    onChange(){
-      console.log(this.roles);
-    }
+  updateUser(){
+    alert('Update')
+  }
 
 }
 

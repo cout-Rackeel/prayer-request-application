@@ -1,3 +1,5 @@
+
+<div class="body">
 <div class="grid-layout">
   <div class="side-bar">
     <div class="dialog-container">
@@ -13,6 +15,47 @@
         </button>
         </div>
     </div>
+    <hr class="undercut-2">
+
+    <div class="sticky-cont">
+      <div class="sliding-cont">
+        <div class="add-role-form-cont sliding-form off" #addForm >
+
+          <header>
+            Add form here
+          <button (click)="close('addRole')">Close</button>
+          </header>
+
+          <form action="">
+            <div class="form-control">
+              <div class="roles-cont">
+                <div *ngFor="let role of roles">
+                  <div *ngIf="role.name != ('user') && role.name != ('anonymous')" class="role-flexer">
+                    <label for="{{role.name}}">{{role.name}}</label>
+                      <input type="checkbox"
+                      name="{{role.name}}"
+                      id="{{role.name}}"
+                      value="{{role._id}}"
+                      [(ngModel)]="role.isSelected">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+
+        </div>
+        <div class="cred-form-cont sliding-form off"  #credForm  *ngIf="currentUserRole">
+         {{currentUserRole.username}}
+          <button (click)="close('credForm')">Close</button>
+          <button (click)="editUser(currentUserRole)"> Edit</button>
+          <p>{{editSwitch}}</p>
+        </div>
+      </div>
+    </div>
+
+
+
+
   </div>
 
   <div>
@@ -22,8 +65,9 @@
           <p class="user-title">User: <span>{{user.username}}</span></p>
           <div>
             <div class="btn-display">
-                <div class="hover-trig" *ngFor="let role of user.roles">
-                  <div class="role {{role.name}}">{{role.name}}</div>
+                <div class="hover-trig" *ngFor="let role of user.roles" >
+                  <fa-icon [icon]="delete" class="fa-delete" (click)="deleteRole(role._id)" ></fa-icon>
+                  <div  class="role {{role.name}}">{{role.name}}</div>
                 </div>
 
             </div>
@@ -33,13 +77,13 @@
 
           <div class="btn-display">
             <div class="hover-trig">
-              <div class="role pointer cred">See Credientials</div>
+              <div class="role pointer cred" (click)="activateCred(user._id , $event)">See Credientials</div>
             </div>
             <div class="hover-trig">
-              <div class="role pointer add">Add Role</div>
+              <div class="role pointer add"(click)="activateAdd(user._id , $event)">Add Role</div>
             </div>
             <div class="hover-trig">
-              <div class="role pointer remove">Remove Role</div>
+              <div class="role pointer remove" (click)="activateRemove(user._id ,  $event)">Remove Role</div>
             </div>
             <div class="hover-trig" (click)="deleteUser(user._id)">
               <div class="role pointer delete">Delete User</div>
@@ -54,4 +98,4 @@
   </div>
 
 </div>
-
+</div>
