@@ -26,7 +26,13 @@
           <button (click)="close('addRole')">Close</button>
           </header>
 
-          <form action="">
+          <form
+          action=""
+          name="addRoleForm"
+          novalidate
+          #addRoleForm="ngForm"
+          (ngSubmit)="addRoleForm.form.valid && addRole(addRoleForm)"
+          >
             <div class="form-control">
               <div class="roles-cont">
                 <div *ngFor="let role of roles">
@@ -39,6 +45,7 @@
                       [(ngModel)]="role.isSelected">
                   </div>
                 </div>
+                <button type="submit">Add Role</button>
               </div>
             </div>
           </form>
@@ -60,7 +67,10 @@
 
   <div>
     <div *ngFor="let user of users">
-      <div class="user-card" *ngIf="user.username !== 'anonymous'" >
+      <div class="user-card"
+       *ngIf="user.username !== 'anonymous'"
+       [ngStyle]="{'backgroundColor':( user._id === currentUserRole._id) ? '#08aeea27' : 'white' }"
+        >
         <div class="card-title">
           <p class="user-title">User: <span>{{user.username}}</span></p>
           <div>

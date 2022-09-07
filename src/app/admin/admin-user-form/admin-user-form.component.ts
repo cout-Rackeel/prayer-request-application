@@ -158,8 +158,3 @@ export class AdminUserFormComponent implements OnInit {
 
 }
 
-class role {
-  _id!:string;
-  name!:string;
-  isSelected!:boolean;
-}

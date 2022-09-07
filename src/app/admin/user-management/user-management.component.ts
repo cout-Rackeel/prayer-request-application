@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Event } from '@angular/router';
 import { faX } from '@fortawesome/free-solid-svg-icons';
@@ -28,6 +29,10 @@ export class UserManagementComponent implements OnInit{
 
     @ViewChild('addForm') addForm !: ElementRef;
     @ViewChild('credForm') credForm !: ElementRef;
+
+    addRoleForm = {
+       roles : []
+    }
 
   constructor(
     private userService : UserManagementService,
@@ -67,6 +72,7 @@ export class UserManagementComponent implements OnInit{
   }
 
   deleteUser(id:string){
+    this.setCurrentUser(id)
     let deleted : any;
     Swal.fire({
       title: 'Are you sure want to delete this user?',
@@ -132,7 +138,7 @@ export class UserManagementComponent implements OnInit{
     });
   }
 
- editUser(user:any){
+   editUser(user:any){
   this.dialogLink.setEditSwitchVal(true);
   this.dialog.open(AdminUserFormComponent , {
     data: user,
@@ -143,8 +149,6 @@ export class UserManagementComponent implements OnInit{
     this.getUsers();
 })
  }
-
-
 
   moveIn(form:ElementRef , trigger:boolean){
     form.nativeElement.classList.remove('off');
@@ -184,6 +188,8 @@ export class UserManagementComponent implements OnInit{
   }
 
   activateAdd(userId:string ,  e:any){
+    this.setCurrentUser(userId)
+
     this.moveOut(this.credForm, this.credTrigger);
     if(!this.addTrigger){
       this.moveIn(this.addForm , this.addTrigger)
@@ -203,6 +209,34 @@ export class UserManagementComponent implements OnInit{
     this.moveOut(this.credForm , this.credTrigger);
   }
 
+  }
+
+  addRole(addRoleForm : NgForm){
+    let roles = this.roles.filter(x => x.isSelected == true);
+    roles.forEach((role) =>{
+     let checkDuplicateRoles = this.currentUserRole.roles?.filter(r => r._id != role._id)
+
+     if(checkDuplicateRoles == this.currentUserRole.roles){
+      this.currentUserRole.roles = checkDuplicateRoles
+      this.currentUserRole.roles?.push(role);
+      this.userService.editUserById(this.currentUserRole._id , this.currentUserRole).subscribe({
+        complete: () => {
+          Swal.fire('Successfully Added');
+          this.getUsers();
+          addRoleForm.reset();
+          this.moveOut(this.addForm , this.addTrigger);
+        }
+      })
+     }
+
+
+
+    })
+
+
+
+
+    console.log(this.currentUserRole.roles)
   }
 
 }

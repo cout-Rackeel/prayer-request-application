@@ -1,5 +1,5 @@
-export interface Role{
+ export interface Role{
   _id:string;
   name:string;
-  isSelected?:boolean
+  isSelected?:boolean;
 }
