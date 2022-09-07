@@ -6,10 +6,25 @@ August 18, 2022
 - Fix Yours prayers page to recieve only  the logged in users prayers. //**Completed
 - store login state throughout application //**Completed
 - Implement signOut logic //** Completed
+
+ September 1 , 2022
 - Create search functionality in backend //**Completed
 - Create commit to pray btn //**Completed
 
-- Create a searchBy feature for prayers
-- Create Admin page
-- Create user management system for Admin
-- Create prayer management system for Admin
+  September 2 , 2022
+- Create a searchBy feature for prayers //**Completed
+- Create Admin page //**Completed
+- Create user management system for Admin //**Completed
+- Create prayer management system for Admin //!!Scrapped
+
+
+September 9 , 2022
+!!!!!!!!!!!!!!!!!!!!! Due Thursday September 8, 2022 @ 11:59 pm !!!!!!!!!!!!!!!!!!!!!!
+
+- Fix Add user functionality
+- Implement Add role functionality
+- Implement remove role functionality
+- See credientials functionality
+- Implement wireframe
+- Technical documentation
+- Api documentation

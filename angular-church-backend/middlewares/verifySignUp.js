@@ -35,12 +35,15 @@ checkRolesExisted = async (req, res, next) => {
 
       if (req.body.roles || req.body.roles == typeof Array) {
         for (let i = 0; i < req.body.roles.length; i++) {
-          if(!rolesIdArr.includes(req.body.roles)) {
-            res.status(400).send({
-              message: `Failed! Role ${req.body.roles} does not exist!${rolesIdArr}`
-            });
-            return;
-          }
+
+            req.body.roles.forEach((role) => {
+              if(!rolesIdArr.includes(role)) {
+                res.status(400).send({
+                  message: `Failed! Role ${req.body.roles} does not exist!${rolesIdArr}`
+                });
+                return;
+              }
+            })
         }
       }
       next();

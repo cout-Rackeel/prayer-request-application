@@ -80,13 +80,42 @@ font-weight: 800;
 
 }
 .error{
-  color:red;
-  display:inline-block;
-  position: absolute;
-  bottom: 2px;
-  right: 20px;
-  font-family: Montserrat, sans-serif;
-  font-size: 14px;
-  font-weight: 800;
+  color: crimson;
+  font-size: 1em;
+  font-family:'Comfortaa' , sans-serif;
+  transition: all ease 300ms ease;
 }
 
+.error-input{
+  border-color: crimson;
+  transition: all ease 300ms 0s;
+}
+
+.success-input{
+  border-color: lightgreen;
+  transition: all ease 300ms 0s;
+}
+
+.roles-cont{
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  flex-direction: row;
+  align-items: center;
+  margin: 20px 0px;
+  flex-wrap: wrap;
+}
+
+.roles-cont input[type=checkbox]:before{
+  height: 40px;
+  width: 40px;
+  color: red;
+}
+
+
+.role-flexer{
+  width: 100% ;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

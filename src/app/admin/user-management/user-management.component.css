@@ -1,3 +1,8 @@
+.body{
+  height: 100%;
+}
+
+
 .grid-layout{
   display: grid;
   grid-template-columns: .65fr 2fr;
@@ -15,6 +20,7 @@
 
 .dialog-container{
   margin-top: 20px;
+  z-index: 2;
 }
 
 .user-card{
@@ -84,6 +90,7 @@
 
 .hover-trig{
   cursor: pointer;
+  position: relative;
 }
 
 .hover-trig:hover .role{
@@ -95,17 +102,82 @@
 }
 
 .hover-trig:hover .cred{
-  background-color: rgba(20, 147, 220, 0.267);
+  background-color: #1493dc44;
 }
 
 .hover-trig:hover .add{
-  background-color: rgba(20, 220, 120, 0.267);
+  background-color: #14dc7844;
 }
 
 .hover-trig:hover .remove{
-  background-color: rgba(220, 183, 20, 0.267);
+  background-color: #dcb71444;
 }
 
 .hover-trig:hover .delete{
-  background-color: rgba(220, 20, 60, 0.267);
+  background-color: #dc143c44;
 }
+
+.fa-delete{
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  font-size: .8em;
+  color: black;
+  font-weight: bold;
+  background-color: rgba(220, 20, 60, 0.678);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top:-12px;
+  right: -5px;
+  border-radius:50%;
+  cursor: pointer;
+  transition: all 300ms ease 0s;
+}
+
+.activate{
+  opacity:0;
+}
+
+.sticky-cont{
+  position: fixed;
+  height: 440px;
+  width: 300px;
+  margin-top: 30px;
+}
+
+.sliding-cont{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.sliding-form{
+  position: absolute;
+  top:60px;
+  transition: all 300ms ease 0s;
+  height: 100%;
+  width: 100%;
+  background-color: white;
+}
+.add-role-form-cont{
+
+}
+
+.cred-form-cont{
+
+}
+
+
+.off{
+  opacity: 0;
+  z-index: -1;
+  transform: translateX(-100px);
+}
+.on{
+  opacity: 1;
+  z-index: 1;
+  transform: translateX(0px);
+}
+
+
