@@ -64,12 +64,13 @@ export class AdminUserFormComponent implements OnInit {
 
     if(this.dialogData){
       this.newUserForm = {
+        _id:this.dialogData._id,
         firstname : this.dialogData.firstname,
         lastname : this.dialogData.lastname,
         username : this.dialogData.username,
         email:this.dialogData.email,
         password:this.dialogData.password,
-        confirmPassword:'',
+        confirmPassword:this.dialogData.password,
         pals: '',
         roles: this.dialogData.roles
       }
@@ -80,7 +81,7 @@ export class AdminUserFormComponent implements OnInit {
     this.dialogLink.getEditSwitchVal().subscribe(data => this.editSwitch = data)
   }
 
-  onSubmit(userForm:NgForm, e :any){
+  onSubmit(userForm:NgForm){
     let formVal : Partial<User> = {
       _id: '',
       firstname :this.newUserForm.firstname.trim().toLowerCase(),
@@ -153,7 +154,40 @@ export class AdminUserFormComponent implements OnInit {
     }
 
   updateUser(){
-    alert('Update')
+    let formVal : Partial<User> = {
+      _id: this.newUserForm._id,
+      firstname :this.newUserForm.firstname.trim().toLowerCase(),
+      lastname :  this.newUserForm.lastname.trim().toLowerCase(),
+      username : this.newUserForm.username.trim().toLowerCase(),
+      email: this.newUserForm.email.trim().toLowerCase(),
+      password: this.newUserForm.password.trim(),
+    };
+
+
+
+    this.userService.editUserById(formVal._id! , formVal).subscribe({
+      next:() =>{
+      },
+      error: (err:HttpErrorResponse) => {
+        if(err.error.errType == 'username'){
+          this.usernameAlreadyUsed = true;
+          this.invalidUsername = formVal.username!;
+        }
+
+        if(err.error.errType == 'email'){
+          this.emailAlreadyUsed = true;
+          this.invalidEmail = formVal.email!;
+        }
+
+        console.log(err.error);
+      },
+      complete: () => {
+          this.dialog.close('edit');
+          Swal.fire('User edited!', 'You have succesfully added a user!', 'success');
+
+      },
+    })
+
   }
 
 }

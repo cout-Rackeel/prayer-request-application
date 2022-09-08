@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AdminRoutingModule } from './admin-routing.module';
@@ -9,7 +9,7 @@ import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AdminUserFormComponent } from './admin-user-form/admin-user-form.component';
-import { CoreModule } from '../core';
+import { CoreModule, IconDirective } from '../core';
 
 
 @NgModule({
@@ -27,7 +27,10 @@ import { CoreModule } from '../core';
     MatButtonModule,
     MatDialogModule,
     CoreModule,
-    
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA,
+    // NO_ERRORS_SCHEMA
   ]
 })
 export class AdminModule { }

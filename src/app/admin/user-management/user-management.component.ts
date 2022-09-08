@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Event } from '@angular/router';
@@ -68,6 +68,7 @@ export class UserManagementComponent implements OnInit{
       if(val === 'user added'){
         this.getUsers();
       }
+
     })
   }
 
@@ -101,9 +102,8 @@ export class UserManagementComponent implements OnInit{
   }
 
   deleteRole(id:string){
+
     let currentUser = this.currentUserRole
-    let newRoleList =  this.currentUserRole.roles?.filter((role) => role._id != id);
-    currentUser.roles = newRoleList
 
     Swal.fire({
       title: 'Are you sure want to delete this role?',
@@ -114,13 +114,18 @@ export class UserManagementComponent implements OnInit{
       cancelButtonText: 'No, keep it'
     }).then((result) => {
       if (result.value) {
-        this.userService.editUserById(currentUser._id, currentUser).subscribe();
-        Swal.fire(
-          'User role Deleted!',
-          `User role has been successfully deleted`,
-          'success'
-        )
-        this.getUsers();
+        let newRoleList =  this.currentUserRole.roles?.filter((role) => role._id != id);
+        currentUser.roles = newRoleList
+        this.userService.editUserById(currentUser._id, currentUser).subscribe({
+          next: () =>{
+            Swal.fire(
+              'User role Deleted!',
+              `User role has been successfully deleted`,
+              'success'
+            )
+            this.getUsers();
+          }
+        });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         Swal.fire(
           'Cancelled',
@@ -146,7 +151,10 @@ export class UserManagementComponent implements OnInit{
     minHeight:"350px"
   }).afterClosed().subscribe(val=>{
     this.dialogLink.setEditSwitchVal(false);
-    this.getUsers();
+    if(val === 'edit'){
+      this.close('credForm');
+      this.getUsers();
+    }
 })
  }
 
@@ -162,9 +170,10 @@ export class UserManagementComponent implements OnInit{
     trigger = !trigger
   }
 
-  close(form : string){
+  close(form : string , resetFormHandeler?: NgForm){
     if(form == 'addRole'){
       this.moveOut(this.addForm , this.addTrigger);
+      resetFormHandeler?.reset()
     }
 
     if(form == 'credForm'){
@@ -199,7 +208,7 @@ export class UserManagementComponent implements OnInit{
 
   }
 
-  activateCred(userId:string  ,  e:any){
+  activateCred(userId:string ){
     this.setCurrentUser(userId)
 
     this.moveOut(this.addForm, this.addTrigger);
@@ -213,21 +222,32 @@ export class UserManagementComponent implements OnInit{
 
   addRole(addRoleForm : NgForm){
     let roles = this.roles.filter(x => x.isSelected == true);
-    roles.forEach((role) =>{
-     let checkDuplicateRoles = this.currentUserRole.roles?.filter(r => r._id != role._id)
+    let roleAdded = false;
 
-     if(checkDuplicateRoles == this.currentUserRole.roles){
-      this.currentUserRole.roles = checkDuplicateRoles
+    roles.forEach((role, index) =>{
+     let checkDuplicateRole = this.currentUserRole.roles?.find(r => r._id == role._id);
+
+     if(!checkDuplicateRole){
+      roleAdded = true;
       this.currentUserRole.roles?.push(role);
       this.userService.editUserById(this.currentUserRole._id , this.currentUserRole).subscribe({
         complete: () => {
-          Swal.fire('Successfully Added');
+          Swal.fire(`Role/Roles Successfully Added !!`,'','success');
           this.getUsers();
-          addRoleForm.reset();
           this.moveOut(this.addForm , this.addTrigger);
-        }
-      })
+          addRoleForm.reset();
+
      }
+    })
+     }else{
+      if(index == roles.length-1 && !roleAdded){
+        Swal.fire(`Role/Roles already Added !!`,'','error');
+      }
+
+     }
+
+
+
 
 
 

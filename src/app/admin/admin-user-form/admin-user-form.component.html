@@ -14,10 +14,9 @@
     name="newUserForm"
     novalidate
     #userForm="ngForm"
-   (ngSubmit)="userForm.form.valid && onSubmit(userForm, $event)"
+   (ngSubmit)="userForm.form.valid"
    [appMatchPassword]="['password' , 'confirmPassword']"
    >
-
 
       <div class="form-group">
         <div class="form-control">
@@ -108,7 +107,6 @@
            [(ngModel)]="newUserForm.password"
            name="password"
            minlength="6"
-           maxlength="40"
            required
            #password="ngModel"
            [ngClass]="{'error-input': password.invalid && (password.touched || userForm.submitted)}"
@@ -117,7 +115,6 @@
            <span *ngIf="password.invalid && (password.touched || userForm.submitted)" class="error">
              <div *ngIf="password.errors?.['required']">Password is required</div>
              <div *ngIf="password.errors?.['minlength']">Password must be at least 6 characters</div>
-             <div *ngIf="password.errors?.['maxlength']">Password must not exceed 40 characters</div>
            </span>
          </div>
 
@@ -165,6 +162,7 @@
         mat-raised-button
         color="primary"
         type="submit" [disabled]="userForm.invalid"
+        (click)="onSubmit(userForm)"
         >Add User</button>
 
         <button

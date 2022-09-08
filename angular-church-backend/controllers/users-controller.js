@@ -1,5 +1,7 @@
 const db = require('../models/index');
 const User = db.user;
+const bcrypt = require('bcryptjs');
+var salt = 10;
 
 
 exports.getAllUsers = async (req,res) => {
@@ -47,15 +49,16 @@ exports.deleteUserById = async (req,res) => {
 exports.editUserById = async (req,res) => {
   try{
     const {id} = req.params
-    const {firstname , lastname , username , email , password , pals , roles } = req.body
+    const {_id , firstname , lastname , username , email , password , pals , roles } = req.body
 
     const findUser = await User.find({_id:id}).populate('pals', 'roles');
     let createUser = {
+      // _id: id,
       firstname:firstname,
       lastname:lastname,
       username:username,
       email:email,
-      password:password,
+      password:bcrypt.hashSync(password, salt),
       pals:pals,
       roles:roles
     }
@@ -73,3 +76,5 @@ exports.editUserById = async (req,res) => {
   }
 
 }
+
+

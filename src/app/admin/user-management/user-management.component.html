@@ -21,10 +21,15 @@
       <div class="sliding-cont">
         <div class="add-role-form-cont sliding-form off" #addForm >
 
-          <header>
-            Add form here
-          <button (click)="close('addRole')">Close</button>
-          </header>
+          <div class="header-bkdrp">
+            <header class="heading-cont add-header">
+              <h2 class="heading">Add Roles Form
+              </h2>
+              <span> <fa-icon [icon]="delete" (click)="close('addRole' , addRoleForm)"></fa-icon></span>
+            </header>
+            <hr class="undercut-2">
+          </div>
+
 
           <form
           action=""
@@ -45,17 +50,63 @@
                       [(ngModel)]="role.isSelected">
                   </div>
                 </div>
-                <button type="submit">Add Role</button>
+
+                <div class="btn-cont">
+                  <button type="submit">Add Role</button>
+                </div>
+
               </div>
             </div>
           </form>
 
         </div>
         <div class="cred-form-cont sliding-form off"  #credForm  *ngIf="currentUserRole">
-         {{currentUserRole.username}}
-          <button (click)="close('credForm')">Close</button>
-          <button (click)="editUser(currentUserRole)"> Edit</button>
-          <p>{{editSwitch}}</p>
+          <div class="header-bkdrp">
+            <header class="heading-cont cred-header">
+              <h2 class="heading">{{currentUserRole.username | titlecase}}
+              </h2>
+              <span> <fa-icon [icon]="delete" (click)="close('credForm')"></fa-icon></span>
+            </header>
+            <hr class="undercut-2">
+          </div>
+
+
+          <div class="roles-cont">
+
+          <div class="form-group">
+
+            <div class="form-control">
+              <label for="firstname">First Name</label>
+              <p>{{currentUserRole.firstname | titlecase}}</p>
+            </div>
+
+            <div class="form-control">
+              <label for="lastname">Last Name</label>
+              <p>{{currentUserRole.lastname | titlecase}}</p>
+            </div>
+          </div>
+
+          <hr class="undercut-2">
+
+          <div class="form-control">
+            <label for="Email">Email</label>
+            <p>{{currentUserRole.email | titlecase}}</p>
+            <hr class="undercut-2">
+          </div>
+
+          <div class="form-control">
+            <label for="user-id">User ID</label>
+            <p>{{currentUserRole._id | titlecase}}</p>
+            <hr class="undercut-2">
+          </div>
+
+          <div class="btn-cont">
+            <button (click)="editUser(currentUserRole)"> Edit</button>
+          </div>
+
+          </div>
+
+
         </div>
       </div>
     </div>
@@ -69,14 +120,23 @@
     <div *ngFor="let user of users">
       <div class="user-card"
        *ngIf="user.username !== 'anonymous'"
-       [ngStyle]="{'backgroundColor':( user._id === currentUserRole._id) ? '#08aeea27' : 'white' }"
+       [ngStyle]="{
+        'backgroundColor':( user._id === currentUserRole._id) ? '#77700007' : 'white',
+        'margin-bottom'  :( user._id === currentUserRole._id) ? '30px' : ''
+      }"
         >
+
         <div class="card-title">
-          <p class="user-title">User: <span>{{user.username}}</span></p>
+          <p class="user-title">User: <span>{{user.username | titlecase}}</span></p>
           <div>
             <div class="btn-display">
                 <div class="hover-trig" *ngFor="let role of user.roles" >
-                  <fa-icon [icon]="delete" class="fa-delete" (click)="deleteRole(role._id)" ></fa-icon>
+                  <fa-icon
+                  [icon]="delete"
+                  class="fa-delete"
+                  (click)="deleteRole(role._id)"
+                  appIcon="{{user._id}}"
+                   ></fa-icon>
                   <div  class="role {{role.name}}">{{role.name}}</div>
                 </div>
 
@@ -87,7 +147,7 @@
 
           <div class="btn-display">
             <div class="hover-trig">
-              <div class="role pointer cred" (click)="activateCred(user._id , $event)">See Credientials</div>
+              <div class="role pointer cred" (click)="activateCred(user._id)">See Credientials</div>
             </div>
             <div class="hover-trig">
               <div class="role pointer add"(click)="activateAdd(user._id , $event)">Add Role</div>

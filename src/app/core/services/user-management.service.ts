@@ -9,7 +9,7 @@ import { User } from '../models/user';
 })
 export class UserManagementService {
 
-  private REST_API_URL = 'http://localhost:3250/api/users/'
+  private REST_API_URL = 'http://localhost:3250/api/users'
   private HTTP_HEADER = {
     headers: new HttpHeaders({
       'Content-Type':'application/json'
@@ -36,7 +36,7 @@ export class UserManagementService {
       )
   }
 
-  editUserById(id:string , body:User) : Observable<User> {
+  editUserById(id:string , body:Partial<User>) : Observable<User> {
     return this.http.patch<User>(`${this.REST_API_URL}/${id}`, body , this.HTTP_HEADER).pipe(
       tap(editedUser => console.log(`Edited User :- ${JSON.stringify(editedUser)}`)),
       catchError(err => this.handleErrors(err))
