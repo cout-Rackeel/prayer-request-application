@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {  AdminsGuard } from './core/guards';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const routes: Routes = [
 
@@ -32,12 +33,18 @@ const routes: Routes = [
 
   { path: 'about-us', loadChildren: () => import('./about-us/about-us.module').then(m => m.AboutUsModule) },
 
-  { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), canLoad:[AdminsGuard]}
+  { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), canLoad:[AdminsGuard]},
+
 
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes,{ scrollPositionRestoration: 'enabled' })],
+  imports: [RouterModule.forRoot(routes,
+    { scrollPositionRestoration: 'enabled',
+      onSameUrlNavigation: 'reload'
+    },
+
+    )],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

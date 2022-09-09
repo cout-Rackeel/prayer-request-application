@@ -27,8 +27,10 @@ export class UserManagementComponent implements OnInit{
   uniTrigger = false;
   editSwitch !: boolean;
 
+
     @ViewChild('addForm') addForm !: ElementRef;
     @ViewChild('credForm') credForm !: ElementRef;
+    @ViewChild('rolesDisplay') rolesDisplay !: ElementRef;
 
     addRoleForm = {
        roles : []
@@ -183,14 +185,27 @@ export class UserManagementComponent implements OnInit{
   }
 
 
-  activateRemove(userId:string, e:any ){
+  activateRemove(userId:string , rolesDisplay:any){
+    let rolesDisplayUserId = this.rolesDisplay.nativeElement.getAttribute('data-roles')
+    console.log(rolesDisplay);
+    this.setCurrentUser(userId);
+
     this.moveOut(this.addForm, this.addTrigger);
     this.moveOut(this.credForm, this.credTrigger);
+
     if(!this.removeTrigger){
-      this.setCurrentUser(userId)
+      if(this.currentUserRole._id == rolesDisplayUserId){
+        this.rolesDisplay.nativeElement.classList.remove('off');
+        this.rolesDisplay.nativeElement.classList.add('on');
+        alert('boom on')
+      }
       this.removeTrigger = !this.removeTrigger;
     }else{
-      alert('off')
+      if(this.currentUserRole._id == rolesDisplayUserId){
+        this.rolesDisplay.nativeElement.classList.add('off');
+        this.rolesDisplay.nativeElement.classList.remove('on');
+        alert('boom off')
+      }
       this.removeTrigger = !this.removeTrigger;
     }
 

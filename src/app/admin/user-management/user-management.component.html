@@ -112,8 +112,6 @@
     </div>
 
 
-
-
   </div>
 
   <div>
@@ -129,14 +127,16 @@
         <div class="card-title">
           <p class="user-title">User: <span>{{user.username | titlecase}}</span></p>
           <div>
-            <div class="btn-display">
+            <div class="btn-display" #rolesDisplay attr.data-roles="{{user._id}}" >
                 <div class="hover-trig" *ngFor="let role of user.roles" >
-                  <fa-icon
+                  <div>
+                    <fa-icon
                   [icon]="delete"
                   class="fa-delete"
                   (click)="deleteRole(role._id)"
-                  appIcon="{{user._id}}"
                    ></fa-icon>
+                  </div>
+
                   <div  class="role {{role.name}}">{{role.name}}</div>
                 </div>
 
@@ -153,7 +153,7 @@
               <div class="role pointer add"(click)="activateAdd(user._id , $event)">Add Role</div>
             </div>
             <div class="hover-trig">
-              <div class="role pointer remove" (click)="activateRemove(user._id ,  $event)">Remove Role</div>
+              <div class="role pointer remove" (click)="activateRemove(user._id , rolesDisplay)">Remove Role</div>
             </div>
             <div class="hover-trig" (click)="deleteUser(user._id)">
               <div class="role pointer delete">Delete User</div>

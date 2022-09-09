@@ -19,7 +19,7 @@ export class UserGuard implements CanActivate {
 
       if(user.roles){
         for(var i = 0; i <= user.roles.length-1; i++){
-          if(user.roles[i] == 'ROLE_USER'){
+          if(user.roles[i] == 'ROLE_USER' || user.roles[i] == 'ROLE_ADMIN'){
             return userRoleFound = true;
           }
         }

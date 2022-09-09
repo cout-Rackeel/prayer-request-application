@@ -69,6 +69,7 @@ export class NavbarComponent implements OnInit {
 
 getLoginStatus(){
  this.loggedIn = this.storageService.isLoggedIn();
+ this.getUser();
 }
 
 getUser(){
@@ -79,6 +80,7 @@ logOut(){
   this.storageService.logOut();
   Swal.fire('Thank you...', 'You have succesfully logged out!', 'success')
   this.getLoginStatus();
+  this.getUser();
   this.router.navigate(['/home']);
 }
 

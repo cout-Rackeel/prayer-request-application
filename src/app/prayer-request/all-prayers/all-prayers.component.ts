@@ -181,7 +181,7 @@ export class AllPrayersComponent implements OnInit {
         this.prayerService.editPrayerRequest(id , commitedToPrayRequest).subscribe({
           next: ()=> {
             this.retrievePrayers();
-            Swal.fire('Uncommitted...', `You have committed to pray for ${commitedToPrayRequest.name.toUpperCase()}!`, 'success');
+            Swal.fire('Committed...', `You have committed to pray for ${commitedToPrayRequest.name.toUpperCase()}!`, 'success');
 
           },
           error: (err)=> {
