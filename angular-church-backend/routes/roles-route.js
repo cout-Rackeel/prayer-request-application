@@ -11,8 +11,4 @@ router
   .get(getRoleById)
   .delete(deleteRoleById)
 
-
-
-
-
 module.exports = router;

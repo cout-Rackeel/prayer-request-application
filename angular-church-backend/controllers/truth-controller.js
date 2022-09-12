@@ -1,7 +1,6 @@
  const db = require('../models/index');
  const Truth = db.truth;
 
- //*Passed
 
  exports.getTruth = async (req,res) => {
     try{

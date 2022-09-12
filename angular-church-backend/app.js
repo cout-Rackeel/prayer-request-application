@@ -8,7 +8,6 @@ const searchRoute = require('./routes/search-route');
 const usersRoute = require('./routes/users-route');
 const rolesRoute = require('./routes/roles-route');
 const truthRoute = require('./routes/truth-route');
-const authRoute = require('./routes/auth-route');
 const dotenv = require('dotenv');
 
 const corsOptions = {

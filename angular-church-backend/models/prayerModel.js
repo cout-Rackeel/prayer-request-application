@@ -1,12 +1,5 @@
 const mongoose = require('mongoose');
 
-// userId: string;
-// title:string;
-// name:string;
-// prayerRequest:string;
-// commitedToPray:string[];
-// status:string;
-
 const PrayerSchema = new mongoose.Schema({
   userId:{
     type: mongoose.Schema.Types.ObjectId,

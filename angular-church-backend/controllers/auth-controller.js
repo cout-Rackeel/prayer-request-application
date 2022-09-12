@@ -57,6 +57,7 @@ var salt = 10;
     return;
   }
 };
+
 exports.signin = async (req, res) => {
   try{
 
@@ -123,6 +124,7 @@ exports.signin = async (req, res) => {
   }
 
 };
+
 exports.signout = async (req, res) => {
   try {
     req.session = null;

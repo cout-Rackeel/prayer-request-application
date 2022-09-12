@@ -165,8 +165,10 @@ exports.changePasswords = async(req,res) => {
     res.status(200).send({
       status:'Success',
       message:'Password successfully changed',
-      id: id,
-      updatedPassword: password
+      data:{
+        originalPasswordHash: updatedPassword.password,
+        updatedPasswordHash: newPassword.password
+      }
     })
 
 

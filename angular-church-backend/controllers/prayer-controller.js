@@ -1,7 +1,6 @@
 const db = require("../models/index");
 const Prayer = db.prayer;
 
-
 //* Passed
 
 exports.getPrayers = async (req, res) => {
