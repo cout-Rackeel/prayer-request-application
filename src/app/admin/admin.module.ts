@@ -9,7 +9,7 @@ import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AdminUserFormComponent } from './admin-user-form/admin-user-form.component';
-import { CoreModule, IconDirective } from '../core';
+import { CoreModule } from '../core';
 
 
 @NgModule({

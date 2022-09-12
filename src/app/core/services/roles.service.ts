@@ -2,6 +2,7 @@ import { HttpClient , HttpErrorResponse, HttpHeaders} from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap , catchError , of } from 'rxjs';
+import { ApiResponse } from '../models/apiResponse';
 import { Role } from '../models/roles';
 
 
@@ -24,23 +25,23 @@ export class RolesService {
 
   constructor(private http: HttpClient) { }
 
-  getAllRoles(): Observable<Role[]>{
-    return this.http.get<Role[]>(this.REST_API_URL, this.HTTP_HEADER).pipe(
-      tap(roles => console.log(`Roles list : ${JSON.stringify(roles)}`)),
+  getAllRoles(): Observable<ApiResponse<Role[]>>{
+    return this.http.get<ApiResponse<Role[]>>(this.REST_API_URL, this.HTTP_HEADER).pipe(
+      tap(roles => console.log(roles.message)),
       catchError(err => this.handleErrors(err))
       )
   }
 
-  getRoleById(id:string) : Observable<Role>{
-    return this.http.get<Role>(`${this.REST_API_URL}/${id}`, this.HTTP_HEADER).pipe(
-      tap(role => console.log(`Role selected : ${JSON.stringify(role)}`)),
+  getRoleById(id:string) : Observable<ApiResponse<Role>>{
+    return this.http.get<ApiResponse<Role>>(`${this.REST_API_URL}/${id}`, this.HTTP_HEADER).pipe(
+      tap(role => console.log(role.message)),
       catchError(err => this.handleErrors(err))
       )
   }
 
-  deleteRoleById(id:string) : Observable<Role> {
-    return this.http.delete<Role>(`${this.REST_API_URL}/${id}` , this.HTTP_HEADER).pipe(
-      tap(deletedRole => console.log(`Deleted Role :- ${JSON.stringify(deletedRole)}`)),
+  deleteRoleById(id:string) : Observable<ApiResponse<Role>> {
+    return this.http.delete<ApiResponse<Role>>(`${this.REST_API_URL}/${id}` , this.HTTP_HEADER).pipe(
+      tap(deletedRole => console.log(deletedRole.message)),
       catchError(err => this.handleErrors(err))
     )
   }

@@ -8,14 +8,13 @@ import { CheckPasswordVal } from './utils';
 import { httpInterceptorProviders } from './interceptors';
 import { UserGuard } from './guards';
 import { RolesService } from './services/roles.service';
-import { IconDirective } from './utils/icon.directive';
+
 
 
 
 @NgModule({
   declarations: [
     MatchPasswordDirective,
-    IconDirective
   ],
   imports: [
     CommonModule,
@@ -36,7 +35,6 @@ import { IconDirective } from './utils/icon.directive';
   ],
   exports:[
     MatchPasswordDirective,
-    IconDirective
   ]
 })
 export class CoreModule { }

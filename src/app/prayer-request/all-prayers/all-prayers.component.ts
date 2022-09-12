@@ -4,8 +4,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { faDeleteLeft, faEdit, faListDots, faPray, faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { DialogLinkService, SearchService, Prayer, PrayerService, SessionStorageService } from 'src/app/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { SearchQuery } from 'src/app/core/models/search-query';
-import { SearchResult } from 'src/app/core/models/search-result';
 import { User } from 'src/app/core/models/user';
 import { MoreInfoComponent } from '../more-info/more-info.component';
 import { DialogPosition } from '@angular/material/dialog';
@@ -67,7 +65,9 @@ export class AllPrayersComponent implements OnInit {
 
 
   retrievePrayers(){
-    this.prayerService.getAllPrayers().subscribe(data => this.prayerRecords = data)
+    this.prayerService.getAllPrayers().subscribe(resp => {
+      this.prayerRecords = resp.data?.['prayers'] as Prayer[]
+    })
   }
 
   openDialog(){
@@ -83,8 +83,8 @@ export class AllPrayersComponent implements OnInit {
 
   editPrayer(id:string){
     this.dialogLink.setEditSwitchVal(true);
-    return this.prayerService.findPrayerRequest(id).subscribe(prayer => {
-      this.editPrayerRequest = prayer
+    return this.prayerService.findPrayerRequest(id).subscribe(resp => {
+      this.editPrayerRequest = resp.data?.['prayer'] as Prayer
       this.dialog.open(PrayerFormComponent , {
         data: this.editPrayerRequest,
         width:"60%",
@@ -169,9 +169,8 @@ export class AllPrayersComponent implements OnInit {
     let commitedToPrayRequest !: Prayer;
     var canCommit !:any;
 
-    this.prayerService.findPrayerRequest(id).subscribe(data => {
-      commitedToPrayRequest = data
-
+    this.prayerService.findPrayerRequest(id).subscribe(resp => {
+      commitedToPrayRequest = resp.data?.['prayer']!
       if(this.loggedIn){
 
       canCommit = commitedToPrayRequest.commitedToPray.find((user) => user._id == this.user._id);
@@ -181,7 +180,7 @@ export class AllPrayersComponent implements OnInit {
         this.prayerService.editPrayerRequest(id , commitedToPrayRequest).subscribe({
           next: ()=> {
             this.retrievePrayers();
-            Swal.fire('Uncommitted...', `You have committed to pray for ${commitedToPrayRequest.name.toUpperCase()}!`, 'success');
+            Swal.fire('Committed...', `You have committed to pray for ${commitedToPrayRequest.name.toUpperCase()}!`, 'success');
 
           },
           error: (err)=> {
@@ -228,8 +227,8 @@ export class AllPrayersComponent implements OnInit {
       let key = this.searchForm.value.key;
       let query = this.searchForm.value.searchQuery;
 
-      this.searchService.getSearchResult(key , query).subscribe(data => {
-        this.searchVal = data
+      this.searchService.getSearchResult(key , query).subscribe(resp => {
+        this.searchVal = resp.data?.['result']!
         console.log(query)
       });
     }

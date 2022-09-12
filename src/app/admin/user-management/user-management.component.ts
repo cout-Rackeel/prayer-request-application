@@ -26,9 +26,12 @@ export class UserManagementComponent implements OnInit{
   credTrigger = false;
   uniTrigger = false;
   editSwitch !: boolean;
+  showPassword !:boolean;
+
 
     @ViewChild('addForm') addForm !: ElementRef;
     @ViewChild('credForm') credForm !: ElementRef;
+    @ViewChild('rolesDisplay') rolesDisplay !: ElementRef;
 
     addRoleForm = {
        roles : []
@@ -48,20 +51,21 @@ export class UserManagementComponent implements OnInit{
 
 
   getUsers(){
-    this.userService.getAllUsers().subscribe(data => this.users = data);
+    this.userService.getAllUsers().subscribe(resp => this.users = resp.data?.['users'] as User[]);
   }
 
   getRoles(){
-    this.roleService.getAllRoles().subscribe(data => {
-      data.forEach((role:any) => {
+    this.roleService.getAllRoles().subscribe(resp => {
+      resp.data?.['roles'].forEach((role:any) => {
         role.isSelected = false
       })
-      this.roles = data;
+      this.roles = resp.data?.['roles'] as Role[];
     })
   }
 
   openDialog(){
     this.dialog.open(AdminUserFormComponent,{
+      data:{user:null, isPasswordEdit:true },
       width:"60%",
       minHeight:"350px"
     }).afterClosed().subscribe(val=>{
@@ -138,20 +142,35 @@ export class UserManagementComponent implements OnInit{
   }
 
   setCurrentUser(id:string){
-    this.userService.getUserById(id).subscribe(data => {
-      this.currentUserRole = data
+    this.userService.getUserById(id).subscribe(resp => {
+      this.currentUserRole = resp.data?.['user'] as User;
     });
   }
 
-   editUser(user:any){
+  editUser(user:User){
   this.dialogLink.setEditSwitchVal(true);
   this.dialog.open(AdminUserFormComponent , {
-    data: user,
+    data: {user:user , isPasswordEdit: false},
     width:"60%",
     minHeight:"350px"
   }).afterClosed().subscribe(val=>{
     this.dialogLink.setEditSwitchVal(false);
     if(val === 'edit'){
+      this.close('credForm');
+      this.getUsers();
+    }
+})
+ }
+
+ changePassword(user:User){
+  this.dialogLink.setEditSwitchVal(true);
+  this.dialog.open(AdminUserFormComponent , {
+    data: {user:user , isPasswordEdit: true},
+    width:"60%",
+    minHeight:"350px"
+  }).afterClosed().subscribe(val=>{
+    this.dialogLink.setEditSwitchVal(false);
+    if(val === 'password'){
       this.close('credForm');
       this.getUsers();
     }
@@ -183,14 +202,27 @@ export class UserManagementComponent implements OnInit{
   }
 
 
-  activateRemove(userId:string, e:any ){
+  activateRemove(userId:string , rolesDisplay:any){
+    let rolesDisplayUserId = this.rolesDisplay.nativeElement.getAttribute('data-roles')
+    console.log(rolesDisplay);
+    this.setCurrentUser(userId);
+
     this.moveOut(this.addForm, this.addTrigger);
     this.moveOut(this.credForm, this.credTrigger);
+
     if(!this.removeTrigger){
-      this.setCurrentUser(userId)
+      if(this.currentUserRole._id == rolesDisplayUserId){
+        this.rolesDisplay.nativeElement.classList.remove('off');
+        this.rolesDisplay.nativeElement.classList.add('on');
+        alert('boom on')
+      }
       this.removeTrigger = !this.removeTrigger;
     }else{
-      alert('off')
+      if(this.currentUserRole._id == rolesDisplayUserId){
+        this.rolesDisplay.nativeElement.classList.add('off');
+        this.rolesDisplay.nativeElement.classList.remove('on');
+        alert('boom off')
+      }
       this.removeTrigger = !this.removeTrigger;
     }
 

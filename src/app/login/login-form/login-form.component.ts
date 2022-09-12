@@ -10,96 +10,95 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.component.css']
+  styleUrls: ['./login-form.component.css'],
 })
 export class LoginFormComponent implements OnInit {
-
   loginForm = {
     username: '',
-    password:''
-  }
+    password: '',
+  };
 
   errorMessage = '';
   roles: string[] | undefined = [];
-  passwordIncorrect : boolean = false;
-  userNotFound : boolean = false;
+  passwordIncorrect: boolean = false;
+  userNotFound: boolean = false;
   invalidUsername = '';
   invalidPassword = '';
 
-  constructor(private authService : AuthService ,
-              private storageService : SessionStorageService,
-              private router : Router
-             ) {}
+  constructor(
+    private authService: AuthService,
+    private storageService: SessionStorageService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-
+    // this.router.routeReuseStrategy.shouldReuseRoute = () => {
+    //   return false
+    // }
   }
 
-  onSubmit(login:NgForm){
-    let formVal : Partial<User> = this.loginForm;
+  onSubmit(login: NgForm) {
+    let formVal: Partial<User> = this.loginForm;
     formVal.username = formVal.username?.trim().toLowerCase();
-    if(login.form.valid){
+    if (login.form.valid) {
       this.authService.signIn(formVal).subscribe({
-        next : (data) => {
-        this.storageService.saveUser(data);
-        Swal.fire('Thank you...', 'You have succesfully logged in!', 'success');
+        next: (res) => {
+          this.storageService.saveUser(res.data!['user']);
+          Swal.fire(
+            `Welcome ${res.data!['user'].username.toUpperCase()} !!`,
+            'You have succesfully logged in!',
+            'success'
+          );
         },
 
-        error: (err:HttpErrorResponse) => {
+        error: (err: HttpErrorResponse) => {
+          Swal.fire('Oops.......', `${err.error.message}`, 'error');
 
-          Swal.fire('Oops.......', JSON.stringify(err.error.message), 'error')
-
-          if(err.error.userNotFound){
+          if (err.error.data.userNotFound) {
             this.userNotFound = true;
-            this.invalidUsername = formVal.username!
-          }else{
+            this.invalidUsername = formVal.username!;
+          } else {
             this.userNotFound = false;
           }
 
-          if(err.error.passwordInvalid){
-            this.passwordIncorrect = true
-            this.invalidPassword = formVal.password!
-
-          }else{
+          if (err.error.data.passwordInvalid) {
+            this.passwordIncorrect = true;
+            this.invalidPassword = formVal.password!;
+          } else {
             this.passwordIncorrect = false;
           }
 
-          console.log(err.error);
         },
 
-        complete: () =>{
+        complete: () => {
           this.storageService.isLoggedIn();
           this.storageService.getUser();
-          window.location.reload();
-        }
-      })
-      console.log(`${JSON.stringify(formVal)}`);
+          this.router.navigate(['/home']);
+          setTimeout(() => {
+            window.location.reload();
+          }, 1*1000)
+
+        },
+      });
     }
   }
 
-  isChangedUsername(){
-    if(this.invalidUsername !== this.loginForm.username){
-      this.userNotFound = false
-      return true
-    }else{
-      return false
-    }
-  }
-
-  isChangedPassword(){
-    if(this.invalidPassword !== this.loginForm.password){
-      this.passwordIncorrect = false;
-      return true
-    }else{
+  isChangedUsername() {
+    if (this.invalidUsername !== this.loginForm.username) {
+      this.userNotFound = false;
+      return true;
+    } else {
       return false;
     }
   }
 
+  isChangedPassword() {
+    if (this.invalidPassword !== this.loginForm.password) {
+      this.passwordIncorrect = false;
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-
-
-  // changedUsername(){}
-  // changedPassword(){
-  //   if(this.passwordIncorrect)
-  // }
 }

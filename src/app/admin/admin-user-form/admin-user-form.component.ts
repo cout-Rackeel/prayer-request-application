@@ -34,8 +34,11 @@ export class AdminUserFormComponent implements OnInit {
     private roleService : RolesService,
     private userService : UserManagementService,
     private dialog : MatDialogRef<AdminUserFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public dialogData: User
+    @Inject(MAT_DIALOG_DATA) public dialogData: any
     ) { }
+
+    formData : User = this.dialogData.user;
+    showPassword : boolean = this.dialogData.isPasswordEdit
 
   newUserForm : any ={
     firstname : '',
@@ -53,7 +56,6 @@ export class AdminUserFormComponent implements OnInit {
     this.setBehavioral()
 
     if(this.editSwitch){
-      alert(JSON.stringify(this.dialogData.roles))
       this.setForm();
 
 
@@ -64,13 +66,13 @@ export class AdminUserFormComponent implements OnInit {
 
     if(this.dialogData){
       this.newUserForm = {
-        _id:this.dialogData._id,
-        firstname : this.dialogData.firstname,
-        lastname : this.dialogData.lastname,
-        username : this.dialogData.username,
-        email:this.dialogData.email,
-        password:this.dialogData.password,
-        confirmPassword:this.dialogData.password,
+        _id:this.formData._id,
+        firstname : this.formData.firstname,
+        lastname : this.formData.lastname,
+        username : this.formData.username,
+        email:this.formData.email,
+        password:'',
+        confirmPassword:'',
         pals: '',
         roles: this.dialogData.roles
       }
@@ -127,11 +129,11 @@ export class AdminUserFormComponent implements OnInit {
     }
 
   getRoles(){
-    this.roleService.getAllRoles().subscribe(data => {
-      data.forEach((role:any) => {
+    this.roleService.getAllRoles().subscribe(resp => {
+      resp.data?.['roles'].forEach((role:any) => {
         role.isSelected = false
       })
-      this.roles = data;
+      this.roles = resp.data?.['roles'] as Role[];
     })
   }
 
@@ -153,7 +155,7 @@ export class AdminUserFormComponent implements OnInit {
       }
     }
 
-  updateUser(){
+  updateUser(userForm:NgForm){
     let formVal : Partial<User> = {
       _id: this.newUserForm._id,
       firstname :this.newUserForm.firstname.trim().toLowerCase(),
@@ -185,6 +187,19 @@ export class AdminUserFormComponent implements OnInit {
           this.dialog.close('edit');
           Swal.fire('User edited!', 'You have succesfully added a user!', 'success');
 
+      },
+    })
+
+  }
+
+  updatePassword(userForm:NgForm){
+    let newPassword : string = this.newUserForm.password;
+    this.userService.changeUserPassword(this.newUserForm._id! , newPassword).subscribe({
+      next:() =>{
+      },
+      complete: () => {
+          this.dialog.close('password');
+          Swal.fire('User password changed!', "You have succesfully changed the user's password!", 'success');
       },
     })
 

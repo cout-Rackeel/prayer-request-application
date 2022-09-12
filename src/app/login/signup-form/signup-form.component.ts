@@ -17,7 +17,6 @@ export class SignupFormComponent implements OnInit {
   constructor(
     private authService : AuthService,
     private router : Router,
-    private cf : ChangeDetectorRef
   ) { }
 
   signUpForm = {
@@ -55,15 +54,14 @@ export class SignupFormComponent implements OnInit {
         next: (resp:any) => {
           this.usernameAlreadyUsed = false;
           this.emailAlreadyUsed = false;
-          console.log(`${JSON.stringify(formVal)}`);
         },
         error: (err:HttpErrorResponse) => {
-          if(err.error.errType == 'username'){
+          if(err.error.data.errType == 'username'){
             this.usernameAlreadyUsed = true;
             this.invalidUsername = formVal.username!;
           }
 
-          if(err.error.errType == 'email'){
+          if(err.error.data.errType == 'email'){
             this.emailAlreadyUsed = true;
             this.invalidEmail = formVal.email!;
           }
@@ -71,7 +69,7 @@ export class SignupFormComponent implements OnInit {
           console.log(err.error);
         },
         complete: () =>{
-          Swal.fire('Thank you...', 'You have succesfully signed up! Now login in to your account', 'success');
+          Swal.fire('Thank you...', 'You have succesfully signed up! Now login into your account', 'success');
           this.router.navigate(['/login/login'],);
         }
        });

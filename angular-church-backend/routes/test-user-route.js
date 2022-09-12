@@ -10,26 +10,12 @@ module.exports = function(app) {
     next();
   });
   app.get("/api/test/all", controller.allAccess);
-  app.get("/api/test/user", [authJwt.verifyToken], controller.userBoard);
-  app.get(
-    "/api/test/mod",
-    [authJwt.verifyToken, authJwt.isModerator],
-    controller.moderatorBoard
-  );
-  app.get(
-    "/api/test/admin",
-    [authJwt.verifyToken, authJwt.isAdmin],
-    controller.adminBoard
-  );
-  app.get(
-    "/api/test/pastor",
-    [authJwt.verifyToken,authJwt.isPastor],
-    controller.pastorBoard
-  );
-  app.get(
-    "/api/test/saint",
-    [authJwt.verifyToken,authJwt.isSaint],
-    controller.saintBoard
-  );
+  app.get("/api/test/mod",[authJwt.verifyToken, authJwt.isModerator], controller.moderatorBoard);
+  app.get("/api/test/admin",[authJwt.verifyToken, authJwt.isAdmin],controller.adminBoard);
+  app.get("/api/test/pastor",[authJwt.verifyToken,authJwt.isPastor],controller.pastorBoard);
+  app.get("/api/test/saint",[authJwt.verifyToken,authJwt.isSaint],controller.saintBoard);
+  app.get("/api/test/user", [authJwt.verifyToken , authJwt.isUser], controller.userBoard);
+  app.get("/api/test/mother",[authJwt.verifyToken,authJwt.isMother],controller.motherBoard);
+  app.get("/api/test/minister",[authJwt.verifyToken,authJwt.isMinister],controller.ministerBoard);
 };
 

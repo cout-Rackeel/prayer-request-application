@@ -15,6 +15,7 @@ import { SharedModule } from './shared/shared.module';
 
 import { NavbarComponent, FooterComponent } from './shared/layout';
 import { CoreModule, httpInterceptorProviders } from './core';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 
@@ -23,7 +24,8 @@ import { CoreModule, httpInterceptorProviders } from './core';
   declarations: [
     AppComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    PageNotFoundComponent
 
   ],
   imports: [

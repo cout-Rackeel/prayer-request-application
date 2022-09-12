@@ -19,7 +19,7 @@ export class TruthComponent implements OnInit {
   }
 
   getTruth(){
-    this.truthService.getAllTruth().subscribe(data => this.truths= data);
+    this.truthService.getAllTruth().subscribe(resp => this.truths = resp.data?.['truth'] as Truth[]);
   }
 
 }

@@ -23,7 +23,7 @@ export class MoreInfoComponent implements OnInit {
   }
 
   getPrayerRequest(){
-    this.prayerService.findPrayerRequest(this.data).subscribe(data => this.prayerRequest = data);
+    this.prayerService.findPrayerRequest(this.data).subscribe(resp => this.prayerRequest = resp.data?.['prayer'] as Prayer);
   }
 
 }

@@ -1,6 +1,7 @@
 import { HttpClient , HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { tap , catchError, of, Observable} from 'rxjs';
+import { ApiResponse } from '../models/apiResponse';
 import { Truth } from '../models/truth';
 
 @Injectable({
@@ -17,11 +18,11 @@ export class TruthService {
 
   constructor(private http : HttpClient) { }
 
-  getAllTruth() : Observable<Truth[]>{
-    return this.http.get<Truth[]>(this.REST_API_URL , this.HTTP_HEADER).pipe(
-      tap( truth => console.log(`Truth obtained :- ${JSON.stringify(truth)}`)),
+  getAllTruth() : Observable<ApiResponse<Truth[]>>{
+    return this.http.get<ApiResponse<Truth[]>>(this.REST_API_URL , this.HTTP_HEADER).pipe(
+      tap(truth => console.log(truth.message) ),
 
-      catchError(err => of([]))
+      catchError(err => of())
     )
   }
 }

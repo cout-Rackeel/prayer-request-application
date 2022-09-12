@@ -57,8 +57,8 @@ export class PrayerFormComponent implements OnInit {
 
 
   setAnonymous(){
-    this.userService.getAllUsers().subscribe(data =>{
-      this.user = data.find((anon) => anon.username == 'anonymous')!;
+    this.userService.getAllUsers().subscribe(resp =>{
+      this.user = resp.data?.['users'].find((anon) => anon.username == 'anonymous')!;
       console.log(this.user);
     })
   }
@@ -88,9 +88,9 @@ export class PrayerFormComponent implements OnInit {
       title:this.dialogData.title,
       date:this.dialogData.date || '',
       prayerRequest:this.dialogData.prayerRequest,
-      commitedToPray:[],
+      commitedToPray:this.dialogData.commitedToPray,
       status:false,
-      updates:[]
+      updates:this.dialogData.updates
     }
 
     if(this.dialogData){
@@ -102,7 +102,7 @@ export class PrayerFormComponent implements OnInit {
 
   addPrayer(){
     if(this.prayerForm.valid){
-      this.prayerService.createPrayerRequest(this.prayerForm.value).subscribe( data => this.createdPrayer = data)
+      this.prayerService.createPrayerRequest(this.prayerForm.value).subscribe( resp => this.createdPrayer = resp.data?.['prayer'] as Prayer)
       this.dialogRef.close('save');
       Swal.fire('Added', 'Prayer request successfully added!', 'success');
       console.log(`${JSON.stringify(this.prayerForm.value)}`);
@@ -112,7 +112,7 @@ export class PrayerFormComponent implements OnInit {
 
   editPrayerConfirm(){
     if(this.prayerForm.valid){
-      this.prayerService.editPrayerRequest(this.dialogData._id, this.prayerForm.value).subscribe(data => this.editedPrayer = data)
+      this.prayerService.editPrayerRequest(this.dialogData._id, this.prayerForm.value).subscribe(resp => this.editedPrayer = resp.data?.['prayer'] as Prayer)
       this.dialogRef.close('edit');
 
       Swal.fire('Edited', 'Prayer request successfully edited', 'success');

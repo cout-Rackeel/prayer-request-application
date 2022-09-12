@@ -51,7 +51,7 @@ export class YourPrayersComponent implements OnInit {
   }
 
   retrievePrayers(){
-    this.prayerService.getUserPrayers(this.user._id!).subscribe(data => this.prayerRecords = data)
+    this.prayerService.getUserPrayers(this.user._id!).subscribe(resp => this.prayerRecords = resp.data?.['prayers']!)
   }
 
   openDialog(){
@@ -69,7 +69,7 @@ export class YourPrayersComponent implements OnInit {
   editPrayer(id:string){
     this.dialogLink.setEditSwitchVal(true);
     return this.prayerService.findPrayerRequest(id).subscribe(prayer => {
-      this.editPrayerRequest = prayer
+      this.editPrayerRequest = prayer.data?.['prayer']!
       this.dialog.open(PrayerFormComponent , {
         data: this.editPrayerRequest,
         width:"60%",
