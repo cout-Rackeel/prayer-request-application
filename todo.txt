@@ -17,6 +17,9 @@ August 18, 2022
 - Create user management system for Admin //**Completed
 - Create prayer management system for Admin //!!Scrapped
 
+September 7-9, 2022
+- Worked on High fidelity graphics
+-
 
 September 9 , 2022
 !!!!!!!!!!!!!!!!!!!!! Due Thursday September 8, 2022 @ 11:59 pm !!!!!!!!!!!!!!!!!!!!!!
@@ -28,3 +31,20 @@ September 9 , 2022
 - Implement wireframe
 - Technical documentation
 - Api documentation
+
+Extension occurs
+
+September 10 , 2022
+- Modify Backend responses with status and message
+- Style 404 Page Not Found errors
+- Finish Screenshoots and Code Snippets
+- Finish High Fidelity graphics
+- Start Technical documentation
+    - Product Overview
+    - Product Objective
+    - Functional and Non Requirements
+    - Roadmap
+    - API documentation
+    - User Manual
+    - System Administrator Manual
+- Get Application hosted Online

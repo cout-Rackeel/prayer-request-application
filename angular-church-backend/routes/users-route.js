@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getAllUsers, getUserById, deleteUserById, editUserById } = require('../controllers/users-controller');
+const { getAllUsers, getUserById, deleteUserById, editUserById, changePasswords } = require('../controllers/users-controller');
 const { verifySignUp } = require("../middlewares");
 
 router
@@ -12,6 +12,10 @@ router
   .get(getUserById)
   .delete(deleteUserById)
   .patch(editUserById, verifySignUp.checkDuplicateUsernameOrEmail)
+
+router
+  .route('/:id/changePassword')
+  .patch(changePasswords)
 
 // router
 //   .route('/search/:key')

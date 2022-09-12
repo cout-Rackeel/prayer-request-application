@@ -6,6 +6,7 @@ var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 var salt = 10;
 
+//*Passed
 
  exports.signup = async (req,res) => {
   try{
@@ -25,19 +26,37 @@ var salt = 10;
     if(req.body.roles){
       savedUser.roles.push(defaultRole._id);
       savedUser = await savedUser.save();
-      res.send({ message: `User was registered successfully yes roles! ${JSON.stringify(req.body.roles)}` });
+      res.status(201).send(
+        {
+          status:"Successfully Created",
+          message: `User was registered successfully with roles!`,
+          data:{
+            user : savedUser
+          }
+        });
     }else{
       savedUser.roles = [defaultRole._id];
       savedUser = await savedUser.save();
-      res.send({ message: "User was registered successfully no roles!" });
+      res.status(201).send(
+        {
+          status:"Successfully Created",
+          message: "User was registered successfully! ",
+          data:{
+            user : savedUser
+          }
+      });
     }
 
   }catch(err){
-    res.status(500).send({ message: err.stack , data:'place 6' });
+    res.status(500).send({
+       status:'Internal Server Error',
+       error:err,
+       message: err.message,
+       stack: err.stack
+      });
     return;
   }
 };
-
 exports.signin = async (req, res) => {
   try{
 
@@ -47,8 +66,12 @@ exports.signin = async (req, res) => {
     const currentUser = await User.findOne({username:username}).populate("roles","-__v");
 
     if(!currentUser){
-      return res.status(404).send({message:'User not found!! , check username',
-      userNotFound: true
+      return res.status(404).send({
+        status:'Not Found',
+        message:'User not found!! , check username',
+        data: {
+          userNotFound :true
+        }
     });
     }
 
@@ -56,8 +79,12 @@ exports.signin = async (req, res) => {
     const IsPasswordVaild =  await bcrypt.compare(userPassword , currentUser.password);
 
     if(!IsPasswordVaild){
-      return res.status(401).send({message:"Invalid Password",
-      passwordInvalid:true
+      return res.status(401).send({
+        status:'Invalid credentials',
+        message:"Invalid Password",
+        data: {
+          passwordInvalid:true,
+        }
     });
     }
 
@@ -70,27 +97,46 @@ exports.signin = async (req, res) => {
 
     // Stores token to the client
     req.session.token = token;
+
     res.status(200).send({
-      _id:currentUser._id,
-      firstname:currentUser.firstname,
-      lastname: currentUser.lastname,
-      username:currentUser.username,
-      email:currentUser.email,
-      roles:positions
+      status:"Success",
+      message:"User successfully sigined in",
+      data:{
+        user:{_id:currentUser._id,
+        firstname:currentUser.firstname,
+        lastname: currentUser.lastname,
+        username:currentUser.username,
+        email:currentUser.email,
+        roles:positions
+       }
+      }
+
     });
 
-
   }catch(err){
-    res.status(500).send({message:err.message , secret:config.secret});
+    res.status(500).send({
+      status:'Internal Server Error',
+      error:err,
+      message:err.message ,
+      stack: err.stack
+    });
   }
 
 };
-
 exports.signout = async (req, res) => {
   try {
     req.session = null;
-    return res.status(200).send({ message: "You've been signed out!" });
-  } catch (err) {
-    this.next(err);
+    return res.status(200).send({
+      status:'Success',
+      message: "You've been signed out!",
+     });
+
+  }catch (err){
+    res.status(500).send({
+      status:'Internal Server Error',
+      error:err,
+      message:err.message,
+      stack:err.stack
+    })
   }
 };

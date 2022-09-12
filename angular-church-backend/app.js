@@ -12,7 +12,7 @@ const authRoute = require('./routes/auth-route');
 const dotenv = require('dotenv');
 
 const corsOptions = {
-  origin : "http://localhost:4200",
+  origin : "*",
   credentials:true,
   exposedHeaders:[
     'Content-Length', 'X-Foo', 'X-Bar'
@@ -74,8 +74,8 @@ setResponseHeader = (req, res , next) => {
 // ROUTES MIDDLEWARE
   app.use('/api/prayers',  prayerRoute);
   app.use('/api/truth',  truthRoute);
-  app.use('/api/users', setResponseHeader, usersRoute);
-  app.use('/api/user/prayers',  userPrayerRoute);
+  app.use('/api/users',  usersRoute);
+  app.use('/api/user/',  userPrayerRoute);
   app.use('/api/search/',  searchRoute);
   app.use('/api/roles', rolesRoute);
 

@@ -5,6 +5,7 @@ import { Prayer } from '../models';
 import { tap , catchError , of } from 'rxjs';
 import { SessionStorageService } from './session-storage.service';
 import { User } from '../models/user';
+import { ApiResponse } from '../models/apiResponse';
 
 
 @Injectable({
@@ -14,7 +15,7 @@ import { User } from '../models/user';
 export class PrayerService {
 
   private REST_API_URL = 'http://localhost:3250/api/prayers';
-  private USER_REST_API_URL = 'http://localhost:3250/api/user/prayers'
+  private USER_REST_API_URL = 'http://localhost:3250/api/user'
   private HTTP_HEADER = {
     headers: new HttpHeaders({
       'Content-Type':'application/json'
@@ -29,18 +30,18 @@ export class PrayerService {
   user: Partial<User> = this.storageService.getUser();
   loggedIn : boolean = this.storageService.isLoggedIn();
 
-  getAllPrayers(): Observable<Prayer[]>{
-    return this.http.get<Prayer[]>(this.REST_API_URL, this.HTTP_HEADER).pipe(
-      tap(prayers => {
+  getAllPrayers(): Observable<ApiResponse<Prayer[]>>{
+    return this.http.get<ApiResponse<Prayer[]>>(this.REST_API_URL, this.HTTP_HEADER).pipe(
+      tap((prayers : ApiResponse<Prayer[]>) => {
+        let prayersArr : Prayer[] =  (prayers.data?.['prayers']) as Prayer[]
         if(this.loggedIn){
-        prayers.forEach((prayer) =>{
+          prayersArr.forEach((prayer: Prayer) =>{
           prayer.commitedToPray.forEach((user) => {
             if(user._id == this.user._id){
               prayer.status = true;
             }
           })
         })
-          console.log(`Prayers list : ${JSON.stringify(prayers[0].status)}`);
         }
 
       }),
@@ -48,37 +49,32 @@ export class PrayerService {
       )
   }
 
-  getUserPrayers(id:string) : Observable<Prayer[]>{
-    return this.http.get<Prayer[]>(`${this.USER_REST_API_URL}/${id}`, this.HTTP_HEADER).pipe(
-      tap(prayers => console.log(`Prayers list : ${JSON.stringify(prayers)}`)),
+  getUserPrayers(id:string) : Observable<ApiResponse<Prayer[]>>{
+    return this.http.get<ApiResponse<Prayer[]>>(`${this.USER_REST_API_URL}/${id}/prayers`, this.HTTP_HEADER).pipe(
       catchError(err => this.handleErrors(err))
       )
   }
 
-  findPrayerRequest(id:string) : Observable<Prayer> {
-    return this.http.get<Prayer>(`${this.REST_API_URL}/${id}`, this.HTTP_HEADER).pipe(
-      tap( selectedPrayer => console.log(`Selected prayer:- ${JSON.stringify(selectedPrayer)}`)),
+  findPrayerRequest(id:string) : Observable<ApiResponse<Prayer>>{
+    return this.http.get<ApiResponse<Prayer>>(`${this.REST_API_URL}/${id}`, this.HTTP_HEADER).pipe(
       catchError(err => this.handleErrors(err))
     )
   }
 
-  createPrayerRequest(body:Prayer) : Observable<Prayer> {
-    return this.http.post<Prayer>(`${this.REST_API_URL}`,body ,this.HTTP_HEADER).pipe(
-      tap(createdPrayer => console.log(`Created Prayer :- ${JSON.stringify(createdPrayer)}`)),
-      catchError(err => of(new Prayer))
-    )
-  }
-
-  editPrayerRequest(id:string , body:Prayer) : Observable<Prayer> {
-    return this.http.patch<Prayer>(`${this.REST_API_URL}/${id}`, body , this.HTTP_HEADER).pipe(
-      tap(editedPrayer => console.log(`Edited Prayer :- ${JSON.stringify(editedPrayer)}`)),
+  createPrayerRequest(body:Prayer): Observable<ApiResponse<Prayer>> {
+    return this.http.post<ApiResponse<Prayer>>(`${this.REST_API_URL}`,body ,this.HTTP_HEADER).pipe(
       catchError(err => this.handleErrors(err))
     )
   }
 
-  deletePrayerRequest(id:string) : Observable<Prayer> {
-    return this.http.delete<Prayer>(`${this.REST_API_URL}/${id}` , this.HTTP_HEADER).pipe(
-      tap(deletedPrayer => console.log(`Deleted Prayer :- ${JSON.stringify(deletedPrayer)}`)),
+  editPrayerRequest(id:string , body:Prayer) : Observable<ApiResponse<Prayer>> {
+    return this.http.patch<ApiResponse<Prayer>>(`${this.REST_API_URL}/${id}`, body , this.HTTP_HEADER).pipe(
+      catchError(err => this.handleErrors(err))
+    )
+  }
+
+  deletePrayerRequest(id:string) : Observable<ApiResponse<Prayer>> {
+    return this.http.delete<ApiResponse<Prayer>>(`${this.REST_API_URL}/${id}` , this.HTTP_HEADER).pipe(
       catchError(err => this.handleErrors(err))
     )
   }

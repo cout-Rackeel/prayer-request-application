@@ -32,9 +32,9 @@ export class LoginFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.router.routeReuseStrategy.shouldReuseRoute = () => {
-      return false
-    }
+    // this.router.routeReuseStrategy.shouldReuseRoute = () => {
+    //   return false
+    // }
   }
 
   onSubmit(login: NgForm) {
@@ -42,33 +42,32 @@ export class LoginFormComponent implements OnInit {
     formVal.username = formVal.username?.trim().toLowerCase();
     if (login.form.valid) {
       this.authService.signIn(formVal).subscribe({
-        next: (data) => {
-          this.storageService.saveUser(data);
+        next: (res) => {
+          this.storageService.saveUser(res.data!['user']);
           Swal.fire(
-            'Thank you...',
+            `Welcome ${res.data!['user'].username.toUpperCase()} !!`,
             'You have succesfully logged in!',
             'success'
           );
         },
 
         error: (err: HttpErrorResponse) => {
-          Swal.fire('Oops.......', JSON.stringify(err.error.message), 'error');
+          Swal.fire('Oops.......', `${err.error.message}`, 'error');
 
-          if (err.error.userNotFound) {
+          if (err.error.data.userNotFound) {
             this.userNotFound = true;
             this.invalidUsername = formVal.username!;
           } else {
             this.userNotFound = false;
           }
 
-          if (err.error.passwordInvalid) {
+          if (err.error.data.passwordInvalid) {
             this.passwordIncorrect = true;
             this.invalidPassword = formVal.password!;
           } else {
             this.passwordIncorrect = false;
           }
 
-          console.log(err.error);
         },
 
         complete: () => {
@@ -81,7 +80,6 @@ export class LoginFormComponent implements OnInit {
 
         },
       });
-      console.log(`${JSON.stringify(formVal)}`);
     }
   }
 
@@ -103,8 +101,4 @@ export class LoginFormComponent implements OnInit {
     }
   }
 
-  // changedUsername(){}
-  // changedPassword(){
-  //   if(this.passwordIncorrect)
-  // }
 }

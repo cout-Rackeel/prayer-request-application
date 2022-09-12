@@ -4,7 +4,7 @@ const { getUserPrayers } = require('../controllers/user-prayer-controller');
 
 
  router
- .route('/:id')
+ .route('/:id/prayers')
  .get(getUserPrayers)
 
  module.exports = router;
