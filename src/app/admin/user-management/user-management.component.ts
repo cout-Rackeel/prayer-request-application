@@ -146,6 +146,7 @@ export class UserManagementComponent implements OnInit{
       this.currentUserRole = resp.data?.['user'] as User;
     });
   }
+  
 
   editUser(user:User){
   this.dialogLink.setEditSwitchVal(true);

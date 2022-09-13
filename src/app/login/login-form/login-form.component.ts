@@ -32,9 +32,7 @@ export class LoginFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.router.routeReuseStrategy.shouldReuseRoute = () => {
-    //   return false
-    // }
+   
   }
 
   onSubmit(login: NgForm) {

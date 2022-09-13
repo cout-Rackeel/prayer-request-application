@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 @Injectable({
   providedIn: 'root'
 })
-export class UserGuard implements CanActivate {
+export class AdminActivateGuard implements CanActivate {
 
   constructor(private storageService : SessionStorageService , private router: Router){}
 
@@ -19,7 +19,7 @@ export class UserGuard implements CanActivate {
 
       if(user.roles){
         for(var i = 0; i <= user.roles.length-1; i++){
-          if(user.roles[i] == 'ROLE_USER'){
+          if(user.roles[i] == 'ROLE_ADMIN'){
             return userRoleFound = true;
           }
         }
