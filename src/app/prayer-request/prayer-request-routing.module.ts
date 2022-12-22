@@ -14,7 +14,7 @@ const routes : Routes = [
   {
     path:'your-prayers/:id',
     component:YourPrayersComponent,
-    canActivate:[UserGuard, AdminActivateGuard]
+    canActivate:[UserGuard || AdminActivateGuard]
   },
 
   {

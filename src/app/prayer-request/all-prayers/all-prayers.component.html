@@ -48,7 +48,7 @@
 
     <div class="main-bar">
       <div *ngFor="let prayer of prayerRecords " class="repeater">
-        <div class="prayer-card-container" *ngIf="prayer.userId != user._id">
+        <div class="prayer-card-container" >
           <div class="card-heading">
             <img src="assets/banner-imgs/cropped-ocoj.png" alt="" class="card-img">
             <h4 class="prayer-title">{{prayer.title}}</h4>
@@ -60,7 +60,7 @@
             </div>
           <div class="card-footer">
 
-            <div *ngIf="user._id !== prayer.userId">
+            <div *ngIf="user._id != prayer.userId">
               <fa-icon [icon]="praying"
               class="pray" (click)="commitToPrayer(prayer._id)"
               [ngClass]=" prayer.status === true ? 'on' : '' "

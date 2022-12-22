@@ -92,7 +92,6 @@ export class AllPrayersComponent implements OnInit {
       }).afterClosed().subscribe(val=>{
         this.dialogLink.setEditSwitchVal(false);
         this.retrievePrayers();
-        console.log(`${JSON.stringify(this.editPrayerRequest)}`);
       })
     })
     }
@@ -163,7 +162,6 @@ export class AllPrayersComponent implements OnInit {
     });
 
   }
-
 
   commitToPrayer(id : string){
     let commitedToPrayRequest !: Prayer;
