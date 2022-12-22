@@ -14,8 +14,8 @@ import { ApiResponse } from '../models/apiResponse';
 
 export class PrayerService {
 
-  private REST_API_URL = 'http://localhost:3250/api/prayers';
-  private USER_REST_API_URL = 'http://localhost:3250/api/user'
+  private REST_API_URL = 'https://angular-church-backend.vercel.app/api/prayers';
+  private USER_REST_API_URL = 'https://angular-church-backend.vercel.app/api/user'
   private HTTP_HEADER = {
     headers: new HttpHeaders({
       'Content-Type':'application/json'
