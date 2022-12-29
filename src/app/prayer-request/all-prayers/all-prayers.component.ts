@@ -181,7 +181,7 @@ export class AllPrayersComponent implements OnInit {
           next: ()=> {
             this.retrievePrayers();
             Swal.fire('Committed...', `You have committed to pray for ${commitedToPrayRequest.name.toUpperCase()}!`, 'success');
-
+            console.log(canCommit);
           },
           error: (err)=> {
             console.log(err.error.message);
@@ -190,11 +190,12 @@ export class AllPrayersComponent implements OnInit {
 
       }else{
         this.removeCommittance(commitedToPrayRequest,id);
+        console.log(canCommit);
       }
       }else{
 
       canCommit = commitedToPrayRequest.commitedToPray.find((user) => user._id == this.anonId);
-
+      
         if(!canCommit){
           commitedToPrayRequest.commitedToPray.push(this.anonId);
           this.prayerService.editPrayerRequest(id, commitedToPrayRequest).subscribe({
