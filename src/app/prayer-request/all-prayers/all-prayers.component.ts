@@ -173,6 +173,8 @@ export class AllPrayersComponent implements OnInit {
 
       canCommit = commitedToPrayRequest.commitedToPray.find((user) => user._id == this.user._id);
 
+      console.log(canCommit);
+
         if(!canCommit){
         commitedToPrayRequest.commitedToPray.push(this.user._id!);
         this.prayerService.editPrayerRequest(id , commitedToPrayRequest).subscribe({
