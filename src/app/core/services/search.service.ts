@@ -10,8 +10,10 @@ import { ApiResponse } from '../models/apiResponse';
 })
 export class SearchService {
 
-  private oldApiurl = 'http://localhost:3250/api/search/prayers'
   private REST_API_URL = 'https://angular-church-backend.vercel.app/api/search/prayers';
+  // private REST_API_URL = "http://localhost:3250/api/auth/search/prayers";
+  private oldApiurl = 'http://localhost:3250/api/search/prayers'
+  
   private HTTP_HEADER = {
     headers : new HttpHeaders({
       'Content-Type' : 'application/json',

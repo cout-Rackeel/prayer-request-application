@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AdminUserFormComponent } from './admin-user-form/admin-user-form.component';
 import { CoreModule } from '../core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { CoreModule } from '../core';
     ReactiveFormsModule,
     MatButtonModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
     CoreModule,
   ],
   schemas: [
