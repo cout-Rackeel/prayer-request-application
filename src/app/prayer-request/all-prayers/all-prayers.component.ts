@@ -215,10 +215,6 @@ export class AllPrayersComponent implements OnInit {
       //   }
 
           this.router.navigate(['/login']);
-          setTimeout(() => {
-            window.location.reload();
-          }, 1*1000)
-
 
       }
 
