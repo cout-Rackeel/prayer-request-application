@@ -11,6 +11,7 @@ export class TruthService {
 
   private REST_API_URL = 'https://angular-church-backend.vercel.app/api/truth';
   // private REST_API_URL = "http://localhost:3250/api/truth";
+
   private HTTP_HEADER = {
     headers: new HttpHeaders({
       'Content-Type':'application/json',
