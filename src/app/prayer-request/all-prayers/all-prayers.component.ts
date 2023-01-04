@@ -201,18 +201,24 @@ export class AllPrayersComponent implements OnInit {
       }
       }else{
 
-      canCommit = commitedToPrayRequest.commitedToPray.find((user) => user._id == this.anonId);
+      // canCommit = commitedToPrayRequest.commitedToPray.find((user) => user._id == this.anonId);
 
-        if(!canCommit){
-          commitedToPrayRequest.commitedToPray.push(this.anonId);
-          this.prayerService.editPrayerRequest(id, commitedToPrayRequest).subscribe({
-            next: ()=> {
-              Swal.fire('Thank you...', `You have committed to pray for ${commitedToPrayRequest.name.toUpperCase()}!`, 'success');
-            }
-            });
-        }else{
-          this.removeCommittance(commitedToPrayRequest,id);
-        }
+      //   if(!canCommit){
+      //     commitedToPrayRequest.commitedToPray.push(this.anonId);
+      //     this.prayerService.editPrayerRequest(id, commitedToPrayRequest).subscribe({
+      //       next: ()=> {
+      //         Swal.fire('Thank you...', `You have committed to pray for ${commitedToPrayRequest.name.toUpperCase()}!`, 'success');
+      //       }
+      //       });
+      //   }else{
+      //     this.removeCommittance(commitedToPrayRequest,id);
+      //   }
+
+          this.router.navigate(['/login']);
+          setTimeout(() => {
+            window.location.reload();
+          }, 1*1000)
+
 
       }
 
