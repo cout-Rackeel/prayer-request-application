@@ -171,6 +171,60 @@ export class AllPrayersComponent implements OnInit {
   return prayer
   }
 
+  checkIfUserHasAlreadyCommited(prayers: any[] , userId : string){
+    let check !: boolean;
+    let isUserPresent = prayers.find((user : User) => user._id == userId);
+
+    if(isUserPresent == undefined){
+      check = false
+    }else{
+      check = true
+    }
+    return check
+  }
+
+  commitToPrayer1(id :string){
+    let canCommit !:any;
+    let selectedPrayer !: Prayer;
+
+    this.prayerService.findPrayerRequest(id).subscribe(resp => {
+      selectedPrayer =  resp.data?.['prayer']!;
+      canCommit = selectedPrayer.commitedToPray;
+
+      let userHasCommited = this.checkIfUserHasAlreadyCommited(canCommit, this.user._id!);
+
+      if(userHasCommited){
+        selectedPrayer.commitedToPray.pop();
+        // this.prayerService.editPrayerRequest(id , selectedPrayer).subscribe({
+        //   next: ()=> {
+        //     this.retrievePrayers();
+        //     Swal.fire('Committed...', `You have uncommitted to pray for ${selectedPrayer.name.toUpperCase()}!`, 'success');
+        //   },
+        //   error: (err)=> {
+        //     console.log(err.error.message);
+        //   }
+        // });
+        console.log('popped');
+      }else{
+        selectedPrayer.commitedToPray.push(this.user._id);
+        console.log(selectedPrayer.commitedToPray);
+        this.prayerService.editPrayerRequest(id , selectedPrayer).subscribe({
+          next: ()=> {
+            this.retrievePrayers();
+            Swal.fire('Committed...', `You have committed to pray for ${selectedPrayer.name.toUpperCase()}!`, 'success');
+          },
+          error: (err)=> {
+            console.log(err.error.message);
+          }
+        });
+      }
+
+    });
+
+
+
+  }
+
   commitToPrayer(id : string){
     let commitedToPrayRequest !: Prayer;
     var canCommit !:any;
@@ -214,66 +268,15 @@ export class AllPrayersComponent implements OnInit {
       //     this.removeCommittance(commitedToPrayRequest,id);
       //   }
 
-          this.router.navigate(['/login']);
+      Swal.fire('Oh no..... ','Login to your account or signup for an account to pray for others');
+      this.router.navigate(['/login']);
 
       }
 
     })
     }
 
-    checkIfUserHasAlreadyCommited(prayers: any[] , userId : string){
-      let check !: boolean;
-      let isUserPresent = prayers.find((user : User) => user._id == userId);
 
-      if(isUserPresent == undefined){
-        check = false
-      }else{
-        check = true
-      }
-      return check
-    }
-
-  commitToPrayer1(id :string){
-      let canCommit !:any;
-      let selectedPrayer !: Prayer;
-
-      this.prayerService.findPrayerRequest(id).subscribe(resp => {
-        selectedPrayer =  resp.data?.['prayer']!;
-        canCommit = selectedPrayer.commitedToPray;
-
-        let userHasCommited = this.checkIfUserHasAlreadyCommited(canCommit, this.user._id!);
-
-        if(userHasCommited){
-          selectedPrayer.commitedToPray.pop();
-          // this.prayerService.editPrayerRequest(id , selectedPrayer).subscribe({
-          //   next: ()=> {
-          //     this.retrievePrayers();
-          //     Swal.fire('Committed...', `You have uncommitted to pray for ${selectedPrayer.name.toUpperCase()}!`, 'success');
-          //   },
-          //   error: (err)=> {
-          //     console.log(err.error.message);
-          //   }
-          // });
-          console.log('popped');
-        }else{
-          selectedPrayer.commitedToPray.push(this.user._id);
-          console.log(selectedPrayer.commitedToPray);
-          this.prayerService.editPrayerRequest(id , selectedPrayer).subscribe({
-            next: ()=> {
-              this.retrievePrayers();
-              Swal.fire('Committed...', `You have committed to pray for ${selectedPrayer.name.toUpperCase()}!`, 'success');
-            },
-            error: (err)=> {
-              console.log(err.error.message);
-            }
-          });
-        }
-
-      });
-
-
-
-    }
 
 
   checkAdmin(userId:string){
