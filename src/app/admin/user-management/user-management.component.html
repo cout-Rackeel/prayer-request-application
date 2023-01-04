@@ -116,6 +116,15 @@
   </div>
 
   <div>
+    <div class="spinner">
+      <mat-spinner
+      *ngIf="!users"
+      color="warn"
+      diameter="50"
+      strokeWidth="2.5"
+      class="bar"
+      ></mat-spinner>
+      </div>
     <div *ngFor="let user of users">
       <div class="user-card"
        *ngIf="user.username !== 'anonymous'"

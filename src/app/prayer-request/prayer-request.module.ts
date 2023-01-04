@@ -10,6 +10,7 @@ import { MatButtonModule} from'@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 import { AllPrayersComponent } from './all-prayers/all-prayers.component';
 import { MoreInfoComponent } from './more-info/more-info.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 
@@ -22,6 +23,8 @@ import { MoreInfoComponent } from './more-info/more-info.component';
     ReactiveFormsModule,
     MatButtonModule,
     MatDialogModule,
+    MatProgressSpinnerModule
+
 
   ],
 

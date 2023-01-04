@@ -6,6 +6,16 @@
   <button mat-stroked-button mat-dialog-close>Close</button>
 </div>
 
+<div class="spinner">
+  <mat-spinner
+  *ngIf="!prayerRequest"
+  color="warn"
+  diameter="50"
+  strokeWidth="2.5"
+  class="bar"
+  ></mat-spinner>
+  </div>
+
 <div class="body" *ngIf="prayerRequest.commitedToPray[0] != undefined">
 
   <div>

@@ -66,4 +66,15 @@ fa-icon{
   font-weight: 100;
  }
 
+ .spinner{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 0px;
+}
+
+.bar{
+  margin: 10px 0px 0px 0px;
+}
 

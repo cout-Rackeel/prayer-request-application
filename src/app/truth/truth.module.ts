@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { TruthRoutingModule } from './truth-routing.module';
 import { TruthComponent } from './truth.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { TruthComponent } from './truth.component';
   ],
   imports: [
     CommonModule,
-    TruthRoutingModule
+    TruthRoutingModule,
+    MatProgressSpinnerModule
   ]
 })
 export class TruthModule { }

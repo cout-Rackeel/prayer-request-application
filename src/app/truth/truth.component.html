@@ -4,6 +4,16 @@
       <hr>
   </div>
 
+  <div class="spinner">
+    <mat-spinner
+    *ngIf="!truths"
+    color="warn"
+    diameter="50"
+    strokeWidth="2.5"
+    class="bar"
+    ></mat-spinner>
+    </div>
+
   <div class="flex-group" *ngFor="let truth of truths">
     <div class="topic">
       <h2 class="title">{{truth.title}}</h2>
