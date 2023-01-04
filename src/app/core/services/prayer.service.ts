@@ -14,11 +14,11 @@ import { ApiResponse } from '../models/apiResponse';
 
 export class PrayerService {
 
-  // private REST_API_URL = 'https://angular-church-backend.vercel.app/api/prayers';
-  private REST_API_URL = "http://localhost:3250/api/prayers";
+  private REST_API_URL = 'https://angular-church-backend.vercel.app/api/prayers';
+  // private REST_API_URL = "http://localhost:3250/api/prayers";
 
-  // private USER_REST_API_URL = 'https://angular-church-backend.vercel.app/api/user'
-  private USER_REST_API_URL = 'http://localhost:3250/api/user'
+  private USER_REST_API_URL = 'https://angular-church-backend.vercel.app/api/user'
+  // private USER_REST_API_URL = 'http://localhost:3250/api/user'
   private HTTP_HEADER = {
     headers: new HttpHeaders({
       'Content-Type':'application/json'
@@ -26,7 +26,7 @@ export class PrayerService {
   }
 
   private handleErrors(err: HttpErrorResponse): Observable<any> {
-    return of(console.log(err));
+    return of(console.log(err.error.stack));
   }
 
   constructor(private http: HttpClient, private storageService : SessionStorageService) { }

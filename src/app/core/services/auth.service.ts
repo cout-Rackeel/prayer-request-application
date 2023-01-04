@@ -10,8 +10,8 @@ import {ApiResponse} from '../models/apiResponse'
 })
 export class AuthService {
 
-  // private REST_API_URL = "https://angular-church-backend.vercel.app/api/auth";
-  private REST_API_URL = "http://localhost:3250/api/auth";
+  private REST_API_URL = "https://angular-church-backend.vercel.app/api/auth";
+  // private REST_API_URL = "http://localhost:3250/api/auth";
   private HTTP_HEADER = {
     headers: new HttpHeaders({
       'Content-Type':'application/json',
