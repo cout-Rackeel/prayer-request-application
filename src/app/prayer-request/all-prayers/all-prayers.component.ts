@@ -58,7 +58,6 @@ export class AllPrayersComponent implements OnInit {
   ngOnInit(): void {
     this.retrievePrayers();
     if(this.loggedIn){
-
     }
   }
 
@@ -108,12 +107,13 @@ export class AllPrayersComponent implements OnInit {
         }).then((result) => {
           if (result.value) {
             this.prayerService.deletePrayerRequest(id).subscribe( data => deleted = data);
+            this.retrievePrayers();
             Swal.fire(
               'Deleted!',
               'Your prayer request has been deleted.',
               'success'
             )
-            this.retrievePrayers();
+
           } else if (result.dismiss === Swal.DismissReason.cancel) {
             Swal.fire(
               'Cancelled',

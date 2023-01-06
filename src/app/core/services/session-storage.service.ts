@@ -31,6 +31,8 @@ export class SessionStorageService {
     return new User();
   }
 
+
+  // Checks if user is logged in or not
   public isLoggedIn(): boolean {
     const user = window.sessionStorage.getItem(this.USER_KEY);
     if (user) {
