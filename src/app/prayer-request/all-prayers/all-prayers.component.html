@@ -22,7 +22,7 @@
         <form [formGroup]="searchForm" (ngSubmit)="searchFor()">
           <label for="searchQuery">Search By</label>
          <div class="searchbar">
-           <fa-icon [icon]="search" class="search-icon" (click)="searchForDemo()"></fa-icon>
+           <fa-icon [icon]="search" class="search-icon" (click)="searchFor()"></fa-icon>
            <input type="text" placeholder="Search by" formControlName="searchQuery" #searchQuery required>
            <select name="searchOptions" id="" formControlName="key" #key required>
              <option value="name">Name</option>
